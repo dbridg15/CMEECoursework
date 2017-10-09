@@ -1,30 +1,25 @@
 #1 a) Count how many lines are in each file
 
-wc -l ../Data/fasta/*`
+wc -l ../Data/fasta/*
 
 #2 b) Print everything starting from the second line for the E. coli genome
 
-tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n"
+tail -n +2 ../Data/fasta/E.coli.fasta 
 
 #3 c) Count the Sequence length of this genome
+# Everything but the top line, delete new line characters '\n', count
 
 tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |  wc -m
 
 #4 d) Count the matches of a particular sequence "ATGC" in the genome of E. coli
+# As above counting each match of ATGC
 
 tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o ATGC | wc -l
 
 #5 e) Compute the AT/GC ratio
+# ATcount/GCcount, scale to 3dp 
 
-ATcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o "A\|T" | wc -l) && GTcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o "G\|C" | 20 wc -l) && Ratio= `expr $ATcount / $GTcount` $$ echo $Ratio
-
-
-
-ATcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o "A\|T" | wc -l) && GTcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o "G\|C" | 20 wc -l) && Ratio= `expr $ATcount / $GTcount` $$ echo $Ratio
-
-
-
-
+ATcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o "A\|T" | wc -l) && GCcount=$(tail -n +2 ../Data/fasta/E.coli.fasta |tr -d "\n" |grep -o  "G\|C" | wc -l) && echo "scale=3; $ATcount/$GCcount" |bc 
 
 
 

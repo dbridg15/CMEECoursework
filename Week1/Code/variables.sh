@@ -1,5 +1,9 @@
 #!/bin.bash
-# shows the use of variables
+# Author: David Bridgwood dmb2417@ic.ac.uk                                      
+# Script: variables.sh                                                        
+# Desc: An example script demonstrating variables 
+# Arguments: none                                                               
+# Date: Oct 2017  
 
 MyVar='some string'
 echo 'the current value of the variable is' $MyVar
