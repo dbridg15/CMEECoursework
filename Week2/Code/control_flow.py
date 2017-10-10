@@ -18,14 +18,14 @@ def even_or_odd(x=0): # if not specified then x is 0
 
 def largest_divisor_five(x=120):
     """Find the largest divisor of x among 2,3,4,5"""
-    largest = 0 
+    largest = 0
     if x % 5 == 0:
         largest = 5
-    elif x % 4 == 0: 
+    elif x % 4 == 0:
         largest = 4
-    elif x % 3 == 0: 
+    elif x % 3 == 0:
         largest = 3
-    elif x % 2 == 0: 
+    elif x % 2 == 0:
         largest = 2
     else: # when all other conditions are not met
         return "No divisor found for %d" % x
