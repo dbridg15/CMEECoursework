@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+j! /usr/bin/env python3
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
