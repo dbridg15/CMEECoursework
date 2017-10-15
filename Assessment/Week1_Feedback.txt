@@ -343,29 +343,29 @@ rm: cannot remove '.bib': No such file or directory
 rm: cannot remove '.blg': No such file or directory
 CompileLaTeX.sh: line 27: re: command not found
 
-** (evince:30578): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2017-18/Coursework/StudentRepos/DavidBridgwood_DMB2417/Week1/Code/.pdf': No such file or directory
+** (evince:19237): WARNING **: Error when getting information for file '/home/mhasoba/Documents/Teaching/IC_CMEE/2017-18/Coursework/StudentRepos/DavidBridgwood_DMB2417/Week1/Code/.pdf': No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
-** (evince:30578): WARNING **: Error setting file metadata: No such file or directory
+** (evince:19237): WARNING **: Error setting file metadata: No such file or directory
 
 ======================================================================
 Inspecting script file csvtospace.sh...
@@ -398,7 +398,7 @@ Done!
 
 Code ran without errors
 
-Time consumed = 0.00333s
+Time consumed = 0.00625s
 
 ======================================================================
 Inspecting script file FirstExample.tex...
@@ -468,7 +468,7 @@ Hello mhasoba
 
 Code ran without errors
 
-Time consumed = 0.00222s
+Time consumed = 0.00225s
 
 ======================================================================
 Inspecting script file FirstBiblio.bib...
@@ -2410,7 +2410,7 @@ Done (woo!)
 
 Code ran without errors
 
-Time consumed = 0.00382s
+Time consumed = 0.00937s
 
 ======================================================================
 Inspecting script file boilerplate.sh...
@@ -2442,7 +2442,7 @@ This is a shell scripts!
 
 Code ran without errors
 
-Time consumed = 0.00256s
+Time consumed = 0.00235s
 
 ======================================================================
 ======================================================================
