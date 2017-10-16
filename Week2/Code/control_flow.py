@@ -1,8 +1,7 @@
 #! /usr/bin/env python3
 
 """some functions exemplifying the use of control statments"""
-# docstrings are considered part of the running code (normal comments are
-# stripped). Hence, you can access your docstrings at runtime
+
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
 
@@ -37,9 +36,9 @@ def largest_divisor_five(x=120):
 
 def is_prime(x=70):
     """Find whether x is Prime"""
-    for i in range(2, x):
+    for i in range(2,x):
         if x % i == 0:
-            print("%d is not a prime %d is a divisor") % (x, i)
+            print("%d is not a prime %d is a divisor") % (x,i)
 
             return False
         print("%d is a Prime. Woo!!") % x
@@ -48,11 +47,11 @@ def is_prime(x=70):
 
 def find_all_primes(x=22):
     """Find all the primes up to x"""
-    allprimes = []
+    allprimes=[]
     for i in range(2, x+1):
         if is_prime(i):
             allprimes.append(i)
-    print("There are %d primes between 2 and %d") % (len(allprimes), x)
+    print("There are %d primes between 2 and %d") % (len(allprimes),x)
     return allprimes
 
 
