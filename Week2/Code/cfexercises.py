@@ -1,11 +1,12 @@
-j! /usr/bin/env python3
-
-__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
-__version__ = '0.0.1'
+#! /usr/bin/env python3
 
 """Set of functions to print certain numbers of 'hello'
    and a number of foo functions"""
 
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+# imports
 import sys
 
 # How many times will 'hello' be printed
@@ -13,7 +14,7 @@ import sys
 
 # 1) prints y-x hellos
 def hello_in_range(x=3, y=17):
-    """print x-y hellos"""
+    """print x minus y hellos"""
     for i in range(x, y):
         print('hello')
     return ''

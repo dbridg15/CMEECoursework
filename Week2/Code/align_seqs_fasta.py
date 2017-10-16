@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 
 """I dont understand the if __name__=='__main__' bit!!!!"""
 
@@ -7,7 +7,6 @@ __version__ = '0.0.1'
 
 
 # imports
-import csv
 # import sys
 
 
@@ -80,28 +79,53 @@ def best_score(seq1, seq2):
 # best_score, returning the best possible alignment and corrosponding score into
 # output file align_results.txt, saved in this weeks Results folder
 
-def align_seq(x='../Data/align_seq.csv'):
-    """Takes a given csv file with two DNA seqences and passes through
-    best_score to determine the best possible alignment"""
+def align_seq(file1='../../Week1/Data/fasta/407228326.fasta',
+              file2='../../Week1/Data/fasta/407228412.fasta'):
+    """Takes 2 fasta files containing DNA sequences as input and returns the
+    best possible alignment and score"""
 
-    with open(x, 'r') as csvfile:
-        csvread = csv.reader(csvfile)
-        for entry in csvread:
-            seq1 = entry[0]
-            seq2 = entry[1]
-    x = best_score(seq1, seq2)
+# Open the file strip off \n characters and add each line but the first to the
+# sequence
+    with open(file1, 'r') as seq1_raw:
+        meta1 = ''
+        seq1 = ''
 
-    f = open('../Results/align_results.txt', 'w')
-    f.write('Best Alignment: \n\n' + x[0] + '\n' + x[1] + '\n\n'
-            + 'Alignment Score: ' + str(x[2]))
-    f.close()
-    print('Best Alignment: \n\n' + x[0] + '\n' + x[1] + '\n\n'
-          + 'Alignment Score: ' + str(x[2]))
+        line = seq1_raw.readline()
+        while line:
+            line = line.rstrip()
+            if '>' in line:
+                meta1 = line
+            else:
+                seq1 = seq1 + line
+            line = seq1_raw.readline()
 
+    with open(file2, 'r') as seq2_raw:
+        meta2 = ''
+        seq2 = ''
 
+        line = seq2_raw.readline()
+        while line:
+            line = line.rstrip()
+            if '>' in line:
+                meta2 = line
+            else:
+                seq2 = seq2 + line
+            line = seq2_raw.readline()
+
+    best = best_score(seq1, seq2)
+
+    with open('../Results/align_fasta_results.txt', 'w') as f:
+        f.write('Best Alignment: \n\n' + best[0] + '\n' + best[1] + '\n\n'
+                + 'Alignment Score: ' + str(best[2]))
+
+    print('Best Alignment: \n\n' + best[0] + '\n' + best[1] + '\n\n'
+          + 'Alignment Score: ' + str(best[2]))
+
+    print(meta1 + '\n' + meta2)
 # if __name__ == '__main__':
 #     status = main(sys.argv)
 #     sys.exit(status)
+
 
 # Call align_seq
 align_seq()

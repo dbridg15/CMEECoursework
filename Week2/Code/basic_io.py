@@ -1,19 +1,26 @@
-###############################################################################
+#!/usr/bin/env python3
+
+"""Script demonstrating simple Input and Output in Python"""
+
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+##############################################################################
 # FILE INPUT
 ###############################################################################
 
 # Open a file for reading
-f  = open('../Sandbox/test.txt','r')
+f = open('../Sandbox/test.txt', 'r')
 # use "implicit" for loop:
 # if the object is a file, python will cycle over lines
 for line in f:
-    print(line), # the "," prevents adding a new line
+    print(line),  # the "," prevents adding a new line
 
 # close the file
 f.close()
 
 # same example, skip blank lines
-f  = open('../Sandbox/test.txt','r')
+f = open('../Sandbox/test.txt', 'r')
 for line in f:
     if len(line.strip()) > 0:
         print(line)
@@ -26,9 +33,9 @@ f.close()
 # Save the elements of a list to a file
 list_to_save = range(100)
 
-f  = open('../Sandbox/testout.txt','w')
+f = open('../Sandbox/testout.txt', 'w')
 for i in list_to_save:
-    f.write(str(i) + '\n') ## Add a new line at the end
+    f.write(str(i) + '\n')  # Add a new line at the end
 
 f.close()
 
@@ -41,8 +48,13 @@ my_dictionary = {"a key": 10, "another key": 11}
 
 import pickle
 
-f = open('../Sandbox/test.p', 'wb') ##note the b - accept binary files
+f = open('../Sandbox/test.p', 'wb')  # note the b - accept binary files
 pickle.dump(my_dictionary, f)
 f.close()
 
+# Load the data again
+f = open('../Sandbox/test.p', 'rb')
+another_dictionary = pickle.load(f)
+f.close()
 
+print(another_dictionary)
