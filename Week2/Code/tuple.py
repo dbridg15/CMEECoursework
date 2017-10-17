@@ -1,3 +1,12 @@
+#! /usr/bin/env python3
+
+"""Script takes a tuple of tuples containing birds latin, common and mass and
+prints them out formatted and line by line
+Author: David Bridgwood"""
+
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
 birds = (('Passerculus sandwichensis', 'Savannah sparrow', 18.7),
          ('Delichon urbica', 'House martin', 19),
          ('Junco phaeonotus', 'Yellow-eyed junco', 19.5),
@@ -9,10 +18,6 @@ birds = (('Passerculus sandwichensis', 'Savannah sparrow', 18.7),
 # write a (short) script to print these on a separate line for each species
 # Hints: use the "print" command! You can use list comprehensions!
 
-# ANNOTATE WHAT EVERY BLOCK OR IF NECESSARY, LINE IS DOING!
-
-# ALSO, PLEASE INCLUDE A DOCSTRING AT THE BEGINNING OF THIS FILE THAT
-# SAYS WHAT THE SCRIPT DOES AND WHO THE AUTHOR IS
 
 for entry in birds:
     print("Latin Name: %s \nCommon Name: %s \nMass: %s \n"

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Script demonstrating sys.argv"""
+"""Script demonstrating sys.argv
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'

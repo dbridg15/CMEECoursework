@@ -1,5 +1,13 @@
-# Find taxa that are oak trees in a list of species
+#! /usr/bin/env python3
 
+"""Script demonstrating list comprehensions
+Author: David Bridgwood"""
+
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+
+# Find taxa that are oak trees in a list of species
 taxa = ['Quercus robur',
         'Fraxinus excelsior',
         'Pinus sylvestris',
@@ -9,6 +17,7 @@ taxa = ['Quercus robur',
 
 
 def is_an_oak(name):
+    """returns TRUE is the genus is quercus"""
     return name.lower().startswith('quercus ')
 
 

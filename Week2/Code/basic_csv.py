@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""Script demonstrating opening, reading, writing and closing csvfiles"""
+"""Script demonstrating opening, reading, writing and closing csvfiles
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'

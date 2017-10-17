@@ -1,7 +1,8 @@
 #! /usr/bin/env python3
 
 """Set of functions to print certain numbers of 'hello'
-   and a number of foo functions"""
+and a number of foo functions
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -12,7 +13,7 @@ import sys
 # How many times will 'hello' be printed
 
 
-# 1) prints y-x hellos
+# 1) prints y minus x hellos
 def hello_in_range(x=3, y=17):
     """print x minus y hellos"""
     for i in range(x, y):
@@ -53,7 +54,7 @@ def hello_multiple3(x=15):
     return ''
 
 
-#  5) print 0 hellos if x < 18, 1 hello if 18 =< x > 31 and 9 hello if x > 31
+#  5) print 0 hellos if x > 31, 7 hello if 18 =< x < 31 and 8 hello if x > 31
 def weired_hellos(x=12):
     """print 1 hellos if x < 18, 1 hello if 18 =< x > 31, 9 if x > 31"""
     z = 12

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""I dont understand the if __name__=='__main__' bit!!!!"""
+"""I dont understand the if __name__=='__main__' bit!!!!
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -100,6 +101,7 @@ def align_seq(x='../Data/align_seq.csv'):
 
 
 # if __name__ == '__main__':
+#     main()
 #     status = main(sys.argv)
 #     sys.exit(status)
 

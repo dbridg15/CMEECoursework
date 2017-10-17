@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 
 """Python script demonstrating the difference between global
-   and local variables """
+and local variables
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'

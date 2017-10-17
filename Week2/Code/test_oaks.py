@@ -1,7 +1,8 @@
 #!/usr/bin/python3
 
 """Script takes data from TestOakData.csv and returns only species in the genus
-   Quercus to new file JustOaksData.csv"""
+Quercus to new file JustOaksData.csv
+Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -33,6 +34,8 @@ print(is_an_oak.__doc__)
 # Function tskes list of species from TestOaksData.csv and returns only sepcies
 # in genus Quercus into JustOaksDavta.csv
 def main(argv):
+    """Main function, takes list of species from TestOaksData.csv, passes though
+    is_an_oak and writes to file JustOaksData.csv"""
     # Open Data and output file
     f = open('../Data/TestOaksData.csv', 'r')
     g = open('../Data/JustOaksData.csv', 'w')
