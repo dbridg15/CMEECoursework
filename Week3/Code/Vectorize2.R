@@ -73,5 +73,5 @@ print(system.time(res2<-stochrickvect()))
 #     }
 # }
 
-plot(stochrickvect()[,1], type = 'l')
+# plot(stochrickvect()[,1], type = 'l')
 

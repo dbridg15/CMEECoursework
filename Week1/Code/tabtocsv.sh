@@ -1,8 +1,8 @@
- #!/bin/bash                                                                     
- # Author: David Bridgwood dmb2417@ic.ac.uk                                      
+ #!/bin/bash
+ # Author: David Bridgwood dmb2417@ic.ac.uk
  # Script: tabtocsv.sh
  # Desc: Substitute the tabs in a file with commas Saves the output into a csv file
- # Arguments: 1-> tab deliminated file                                        
+ # Arguments: 1-> tab deliminated file
  # Date: Oct 2017
 
 echo "Creating a comma deliminated version of $1 ..."

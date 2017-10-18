@@ -6,28 +6,22 @@
 # Date: Oct 2017
 
 
-pdflatex $1.tex
-pdflatex $1.tex
+pdflatex -output-directory ../Results $1.tex
+pdflatex -output-directory ../Results $1.tex
 bibtex $1
-pdflatex $1.tex
-pdflatex $1.tex
-evince $1.pdf &
+pdflatex -output-directory ../Results $1.tex
+pdflatex -output-directory ../Results $1.tex
+evince ../Results/$1.pdf &
 
 ##cleanup
-rm*~
-rm *.aux
-rm *.dvi
-rm *.log
-rm *.nav
-rm *.out
-rm *.snm
-rm $1.bbl
-rm $1.bib
-rm $1.blg
-re *.toc
-
-
-
-
-
-
+rm -f ../Results/*~
+rm -f ../Results/*.aux
+rm -f ../Results/*.dvi
+rm -f ../Results/*.log
+rm -f ../Results/*.nav
+rm -f ../Results/*.out
+rm -f ../Results/*.snm
+rm -f ../Results/$1.bbl
+rm -f ../Results/$1.bib
+rm -f ../Results/$1.blg
+rm -f ../Results/*.toc
