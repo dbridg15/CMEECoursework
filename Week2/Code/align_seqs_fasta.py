@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 """I dont understand the if __name__=='__main__' bit!!!!
 Author: David Bridgwood"""
@@ -8,7 +8,7 @@ __version__ = '0.0.1'
 
 
 # imports
-# import sys
+import sys
 
 
 # function that computes a score by returning the number of matches
@@ -80,13 +80,16 @@ def best_score(seq1, seq2):
 # best_score, returning the best possible alignment and corrosponding score into
 # output file align_results.txt, saved in this weeks Results folder
 
-def align_seq(file1='../../Week1/Data/fasta/407228326.fasta',
-              file2='../../Week1/Data/fasta/407228412.fasta'):
+def main(argv):
     """Takes 2 fasta files containing DNA sequences as input and returns the
     best possible alignment and score"""
 
-# Open the file strip off \n characters and add each line but the first to the
-# sequence
+    files = file_function(argv)
+    file1 = files[0]
+    file2 = files[1]
+
+    # Open the file strip off \n characters and add each line but the first
+    # to the sequence
     with open(file1, 'r') as seq1_raw:
         meta1 = ''
         seq1 = ''
@@ -119,14 +122,25 @@ def align_seq(file1='../../Week1/Data/fasta/407228326.fasta',
         f.write('Best Alignment: \n\n' + best[0] + '\n' + best[1] + '\n\n'
                 + 'Alignment Score: ' + str(best[2]))
 
-    print(meta1 + '\n' + meta2)
-    print('Best Alignment: \n\n' + best[0] + '\n' + best[1] + '\n\n'
-          + 'Alignment Score: ' + str(best[2]))
-
-# if __name__ == '__main__':
-#     status = main(sys.argv)
-#     sys.exit(status)
+#    print(meta1 + '\n' + meta2)
+#    print('Best Alignment: \n\n' + best[0] + '\n' + best[1] + '\n\n'
+#          + 'Alignment Score: ' + str(best[2]))
 
 
-# Call align_seq
-align_seq()
+def file_function(argv):
+    """Takes filenames given unless none are in which case returns defaults"""
+    if len(argv) == 3:
+        print("Relative paths given \n")
+        return (str(argv[1]), str(argv[2]))
+    elif len(argv) == 2:
+        print("Only one file given, Please provide two fasta files")
+        sys.exit(0)
+    else:
+        print("No files given. Defaults used")
+        return ('../../Week1/Data/fasta/407228326.fasta',
+                '../../Week1/Data/fasta/407228412.fasta')
+
+
+if __name__ == '__main__':
+    status = main(sys.argv)
+    sys.exit(status)

@@ -1,4 +1,4 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 
 """some functions exemplifying the use of control statments
 Author: David Bridgwood"""

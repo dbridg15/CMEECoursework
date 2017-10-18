@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
-"""I dont understand the if __name__=='__main__' bit!!!!
+"""Script takes a csvfile containing 2 DNA sequence and returns the best
+alignment
 Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
@@ -9,7 +10,7 @@ __version__ = '0.0.1'
 
 # imports
 import csv
-# import sys
+import sys
 
 
 # function that computes a score by returning the number of matches
@@ -80,12 +81,14 @@ def best_score(seq1, seq2):
 # function takes csv file with two DNA sequences as input and passes though
 # best_score, returning the best possible alignment and corrosponding score into
 # output file align_results.txt, saved in this weeks Results folder
-
-def align_seq(x='../Data/align_seq.csv'):
+#'../Data/align_seq.csv'
+def main(argv):
     """Takes a given csv file with two DNA seqences and passes through
     best_score to determine the best possible alignment"""
 
-    with open(x, 'r') as csvfile:
+    filename = file_function(argv)
+
+    with open(filename, 'r') as csvfile:
         csvread = csv.reader(csvfile)
         for entry in csvread:
             seq1 = entry[0]
@@ -100,10 +103,17 @@ def align_seq(x='../Data/align_seq.csv'):
           + 'Alignment Score: ' + str(x[2]))
 
 
-# if __name__ == '__main__':
-#     main()
-#     status = main(sys.argv)
-#     sys.exit(status)
 
-# Call align_seq
-align_seq()
+def file_function(argv):
+    """Takes filename given else returns default"""
+    if len(argv) > 1:
+        print('Relative path given \n')
+        return str(argv[1])
+    else:
+        print('Relative path not given, default usedn \n')
+        return str('../Data/align_seq.csv')
+
+
+if __name__ == '__main__':
+    status = main(sys.argv)
+    sys.exit(status)

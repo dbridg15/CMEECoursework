@@ -1,4 +1,4 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
 """Script takes data from TestOakData.csv and returns only species in the genus
 Quercus to new file JustOaksData.csv
@@ -38,7 +38,7 @@ def main(argv):
     is_an_oak and writes to file JustOaksData.csv"""
     # Open Data and output file
     f = open('../Data/TestOaksData.csv', 'r')
-    g = open('../Data/JustOaksData.csv', 'w')
+    g = open('../Results/JustOaksData.csv', 'w')
     taxa = csv.reader(f)  # Read csv file
     csvwrite = csv.writer(g)
 #    oaks = set()  # is this even needed?
