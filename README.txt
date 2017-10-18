@@ -16,3 +16,14 @@ Week1__________________________________________________________________________
 
 Week2__________________________________________________________________________
 
+-Intro to python
+    -Basic input and output
+    -Reading csv files
+    -Control Flow
+    -List Comprehensions
+    -Loops
+    -Python data types
+    -Assigning and manipulating variables
+
+
+Week3__________________________________________________________________________
