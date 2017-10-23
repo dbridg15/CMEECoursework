@@ -1,3 +1,7 @@
+###############################################################################
+# 7.15 Control statements in R
+###############################################################################
+
 # if statement
 a <- T
 if( a == T){
@@ -7,7 +11,7 @@ if( a == T){
 }
 
 # on a single line
-z <- runif(1)  # random number\
+z <- runif(1)  # random number
 if(z < 0.25){
   print("Less than a quarter!")
 }
@@ -32,7 +36,7 @@ for(i in v1){
 }
 
 # while loop
-i <- 0 
+i <- 0
 while(i < 100){
   print(i ^ 2)
   i <- i + 1

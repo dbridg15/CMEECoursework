@@ -1,13 +1,16 @@
-# A simple R script to illustrate R input and OUtput
-# Run line by line and check inputs/outputs to understand what is happening
+###############################################################################
+# 7.12 Writing R code - basic_io.R
+###############################################################################
 
-MyData <- read.csv("../Data/trees.csv", header = TRUE)  # Import with headers
+# A simple R script to illustrate R input and Output
 
-write.csv(MyData, "../Results/MyData.csv")  # Write out to a new file
-
-write.table(MyData[1,], file = "../Results/MyData.csv", append = TRUE)  # Append to it
-
-write.csv(MyData, "../Results/MyData.csv", row.names = TRUE)  # Write row names
-
-write.table(MyData, "../Results/MyData.csv", col.names = FALSE)  # ignore column names
-
+# Import with headers
+MyData <- read.csv("../Data/trees.csv", header = TRUE)
+# Write out to a new file
+write.csv(MyData, "../Results/MyData.csv")
+# Append to it gives an error cause its a stupid thing to do!!
+write.table(MyData[1,], file = "../Results/MyData.csv", append = TRUE)
+# Write row names
+write.csv(MyData, "../Results/MyData.csv", row.names = TRUE)
+# ignore column names
+write.table(MyData, "../Results/MyData.csv", col.names = FALSE)

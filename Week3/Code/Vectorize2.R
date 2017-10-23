@@ -27,7 +27,7 @@ stochrick<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
   #initialize
   N<-matrix(NA,numyears,length(p0))
   N[1,]<-p0
-  
+
   for (pop in 1:length(p0)) #loop through the populations
   {
     for (yr in 2:numyears) #for each pop, loop through the years
@@ -41,23 +41,26 @@ stochrick<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
 print("Non-Vectorized Stochastic Ricker takes:")
 print(system.time(res2<-stochrick()))
 
-# Now write another code called stochrickvect that vectorizes the above 
-# to the extent possible, with improved performance: 
+# Now write another code called stochrickvect that vectorizes the above
+# to the extent possible, with improved performance:
 
 
 rm(list=ls())
 
-stochrickvect <- function(p0=runif(1000,.5,1.5),r=1.2,k=1,sigma=0.2,numyears=100){
+stochrickvect <- function(p0=runif(1000, .5, 1.5), r = 1.2, k = 1,
+                          sigma = 0.2, numyears = 100){
     #initialize
     N<-matrix(NA,numyears,length(p0))
     N[1,]<-p0
-    
-    # rando <- matrix(rnorm((numyears -1)*1000, 0, sigma), numyears-1, 1000)  # this actually makes it slower!!!
-    
+
+    # this actually makes it slower!!!
+    # rando <- matrix(rnorm((numyears -1)*1000, 0, sigma), numyears-1, 1000)
+
     for (yr in 2:numyears){ #for each pop, loop through the years
-        N[yr,]<-N[yr-1,]*exp(r*(1-N[yr-1,]/k)+rnorm(1000,0,sigma))  #rando[yr-1,])
+        N[yr, ] <- N[yr - 1, ] * exp(r * (1 - N[yr-1, ]/k) + 
+                                     rnorm(1000, 0, sigma))  #rando[yr-1,])
     }
-    return(N) 
+    return(N)
 }
 
 print("Vectorized Stochastic Ricker takes:")
@@ -69,9 +72,9 @@ print(system.time(res2<-stochrickvect()))
 # for(r in rnorm(10, 2, 1)){
 #     for(k in seq(1,100,10)){
 #         for(sigma in seq(0,1,0.1))
-#             plot(stochrickvect(r =r, k = k, sigma = sigma)[,1], type = 'l', main = paste("r: ", r, " k: ", k, " sigma: ", sigma))
+#             plot(stochrickvect(r =r, k = k, sigma = sigma)[,1], type = 'l',
+#                  main = paste("r: ", r, " k: ", k, " sigma: ", sigma))
 #     }
 # }
 
-# plot(stochrickvect()[,1], type = 'l')
-
+plot(stochrickvect()[,1], type = 'l')

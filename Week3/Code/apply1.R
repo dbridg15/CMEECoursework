@@ -1,3 +1,6 @@
+###############################################################################
+# 8.1.1 The *apply family of functions part1
+###############################################################################
 # apply: applying the same function to rows/columns of a matrix
 
 # build a random matrix
