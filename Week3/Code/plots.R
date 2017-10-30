@@ -144,6 +144,70 @@ qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
 qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
       shape = Type.of.feeding.interaction)
 
+# colours can be a bit funny! (red isn't always red!
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+      colour = "Red")
+
+# except when you use I (for Identity)
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+      colour = I("Red"))
+
+# same for point size
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     size = 3)
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+      size = I(3))
+
+# shapes have discrete values though
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     shape = 3)  # will give error!!!
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+      shape = I(3))
+
+# setting transparancy
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+    colour = Type.of.feeding.interaction, alpha = I(0.5))
+
+# Smoothers and regression lines
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     geom = c("point", "smooth"))
+
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     geom = c("point", "smooth")) + geom_smooth(method = "lm")
+
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     geom = c("point", "smooth"), colour = Type.of.feeding.interaction) +
+        geom_smooth(method = "lm")
+
+qplot(log(Prey.mass), log(Predator.mass), data = MyDF,
+     geom = c("point", "smooth"), colour = Type.of.feeding.interaction) +
+        geom_smooth(method = "lm", fullrange = T)
+
+qplot(Type.of.feeding.interaction, log(Prey.mass/Predator.mass), data = MyDF,
+      geom = "jitter")
+
+# Boxplots
+qplot(Type.of.feeding.interaction, log(Prey.mass/Predator.mass), data = MyDF,
+      geom = "boxplot")
+
+# histograms and density plots
+qplot(log(Prey.mass/Predator.mass), data = MyDF, geom = "histogram")
+
+# fill by feeding method
+qplot(log(Prey.mass/Predator.mass), data = MyDF, geom = "histogram",
+      fill = Type.of.feeding.interaction)
+
+# defining binwidth
+qplot(log(Prey.mass/Predator.mass), data = MyDF, geom = "histogram",
+      fill = Type.of.feeding.interaction, binwidth = 1)
+
+# changed to density
+qplot(log(Prey.mass/Predator.mass), data = MyDF, geom = "density",
+      fill = Type.of.feeding.interaction, alpha = I(0.5))
+
+# changed to density colour instead of fill!
+qplot(log(Prey.mass/Predator.mass), data = MyDF, geom = "density",
+      colour = Type.of.feeding.interaction, alpha = I(0.5))
 
 
 ###############################################################################
@@ -193,7 +257,7 @@ dev.off()
 
 
 ###############################################################################
-# geom!
+# 9.3.3  geom!
 ###############################################################################
 
 qplot(Predator.lifestage, data = MyDF, geom = 'bar')
@@ -219,7 +283,7 @@ qplot(log(Predator.mass), log(Prey.mass), data = MyDF,
 
 
 ###############################################################################
-# Advanced plotting!
+# 9.3.4  Advanced plotting!
 ###############################################################################
 
 
@@ -242,9 +306,8 @@ q + theme(legend.position = 'none')
 
 
 ###############################################################################
-# plotting a matrix
+# 9.3.5 case study: plotting a matrix
 ###############################################################################
-
 
 require(reshape2)
 
@@ -290,10 +353,8 @@ q + scale_fill_gradientn(colours =
                          c('red', 'white', 'blue'))
 
 
-dev.off()
-
 ###############################################################################
-# plotting two dataframes
+# 9.3.6 case study: plotting two dataframes
 ###############################################################################
 
 
@@ -347,7 +408,7 @@ dev.off()
 # Case Study 3: Annotating plots
 ###############################################################################
 
-a <- read.table('../Data/Results.txt')
+a <- read.table('../Data/Results.txt', header = T)
 
 print(a[1:3,])
 print(a[90:95,])
@@ -369,12 +430,19 @@ p <- p + geom_linerange(data = a, aes(x = x,
                                       ymax = y2,
                                       size = (0.5),
                                       ),
-                        colour = '#56B4E9'
+                        colour = '#56B4E9',
+                        alpha = 1/2, show.legend = F)
+
+p <- p + geom_text(data = , aes(x = x, y = -500, label = Label))
+
+p <- p + scale_x_continuous("My x axis",
+                            breaks = seq(3, 5, by = 0.5)
+                            ) +
+         scale_y_continuous("My y axis") + theme_classic() +
+         theme(legend.position = "none")
 
 
 
-
-
-
+p
 
 
