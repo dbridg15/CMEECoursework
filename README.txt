@@ -27,3 +27,15 @@ Week2__________________________________________________________________________
 
 
 Week3__________________________________________________________________________
+
+-R week
+    -vectorisation
+    -random numbers
+    -writing functions
+    -debugging
+
+
+Week4__________________________________________________________________________
+
+-Stats Week
+    -notes and rscripts from stats week from basics to linear models and GLMs
