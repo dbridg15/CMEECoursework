@@ -1,7 +1,18 @@
+#!usr/bin/env Rscript
+
+# script: get_TreeHeight.R
+# Desc: calculates heigfht of tree from angle of elevation and distance
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # get_TreeHeight.R
 ###############################################################################
-# This scrip takes in a given csv fike from the commance line
+
+# This script takes in a given csv fike from the command line
 # calculates heights of trees from the angle
 # elevation and the distance from the base using the trigonometric
 # formula: height = distance * tan(radians)
@@ -37,6 +48,3 @@ outfile <- paste("../Results/", strsplit(basename(args[1]), ".csv"),
 
 
 write.csv(Trees, outfile, row.names = FALSE)
-
-# clear all objects
-rm(list = ls())

@@ -1,5 +1,15 @@
+#!usr/bin/env Rscript
+
+# script: browse.R
+# Desc: script demonstrating simple debugging in R
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
-# Browse.R
+# 8.5.2 debugging in R
 ###############################################################################
 
 Exponential <- function(N0 = 1, r = 1, generations = 10){

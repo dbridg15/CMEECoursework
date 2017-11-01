@@ -1,3 +1,13 @@
+#!usr/bin/env Rscript
+
+# script: TreeHeight.R
+# Desc: calculates tree-height from elevation angle and distance
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # TreeHeight.R
 ###############################################################################
@@ -27,7 +37,7 @@ TreeHeight <- function(degrees, distance){
 # Add new column Tree.m.height to Trees dataframe
 Trees$Tree.m.height <- TreeHeight(Trees$Angle.degrees, Trees$Distance.m)
 
-head(Trees)
+# head(Trees)
 
 # Write to csv
 write.csv(Trees, "../Results/TreeHts.csv", row.names = FALSE)

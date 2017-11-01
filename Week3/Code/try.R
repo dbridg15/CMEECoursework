@@ -1,3 +1,13 @@
+#!usr/bin/env Rscript
+
+# script: try.R
+# Desc: catching errors with try
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # try.R
 ###############################################################################
@@ -24,4 +34,3 @@ result <- vector("list", 100)  # initialize the vector
 for(i in 1:100){
     result[[i]] <- try(doit(x), F)
 }
-

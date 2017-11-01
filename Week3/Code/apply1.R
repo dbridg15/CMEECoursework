@@ -1,3 +1,11 @@
+#!usr/bin/env Rscript
+
+# script: apply1.R
+# Desc: applying the same function to rows/columns of a matrix
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
 ###############################################################################
 # 8.1.1 The *apply family of functions part1
 ###############################################################################

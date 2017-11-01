@@ -1,3 +1,13 @@
+#!usr/bin/env Rscript
+
+# script: Vectorize1.R
+# Desc: time differences between for loops and vectorization
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # 8.1 Vectorization in R
 ###############################################################################

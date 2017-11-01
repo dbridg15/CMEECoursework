@@ -1,3 +1,13 @@
+#!usr/bin/env Rscript
+
+# script: control.R
+# Desc: control statements in R
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # 7.15 Control statements in R
 ###############################################################################

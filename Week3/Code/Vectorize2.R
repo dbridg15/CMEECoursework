@@ -1,4 +1,16 @@
+#!usr/bin/env Rscript
+
+# script: Vectorize2.R
+# Desc: improved performace using vecorization with stochastic ricker model
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
 # Ricker model -- with no stochasticity!
+###############################################################################
 
 Ricker <- function(N0 = 1, r = 1, k = 10, generations = 50){
     # runs a simulation of the Ricker model
@@ -16,9 +28,9 @@ Ricker <- function(N0 = 1, r = 1, k = 10, generations = 50){
 # plot(Ricker(2,2,100,50), type = "l")
 # plot(Ricker())
 
-
-
-# Runs the stochastic (with gaussian fluctuations) Ricker Eqn .
+###############################################################################
+# Runs the stochastic (with gaussian fluctuations) Ricker Eqn
+###############################################################################
 
 rm(list=ls())
 
@@ -41,9 +53,9 @@ stochrick<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
 print("Non-Vectorized Stochastic Ricker takes:")
 print(system.time(res2<-stochrick()))
 
-# Now write another code called stochrickvect that vectorizes the above
-# to the extent possible, with improved performance:
-
+###############################################################################
+# improved function with vectorization
+###############################################################################
 
 rm(list=ls())
 
@@ -57,7 +69,7 @@ stochrickvect <- function(p0=runif(1000, .5, 1.5), r = 1.2, k = 1,
     # rando <- matrix(rnorm((numyears -1)*1000, 0, sigma), numyears-1, 1000)
 
     for (yr in 2:numyears){ #for each pop, loop through the years
-        N[yr, ] <- N[yr - 1, ] * exp(r * (1 - N[yr-1, ]/k) + 
+        N[yr, ] <- N[yr - 1, ] * exp(r * (1 - N[yr-1, ]/k) +
                                      rnorm(1000, 0, sigma))  #rando[yr-1,])
     }
     return(N)
@@ -65,16 +77,5 @@ stochrickvect <- function(p0=runif(1000, .5, 1.5), r = 1.2, k = 1,
 
 print("Vectorized Stochastic Ricker takes:")
 print(system.time(res2<-stochrickvect()))
-
-
-# fun making some plots with different parameters
-
-# for(r in rnorm(10, 2, 1)){
-#     for(k in seq(1,100,10)){
-#         for(sigma in seq(0,1,0.1))
-#             plot(stochrickvect(r =r, k = k, sigma = sigma)[,1], type = 'l',
-#                  main = paste("r: ", r, " k: ", k, " sigma: ", sigma))
-#     }
-# }
 
 plot(stochrickvect()[,1], type = 'l')

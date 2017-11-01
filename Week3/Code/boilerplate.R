@@ -1,7 +1,16 @@
+#!usr/bin/env Rscript
+
+# script: boilerplate.R
+# Desc: R script demonstrating writing functions
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
 # 7.13 Writing R Functions
 ###############################################################################
-
 
 MyFunction <- function(Arg1, Arg2){
 

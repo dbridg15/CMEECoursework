@@ -1,5 +1,15 @@
+#!usr/bin/env Rscript
+
+# script: sample.R
+# Desc: generating random numbers in r
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
 ###############################################################################
-# Generating Random numbers in R
+# 8.4  generating Random numbers in R
 ###############################################################################
 
 x <- c(1.4, 1.5, 1.7, 1.8, 1.9)
@@ -40,4 +50,3 @@ result <- vector("list", 100)  # initialize the vector
 for(i in 1:100){
     result[[i]] <- doit(x)
 }
-
