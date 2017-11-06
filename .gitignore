@@ -2,3 +2,7 @@
 *.tmp
 *.pyc
 .ropeproject
+*.tif
+*.shp
+
+find . -size +20 |M

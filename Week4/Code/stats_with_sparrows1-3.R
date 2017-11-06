@@ -92,7 +92,7 @@ mean(d$Tarsus, na.rm = T)  # if NAs are present they must be removed
 
 median(d$Tarsus, na.rm = T)
 
-mode(d$Tarsus, na.rm = T)  # tells us the data is numeric because the mode on a
+try(mode(d$Tarsus, na.rm = T))  # tells us the data is numeric because the mode on a
                            # numeric dataset is a bit pointless
 
 # plotting histograms in a grid
