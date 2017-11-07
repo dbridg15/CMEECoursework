@@ -5,4 +5,4 @@
 *.tif
 *.shp
 
-find . -size +20 |M
+find . -size +20M |

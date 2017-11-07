@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python3
 
 """ Script to convert bioclim temperature and rainfall data and CORINE
 landcover files into a shared projection and resolution (BNG 2km grid)
@@ -11,7 +11,7 @@ import os
 import csv
 
 # define the two variable prefixes
-bioclimVars = ['bio1', 'bio12']
+bioclimVars = ['../Data/Prac1/bio1', '../Data/Prac1/bio12']
 
 # A) Use GDAL command line tools to convert the bioclim variables and
 #    the CORINE data into a 2km UK grid
@@ -38,18 +38,20 @@ for eachVar in bioclimVars:
 # Use GDAL command line to convert the landcover data
 # - cut out a UK block
 cmd = ('gdal_translate -projwin 2800000.0 4200000.0 4000000.0 3000000.0 '
-       '-of GTiff G250_06.tif G250_06_UK.tif')
+       '-of GTiff ../Data/Prac1/g250_06.tif ../Data/Prac1/g250_06_UK.tif')
 os.system(cmd)
 
 # - reproject and resample into a 2 km grid
 cmd = ('gdalwarp -overwrite -s_srs EPSG:3035 -t_srs EPSG:27700 -r near '
        '-of GTiff -tr 2000 2000 -te -220000 -10000 680000 1080000 '
-       'G250_06_UK.tif G250_06_UK_BNG.tif')
+       '../Data/Prac1/g250_06_UK.tif ../Data/Prac1/g250_06_UK_BNG.tif')
 os.system(cmd)
 
 # tidy up the intermediate files
-intermediates = ['G250_06_UK.tif', 'bio1_merge.tif', 'bio1_UK.tif',
-                 'bio12_merge.tif', 'bio12_UK.tif']
+intermediates = ['../Data/Prac1/g250_06_UK.tif', '../Data/Prac1/bio1_merge.tif',
+                 '../Data/Prac1/bio1_UK.tif', '../Data/Prac1/bio12_merge.tif',
+                 '../Data/Prac1/bio12_UK.tif']
+
 for x in intermediates:
     os.remove(x)
 
@@ -94,7 +96,7 @@ def meanExtract(lcc, classMap, data):
 
 
 # Load the landcover data into an array
-landcover = gdal.Open('G250_06_UK_BNG.tif')
+landcover = gdal.Open('../Data/Prac1/g250_06_UK_BNG.tif')
 lcData = landcover.ReadAsArray()
 
 # find the set of landcover classes
@@ -109,7 +111,7 @@ columns = [list(lcClasses)] + zonalMeans
 rows = zip(*columns)
 
 # write the rows out to a file
-with open('zonalstats.csv', 'wb') as csvfile:
+with open('../Results/zonalstats.csv', 'w') as csvfile:
     c = csv.writer(csvfile)
     c.writerow(['LCC', 'bio1', 'bio12'])
     for x in rows:
