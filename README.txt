@@ -39,3 +39,10 @@ Week4__________________________________________________________________________
 
 -Stats Week
     -notes and rscripts from stats week from basics to linear models and GLMs
+
+
+Week5__________________________________________________________________________
+
+-GIS Week
+    -PDF of map produced in practical 2
+    -python script used to automate practical 1
