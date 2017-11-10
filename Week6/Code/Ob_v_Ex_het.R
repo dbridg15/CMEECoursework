@@ -34,7 +34,7 @@ g <- mutate(g, F = (2*p1*(1-p1)-p12) / (2*p1*(1-p1)))
 
 
 
-pdf(paste("../Results/", OutputName))
+pdf(OutputName)
     qplot(2*p1*(1-p1), p12, data = g) +
         geom_abline(intercept = 0, slope = 1, color = "red", size = 1.5)
 

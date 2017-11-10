@@ -46,6 +46,6 @@ movingavg <- function(x, n=5){
 }
 
 
-pdf(paste("../Results/", OutputName))
+pdf(OutputName)
     plot(movingavg(g$F), xlab = "SNP Number")
 dev.off()
