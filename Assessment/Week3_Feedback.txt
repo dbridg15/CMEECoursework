@@ -1,0 +1,1779 @@
+Starting weekly assessment for David, Week3
+
+Current Marks = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 104.29 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: Week6, Week1, Week7, Assessment, Week5, Week2, Week4, .git, Week3
+
+Found the following files in parent directory: README.txt, .gitignore
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+**********************************************************************
+*~
+*.tmp
+*.pyc
+.ropeproject
+*.tif
+*.shp
+
+find . -size +20M |
+**********************************************************************
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+###############################################################################
+My CMEE 2017-18 Coursework Repository
+###############################################################################
+
+Week1__________________________________________________________________________
+
+-Intro to Unix and Linux
+    -basic commands: find, grep, etc.
+-UNIX and shell scripting
+    -Several example shell scripts
+-Version control with git
+    -git and .gitignore file
+-Using LaTex
+    -example LaTex script and auto-compile bash script
+
+
+Week2__________________________________________________________________________
+
+-Intro to python
+    -Basic input and output
+    -Reading csv files
+    -Control Flow
+    -List Comprehensions
+    -Loops
+    -Python data types
+    -Assigning and manipulating variables
+
+
+Week3__________________________________________________________________________
+
+-R week
+    -vectorisation
+    -random numbers
+    -writing functions
+    -debugging
+
+
+Week4__________________________________________________________________________
+
+-Stats Week
+    -notes and rscripts from stats week from basics to linear models and GLMs
+
+
+Week5__________________________________________________________________________
+
+-GIS Week
+    -PDF of map produced in practical 2
+    -python script used to automate practical 1
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 7 weekly directories: Week1, Week2, Week3, Week4, Week5, Week6, Week7
+
+The Week3 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK3...
+
+Found the following directories: Code, Data, Sandbox, Results
+
+Found the following files: README.txt
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+Week 3-----------------------------w/c 16/10/2017, due: 01/11/2017
+│
+├── Code
+│   ├── apply1.R-------------------applying the same function to rows/columns
+│   │                              of a matrix
+│   │
+│   ├── apply2.R-------------------using apply on your own functions
+│   │
+│   ├── basic_io.R-----------------R script to illustrate R input and Output
+│   │
+│   ├── boilerplate.R--------------R script demonstrating writing functions
+│   │
+│   ├── break.R--------------------breaking out of loops in R
+│   │
+│   ├── browse.R-------------------script demonstrating simple debugging in R
+│   │
+│   ├── control.R------------------control statements in R
+│   │
+│   ├── DataWrang.R----------------example data wrangling
+│   │
+│   ├── get_TreeHeight.R-----------calculates heigfht of tree from angle of
+│   │                              elevation and distance
+│   │
+│   ├── GPDD_maps.R----------------inserts points from global data onto a
+│   │                              world map
+│   │
+│   ├── next.R---------------------using next to skip iterations of loop
+│   │
+│   ├── PP_Lattice.R---------------produces 3 lattice plots split by type of
+│   │                              feeding interaction and writes a csv file
+│   │                              containing the results
+│   │
+│   ├── PP_Regress.R---------------produces figure of predator mass by
+│   │                              prey mass, grouped by feeding type and
+│   │                              predator lifestage
+│   │
+│   ├── PP_Regress_loc.R-----------produces csv file of linear models
+│   │                              statistics grouped by type of feeding
+│   │                              interaction, predator lifestage and location
+│   │
+│   ├── run_get_TreeHeight.sh-------bash script to test get_TreeHeight.R
+│   │
+│   ├── sample.R--------------------generating random numbers in r
+│   │
+│   ├── TAutoCorr.R-----------------test correlation of temperature of pairs
+│   │                               of years
+│   │
+│   ├── TAutoCorr_Report.tex--------tex script to produce brief report on the
+│   │                                Autocorrelation results
+│   ├── TreeHeight.R----------------calculates tree-height from elevation angle
+│   │                               and distance
+│   │
+│   ├── try.R-----------------------catching errors with try
+│   │
+│   ├── Vectorize1.R----------------time differences between for loops
+│   │                               and vectorization
+│   │
+│   └── Vectorize2.R----------------improved performace using vecorization with
+│                                   stochastic ricker model
+│
+├── Data
+│   ├── EcolArchives-E089-51-D1.csv
+│   ├── GPDDFiltered.RData
+│   ├── KeyWestAnnualMeanTemperature.RData
+│   ├── PoundHillData.csv
+│   ├── PoundHillMetaData.csv
+│   ├── Resource.csv
+│   ├── Results.txt
+│   └── trees.csv
+│
+├── Results
+│   ├── README.txt
+│   └── TAutoCorr_Report.pdf
+│
+└── Sandbox
+    ├── Girko.pdf
+    ├── MyData.R
+    ├── plots.R
+    └── TAutoCorr_figure.pdf
+**********************************************************************
+
+Found 22 code files: browse.R, PP_Regress.R, apply1.R, sample.R, GPDD_maps.R, run_get_TreeHeight.sh, boilerplate.R, TreeHeight.R, PP_Lattice.R, next.R, Vectorize1.R, break.R, basic_io.R, try.R, apply2.R, get_TreeHeight.R, TAutoCorr.R, Vectorize2.R, PP_Regress_loc.R, DataWrang.R, TAutoCorr_Report.tex, control.R
+
+Found the following extra files: Rplots.pdf
+0.5 pt deducted per extra file
+
+Current Marks = 99.5
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file browse.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: browse.R
+# Desc: script demonstrating simple debugging in R
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 8.5.2 debugging in R
+###############################################################################
+
+Exponential <- function(N0 = 1, r = 1, generations = 10){
+    # runs silmulation of exponential growth
+    # returns vector of length generationso
+
+    N <- rep(NA, generations)
+
+    N[1] <- N0
+
+    for(t in 2:generations){
+        N[t] <- N[t-1] * exp(r)
+           browser()
+    }
+    return(N)
+}
+
+plot(Exponential(), type = "l", main = "Exponential Growth!")
+**********************************************************************
+
+Testing browse.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+Called from: Exponential()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+debug: N[t] <- N[t - 1] * exp(r)
+debug: browser()
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.12496s
+
+======================================================================
+Inspecting script file PP_Regress.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: PP_Regress.R
+# Desc: produces figure of predator mass by prey mass, grouped by feeding type
+# and predator lifestage. also produces csv file of linear model statistics
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+require(ggplot2)
+require(plyr)
+
+
+###############################################################################
+# sorting out the data-frame
+###############################################################################
+
+MyDF <- read.csv("../Data/EcolArchives-E089-51-D1.csv")
+
+# convert mg to grams
+for(i in 1:length(MyDF$Record.number)){
+        if(MyDF$Prey.mass.unit[i] == "mg"){
+            MyDF$Prey.mass.g[i] = (MyDF$Prey.mass[i]/1000)
+        }
+        else{
+            MyDF$Prey.mass.g[i] = MyDF$Prey.mass[i]
+        }
+}
+
+
+###############################################################################
+# making the chart!!
+###############################################################################
+
+p <- ggplot(data = MyDF, aes(Prey.mass.g, Predator.mass,
+                             colour = Predator.lifestage)) +
+            geom_point(shape = I(3)) +  # set shape
+            geom_smooth(method = "lm", fullrange = T) +  # add lm lines
+            facet_grid(Type.of.feeding.interaction~.) +  # facet by feeding
+            scale_x_log10() + scale_y_log10() +  # scale axis
+            theme_bw() +
+            theme(legend.position = 'bottom') +  # move legened to bottom
+            guides(colour = guide_legend(nrow = 1)) +  # legend on 1 row
+            xlab("Prey Mass in grams") +
+            ylab("Predator Mass in grams") +
+            coord_fixed(0.45) +  # fix ratio of plot so its not too fat
+            theme(legend.title = element_text(face = "bold"))
+
+# print p to pdf A4 page size
+pdf("../Results/PP_Regress_figure.pdf", 8.3, 11.7)
+    print(p)
+dev.off()
+
+
+###############################################################################
+# getting the stats for the lines!
+###############################################################################
+
+# dply to group data by feeding method and lifestage and store models
+model <- dlply(MyDF, .(Type.of.feeding.interaction, Predator.lifestage),
+           function(x) lm(log(Predator.mass)~log(Prey.mass.g), data = x))
+
+# pull out the stats from the model
+results <- ldply(model, function(x) {r.sq <- summary(x)$r.squared
+                           intercept <- summary(x)$coefficients[1]
+                           slope <- summary(x)$coefficients[2]
+                           p.val  <- summary(x)$coefficients[8]
+                           data.frame(r.sq, intercept, slope, p.val)})
+
+# f-statistic couldnt be calculated for 1 group and so caused error in ldply
+f.stat <- ldply(model, function(x) summary(x)$fstatistic[1])
+
+# merge f-statistic with the other results
+results <- merge(results, f.stat, by = c("Type.of.feeding.interaction",
+                                "Predator.lifestage"), all = T)
+
+# give f-statistic a proper title
+names(results)[7] <- "F.statistic"
+
+# write to csv
+write.csv(results, "../Results/PP_Regress_results.csv")
+**********************************************************************
+
+Testing PP_Regress.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+null device 
+          1 
+
+**********************************************************************
+
+Encountered error:
+Loading required package: ggplot2
+Loading required package: plyr
+Warning message:
+In qt((1 - level)/2, df) : NaNs produced
+
+======================================================================
+Inspecting script file apply1.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: apply1.R
+# Desc: applying the same function to rows/columns of a matrix
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+###############################################################################
+# 8.1.1 The *apply family of functions part1
+###############################################################################
+# apply: applying the same function to rows/columns of a matrix
+
+# build a random matrix
+M <- matrix(rnorm(100), 10, 10)
+
+# take the mean of each row
+RowMeans <- apply(M, 1, mean)
+print(RowMeans)
+
+# now the varience
+RowVars <- apply(M, 1, var)
+print(RowVars)
+
+# and by column
+ColMeans <- apply(M, 2, mean)
+print(ColMeans)
+**********************************************************************
+
+Testing apply1.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+ [1] -0.4167721  0.7756723  0.1138562 -0.6814020  0.4303186  0.4821918
+ [7] -0.1932422  0.2597804  0.2187243 -0.2554787
+ [1] 0.6189361 0.4947300 0.9213307 0.6730560 1.5436961 1.0714707 1.3344631
+ [8] 1.1666073 0.9470643 1.1103594
+ [1] -0.06842364  0.32511368 -0.01517131 -0.04048837 -0.02269247 -0.05381269
+ [7]  0.63905460  0.14033768 -0.12132323 -0.04894572
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.07011s
+
+======================================================================
+Inspecting script file sample.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: sample.R
+# Desc: generating random numbers in r
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 8.4  generating Random numbers in R
+###############################################################################
+
+x <- c(1.4, 1.5, 1.7, 1.8, 1.9)
+
+rnorm(10, m = 0, sd = 1)  # normal random numbers with mean 0 sd 1
+dnorm(x, m = 0, sd = 1)  # density function
+qnorm(x, m = 0, sd = 1)  # cumulative density function
+runif(20, min = 0, max = 2)  # random numbers from uniform 1-2
+rpois(20, lambda = 10)  # random numbers from poisson
+
+# seeding random numbers
+
+set.seed(1234567)
+rnorm(1)
+rnorm(10)
+
+set.seed(Sys.time())
+
+###############################################################################
+# sample.R
+###############################################################################
+
+x <- rnorm(50)  # Generate the population
+
+doit <- function(x){
+    x <- sample(x, replace = T)
+    if(length(unique(x)) > 30){
+        print(paste("Mean of this sample was:", as.character(mean(x))))
+    }
+}
+
+# run 100 interations with vectorization
+result <- lapply(1:100, function(i) doit(x))
+
+# using a for loop...
+
+result <- vector("list", 100)  # initialize the vector
+for(i in 1:100){
+    result[[i]] <- doit(x)
+}
+**********************************************************************
+
+Testing sample.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+ [1]  0.05938715  1.81560161 -0.64630930 -0.91573666 -1.93285161 -1.15289459
+ [7] -0.92685597 -0.80067933  0.31823901  1.29724651
+[1] 0.14972747 0.12951760 0.09404908 0.07895016 0.06561581
+[1] NaN NaN NaN NaN NaN
+ [1] 0.85019134 1.05741382 0.51641466 0.23345671 1.80396371 1.56236914
+ [7] 1.33090249 0.41832404 1.91826317 1.53515134 0.28529014 1.13147301
+[13] 0.89787902 0.00720504 1.38553394 1.13162549 0.15630490 1.36521535
+[19] 1.88155770 1.62368483
+ [1]  9  9 11  8  7  8 13  8 18  8 13  5  8 11 1
+**********************************************************************
+
+Encountered error:
+Warning message:
+In qnorm(x, m = 0, sd = 1) : NaNs produced
+
+======================================================================
+Inspecting script file GPDD_maps.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: GPDD_maps.R
+# Desc: inserts points from global data onto a world map
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+require(maps)
+
+###############################################################################
+# maps in R
+###############################################################################
+
+load("../Data/GPDDFiltered.RData")
+
+
+map("world", fill=TRUE, col="white", bg="lightblue")
+points(x=gpdd$long, y=gpdd$lat, col = gpdd$common.name , pch = 19, cex= 0.5)
+# dont understand why long is x and lat is y???? but the other way looks all
+# wrong!!!
+
+# Data is biased to North America and Western Europe!
+**********************************************************************
+
+Testing GPDD_maps.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error:
+Loading required package: maps
+
+======================================================================
+Inspecting script file run_get_TreeHeight.sh...
+
+File contents are:
+**********************************************************************
+#!/bin/bash
+# Author: David Bridgwood dmb2417@ic.ac.uk
+# script: run_get_TreeHeight.sh
+# Desc:  bash script to test get_TreeHeight.R
+
+###############################################################################
+
+Rscript get_TreeHeight.R '../Data/trees.csv'
+
+**********************************************************************
+
+Testing run_get_TreeHeight.sh...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.07671s
+
+======================================================================
+Inspecting script file boilerplate.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: boilerplate.R
+# Desc: R script demonstrating writing functions
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 7.13 Writing R Functions
+###############################################################################
+
+MyFunction <- function(Arg1, Arg2){
+
+    # Statements involving Arg1, Arg2:
+    # print Arg1's type
+    print(paste("Argument", as.character(Arg1), "is a", class(Arg1)))
+    # print Arg2's type
+    print(paste("Argument", as.character(Arg2), "is a", class(Arg2)))
+
+  return (c(Arg1, Arg2))  # this is optional but very useful
+}
+
+# Testing MyFunction
+MyFunction(5,4)
+MyFunction("David", "Bridgwood")
+
+
+# Print the class of an object...
+
+class(MyFunction)
+**********************************************************************
+
+Testing boilerplate.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] "Argument 5 is a numeric"
+[1] "Argument 4 is a numeric"
+[1] 5 4
+[1] "Argument David is a character"
+[1] "Argument Bridgwood is a character"
+[1] "David"     "Bridgwood"
+[1] "function"
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.06891s
+
+======================================================================
+Inspecting script file TreeHeight.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: TreeHeight.R
+# Desc: calculates tree-height from elevation angle and distance
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# TreeHeight.R
+###############################################################################
+# This function calculates heights of trees from the angle
+# elevation and the distance from the base using the trigonometric
+#
+# formula: height = distance * tan(radians)
+#
+# ARGUMENTS:
+#       degrees     The angle of elevation
+#       distance    The distance from the base
+#
+# OUTPUT:
+#       The height of the tree, same units as "distance"
+
+
+# Read in csv file to Trees as dataframe
+Trees <- read.csv("../Data/trees.csv")
+
+TreeHeight <- function(degrees, distance){
+    radians <- degrees * pi / 180
+    height <- distance * tan(radians)
+    return(height)
+}
+
+
+# Add new column Tree.m.height to Trees dataframe
+Trees$Tree.m.height <- TreeHeight(Trees$Angle.degrees, Trees$Distance.m)
+
+# head(Trees)
+
+# Write to csv
+write.csv(Trees, "../Results/TreeHts.csv", row.names = FALSE)
+
+# Remove all objects
+rm(list = ls())
+**********************************************************************
+
+Testing TreeHeight.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.07595s
+
+======================================================================
+Inspecting script file PP_Lattice.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: PP_Lattice.R
+# Desc: produces 3 lattice plots split by type of feeding interaction and
+# writes a csv file containing the results
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+require('lattice')
+require('ggplot2')
+require('dplyr')
+
+###############################################################################
+# PP_Lattice.R
+###############################################################################
+
+MyDF <- read.csv('../Data/EcolArchives-E089-51-D1.csv')
+
+# for loop to convert mg to g and save in new column
+for(i in 1:length(MyDF$Record.number)){
+        if(MyDF$Prey.mass.unit[i] == "mg"){
+            MyDF$Prey.mass.g[i] = (MyDF$Prey.mass[i]/1000)
+        }
+        else{
+            MyDF$Prey.mass.g[i] = MyDF$Prey.mass[i]
+        }
+}
+
+# predator lattice
+pdf("../Results/Pred_Lattice.pdf")
+densityplot(~log(Predator.mass) | Type.of.feeding.interaction,
+            data = MyDF)
+dev.off()
+
+# prey lattice
+pdf("../Results/Prey_Lattice.pdf")
+densityplot(~log(Prey.mass.g) | Type.of.feeding.interaction,
+            data = MyDF)
+dev.off()
+
+# Size Ratio lattice
+pdf("../Results/SizeRatio_Lattice.pdf")
+densityplot(~log(Prey.mass.g/Predator.mass) | Type.of.feeding.interaction,
+      data = MyDF)
+dev.off()
+
+# making results
+results <- MyDF %>%
+    group_by(Type.of.feeding.interaction) %>%
+    summarise(mean_pred = mean(log(Predator.mass)),
+              mean_prey = mean(log(Prey.mass.g)),
+              mean_size_ratio = mean(log(Prey.mass.g/Predator.mass)),
+              meadian_pred = median(log(Predator.mass)),
+              median_prey = median(log(Prey.mass.g)),
+              median_size_ratio = median(log(Prey.mass.g/Predator.mass)))
+
+# give the headers nicer names
+headers <- c("Type_of_Feeding Interaction",
+             "Mean_of_log(Predator Mass)",
+             "Mean_of_log(Prey Mass)",
+             "Mean_of_log(Size Ratio)",
+             "Median_of_log(Predator Mass)",
+             "Median_of_log(Prey Mass)",
+             "Median_of_log(Size Ratio)")
+names(results) <- headers
+
+write.csv(results, "../Results/PP_Results.csv", row.names = F)
+**********************************************************************
+
+Testing PP_Lattice.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+null device 
+          1 
+null device 
+          1 
+null device 
+          1 
+
+**********************************************************************
+
+Encountered error:
+Loading required package: lattice
+Loading required package: ggplot2
+Loading required package: dplyr
+
+Attaching package: ‘dplyr’
+
+The following objects are masked from ‘package:stats’:
+
+    filter, lag
+
+The following objects are masked from ‘package:base’:
+
+    intersect, setdiff, setequal, union
+
+
+======================================================================
+Inspecting script file next.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: next.R
+# Desc: using next to skip iterations of loop
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 8.2.2 using next
+###############################################################################
+
+for(i in 1:10){
+    if((i %% 2) == 0)
+        next  # pass to next iteration of the loop
+    print(i)
+}
+**********************************************************************
+
+Testing next.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] 1
+[1] 3
+[1] 5
+[1] 7
+[1] 9
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.06849s
+
+======================================================================
+Inspecting script file Vectorize1.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: Vectorize1.R
+# Desc: time differences between for loops and vectorization
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 8.1 Vectorization in R
+###############################################################################
+
+M <- matrix(runif(1000), nrow = 1000, ncol = 1000)
+
+SumAllElements <- function(M){
+  Dimensions <- dim(M)
+  Tot <- 0
+  for(i in 1:Dimensions[1]){
+    for(j in 1:Dimensions[2]){
+      Tot <- Tot + M[1, j]
+    }
+  }
+  return(Tot)
+}
+
+# How long does my function take?! -- About 0.47 seconds
+print(system.time(SumAllElements(M)))
+
+# How long does R's SUM function takes? -- About 0.002 seconds
+print(system.time(sum(M)))
+**********************************************************************
+
+Testing Vectorize1.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+   user  system elapsed 
+  0.388   0.000   0.387 
+   user  system elapsed 
+  0.000   0.000   0.002 
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.49461s
+
+======================================================================
+Inspecting script file break.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: break.R
+# Desc: breaking out of loops in R
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 8.2.1 breaking out of loops
+###############################################################################
+
+i <- 0  # initialise i
+    while(i < Inf){
+        if (i == 20){
+            break }  # break out of the loop!
+        else {
+            cat("i equals ", i, " \n")
+            i <- i +1  # update i
+        }
+    }
+
+for(i in 1:10){
+    if((i %% 2) == 0)
+        next  # pass to the next iteration
+    print(i)
+}
+**********************************************************************
+
+Testing break.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+i equals  0  
+i equals  1  
+i equals  2  
+i equals  3  
+i equals  4  
+i equals  5  
+i equals  6  
+i equals  7  
+i equals  8  
+i equals  9  
+i equals  10  
+i equals  11  
+i equals  12  
+i equals  13  
+i equals  14  
+i equals  15  
+i equals  16  
+i equals  17  
+i equals  18  
+i equals  19  
+[1] 1
+[1] 3
+[1] 5
+[1] 7
+[1] 9
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.07108s
+
+======================================================================
+Inspecting script file basic_io.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: basic_io.R
+# Desc: A simple R script to illustrate R input and Output
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 7.12 Writing R code, input and output
+###############################################################################
+
+# Import with headers
+MyData <- read.csv("../Data/trees.csv", header = TRUE)
+
+# Write out to a new file
+write.csv(MyData, "../Results/MyData.csv")
+
+# Append to it gives an error cause its a stupid thing to do!!
+write.table(MyData[1,], file = "../Results/MyData.csv", append = TRUE)
+
+# Write row names
+write.csv(MyData, "../Results/MyData.csv", row.names = TRUE)
+
+# ignore column names
+write.table(MyData, "../Results/MyData.csv", col.names = FALSE)
+**********************************************************************
+
+Testing basic_io.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error:
+Warning message:
+In write.table(MyData[1, ], file = "../Results/MyData.csv", append = TRUE) :
+  appending column names to file
+
+======================================================================
+Inspecting script file try.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: try.R
+# Desc: catching errors with try
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# try.R
+###############################################################################
+
+# simulation sampling a population with try
+
+x <- rnorm(50)  # Generate the population
+
+doit <- function(x){
+    x <- sample(x, replace = T)
+    if(length(unique(x)) > 30){  # only take the mean if sample is bug enough
+        print(paste("Mean of this sample was:", as.character(mean(x))))
+    }
+    else{
+        stop("couldnt calculate mean: too few unique points!")
+    }
+}
+
+# using try with vecotorization
+result <- lapply(1:100, function(i) try(doit(x), F))
+
+# ir using a for loop with try
+result <- vector("list", 100)  # initialize the vector
+for(i in 1:100){
+    result[[i]] <- try(doit(x), F)
+}
+**********************************************************************
+
+Testing try.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] "Mean of this sample was: -0.133005098042139"
+[1] "Mean of this sample was: 0.0865943980809045"
+[1] "Mean of this sample was: 0.053897559079856"
+[1] "Mean of this sample was: 0.125650331726659"
+[1] "Mean of this sample was: 0.092246856265017"
+[1] "Mean of this sample was: 0.00655124576814133"
+[1] "Mean of this sample was: 0.0298925355984182"
+[1] "Mean of this sample was: 0.0824196541672278"
+[1] "Mean of this sample was: 0.0679175936369372"
+[1] "Mean of this sample was: -0.0161824827146093"
+[1
+**********************************************************************
+
+Encountered error:
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+Error in doit(x) : couldnt calculate mean: too few unique points!
+
+======================================================================
+Inspecting script file apply2.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: apply2.R
+# Desc: using apply on your own functions
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+#
+###############################################################################
+
+SomeOperation <- function(v){
+    if(sum(v) > 0){
+        return(v * 100)
+    }
+    return(v)
+}
+
+M <- matrix(rnorm(100), 10, 10)
+
+print(apply(M, 1, SomeOperation))
+
+x <- 1:20  # a vector
+y <- factor(rep(letters[1:5], each = 4)) # factor same length defining groups:
+tapply(x, y, sum)
+
+
+# import some data
+attach(iris)
+print(iris)
+
+# use colMeans - better for dataframes
+by(iris[,1:2], iris$Species, colMeans)
+by(iris[,1:2], iris$Petal.Width, colMeans)
+
+print(replicate(10, runif(5)))
+**********************************************************************
+
+Testing apply2.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+             [,1]        [,2]       [,3]       [,4]      [,5]       [,6]
+ [1,] -0.38355668   -6.604373 -0.7976857  131.07180 -40.00300 176.391559
+ [2,] -0.67813708  -23.268319  0.8697886  -62.00177 132.27946 -31.175665
+ [3,] -0.29842771 -142.670261 -2.1375766  192.78172  12.47292  73.093355
+ [4,]  0.84414394  -54.352992  1.1702010  -39.50616  11.95267 -89.969066
+ [5,]  1.11628040   12.576527  0.0742635   78.11905 -12.41330  25.974845
+ [6,] -2.08890837  137.589472 -1.0383354  -34.77197  60.29753 -
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.08446s
+
+======================================================================
+Inspecting script file get_TreeHeight.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: get_TreeHeight.R
+# Desc: calculates heigfht of tree from angle of elevation and distance
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# get_TreeHeight.R
+###############################################################################
+
+# This script takes in a given csv fike from the command line
+# calculates heights of trees from the angle
+# elevation and the distance from the base using the trigonometric
+# formula: height = distance * tan(radians)
+#
+# ARGUMENTS:
+#       degrees     The angle of elevation
+#       distance    The distance from the base
+#
+# OUTPUT:
+#       The height of the tree, same units as "distance"
+
+
+# commandArgs reads in the arguments given in the command line
+args <- commandArgs(trailingOnly = TRUE)
+
+Trees <- read.csv(args[1])
+
+# define function
+TreeHeight <- function(degrees, distance){
+    radians <- degrees * pi / 180
+    height <- distance * tan(radians)
+
+    return(height)
+}
+
+# add heights as new column
+Trees$Tree.m.height <- TreeHeight(Trees$Angle.degrees, Trees$Distance.m)
+
+# write to file
+# basename removes the directory, strsplit removes the .csv
+outfile <- paste("../Results/", strsplit(basename(args[1]), ".csv"),
+                 "_treeheights.csv", sep = "")
+
+
+write.csv(Trees, outfile, row.names = FALSE)
+**********************************************************************
+
+Testing get_TreeHeight.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error:
+Error in file(file, "rt") : cannot open the connection
+Calls: read.csv -> read.table -> file
+In addition: Warning message:
+In file(file, "rt") : cannot open file 'NA': No such file or directory
+Execution halted
+
+======================================================================
+Inspecting script file TAutoCorr.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: TAutocorr.R
+# Desc: test correlation of temperature of pairs of years
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+require(ggplot2)
+
+###############################################################################
+# Autocorrelation in weather
+###############################################################################
+
+# read in the data
+load('../Data/KeyWestAnnualMeanTemperature.RData')
+
+# explore the data
+# head(ats)
+# length(ats$Year)
+ats[,1]
+# hist(ats$Temp)
+# boxplot(ats$Temp)
+
+# start the analysis
+y1 <- head(ats$Temp, length(ats$Year) -1)  # all but last year
+y2 <- tail(ats$Temp, length(ats$Year) -1)  # all but first year
+
+DF <- data.frame(y1, y2)  # save into dataframe
+
+actual_cor <- cor(y1, y2)  # the actual correlation value!
+actual_cor  # 0.3261697
+
+# initialize empty vector for test correlations
+test_cor <- vector(mode = 'numeric', length = 10000)
+
+for(i in 1:10000){  # do 10000 times!
+    ytmp <- sample(y2, replace = F)  # sample from years 1901:2000 randomly
+    test_cor[i] <- cor(y1, ytmp)  # look at correlation...
+}
+
+# p.value is approximatley the fraction of correlation coefficients larger than
+# the actual one!
+aprx.p.value <- sum(test_cor > actual_cor)/100000
+print(sum(test_cor > actual_cor))
+print(aprx.p.value)  # consistantly < 0.001!!!!!
+
+# make a pretty figure
+
+pdf("../Results/TAutoCorr_figure.pdf")
+    ggplot(DF, aes(x = y1, y = y2)) +
+        geom_point() +
+        geom_smooth(method = lm) +
+        xlab("Mean Anunual Tempertaure Years 1900-1999 (°C)") +
+        ylab("Mean Anunual Tempertaure Years 1901-2000 (°C)") +
+        theme_classic()+
+        theme(axis.text=element_text(size=16),
+            axis.title=element_text(size=18))
+dev.off()
+**********************************************************************
+
+Testing TAutoCorr.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+  [1] 1901 1902 1903 1904 1905 1906 1907 1908 1909 1910 1911 1912 1913 1914 1915
+ [16] 1916 1917 1918 1919 1920 1921 1922 1923 1924 1925 1926 1927 1928 1929 1930
+ [31] 1931 1932 1933 1934 1935 1936 1937 1938 1939 1940 1941 1942 1943 1944 1945
+ [46] 1946 1947 1948 1949 1950 1951 1952 1953 1954 1955 1956 1957 1958 1959 1960
+ [61] 1961 1962 1963 1964 1965 1966 1967 1968 1969 1970 1971 1972 1973 1974 1975
+ [76] 1976 1977 1978 1979 1980 1981 1982 1983 1984 1985 1986 1987 1988 1989 1990
+ [91] 1991 1992
+**********************************************************************
+
+Encountered error:
+Loading required package: ggplot2
+
+======================================================================
+Inspecting script file Vectorize2.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: Vectorize2.R
+# Desc: improved performace using vecorization with stochastic ricker model
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# Ricker model -- with no stochasticity!
+###############################################################################
+
+Ricker <- function(N0 = 1, r = 1, k = 10, generations = 50){
+    # runs a simulation of the Ricker model
+    # returns a vector of legnth generations
+
+    N <- rep(NA, generations)  # created a vector of NA
+
+    N[1] <- N0
+    for(t in 2:generations){
+        N[t] <- N[t -1] * exp(r*(1.0-(N[t-1]/k)))
+    }
+    return(N)
+}
+
+# plot(Ricker(2,2,100,50), type = "l")
+# plot(Ricker())
+
+###############################################################################
+# Runs the stochastic (with gaussian fluctuations) Ricker Eqn
+###############################################################################
+
+rm(list=ls())
+
+stochrick<-function(p0=runif(1000,.5,1.5),r=1.2,K=1,sigma=0.2,numyears=100)
+{
+  #initialize
+  N<-matrix(NA,numyears,length(p0))
+  N[1,]<-p0
+
+  for (pop in 1:length(p0)) #loop through the populations
+  {
+    for (yr in 2:numyears) #for each pop, loop through the years
+    {
+      N[yr,pop]<-N[yr-1,pop]*exp(r*(1-N[yr-1,pop]/K)+rnorm(1,0,sigma))
+    }
+  }
+  return(N)
+}
+
+print("Non-Vectorized Stochastic Ricker takes:")
+print(system.time(res2<-stochrick()))
+
+###############################################################################
+# improved function with vectorization
+###############################################################################
+
+rm(list=ls())
+
+stochrickvect <- function(p0=runif(1000, .5, 1.5), r = 1.2, k = 1,
+                          sigma = 0.2, numyears = 100){
+    #initialize
+    N<-matrix(NA,numyears,length(p0))
+    N[1,]<-p0
+
+    # this actually makes it slower!!!
+    # rando <- matrix(rnorm((numyears -1)*1000, 0, sigma), numyears-1, 1000)
+
+    for (yr in 2:numyears){ #for each pop, loop through the years
+        N[yr, ] <- N[yr - 1, ] * exp(r * (1 - N[yr-1, ]/k) +
+                                     rnorm(1000, 0, sigma))  #rando[yr-1,])
+    }
+    return(N)
+}
+
+print("Vectorized Stochastic Ricker takes:")
+print(system.time(res2<-stochrickvect()))
+
+plot(stochrickvect()[,1], type = 'l')
+**********************************************************************
+
+Testing Vectorize2.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] "Non-Vectorized Stochastic Ricker takes:"
+   user  system elapsed 
+  0.404   0.000   0.404 
+[1] "Vectorized Stochastic Ricker takes:"
+   user  system elapsed 
+  0.020   0.000   0.023 
+
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.56979s
+
+======================================================================
+Inspecting script file PP_Regress_loc.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: PP_Regress_loc.R
+# Desc: produces csv file of linear models statistics grouped by type of
+# feeding interaction, predator lifestage and location
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+require(plyr)
+
+
+###############################################################################
+# sorting out the data-frame
+###############################################################################
+
+MyDF <- read.csv("../Data/EcolArchives-E089-51-D1.csv")
+
+# convert mg to grams
+for(i in 1:length(MyDF$Record.number)){
+        if(MyDF$Prey.mass.unit[i] == "mg"){
+            MyDF$Prey.mass.g[i] = (MyDF$Prey.mass[i]/1000)
+        }
+        else{
+            MyDF$Prey.mass.g[i] = MyDF$Prey.mass[i]
+        }
+}
+
+
+###############################################################################
+# getting the stats for the lines!
+###############################################################################
+
+# dply to group data by feeding method and lifestage and store models
+model <- dlply(MyDF, .(Type.of.feeding.interaction,
+                       Predator.lifestage,
+                       Location),
+           function(x) lm(log(Predator.mass)~log(Prey.mass.g), data = x))
+
+# pull out the stats from the model
+results <- ldply(model, function(x) {r.sq <- summary(x)$r.squared
+                           intercept <- summary(x)$coefficients[1]
+                           slope <- summary(x)$coefficients[2]
+                           p.val  <- summary(x)$coefficients[8]
+                           data.frame(r.sq, intercept, slope, p.val)})
+
+# f-statistic couldnt be calculated for 1 group and so caused error in ldply
+f.stat <- ldply(model, function(x) summary(x)$fstatistic[1])
+
+# merge f-statistic with the other results
+results <- merge(results, f.stat, by = c("Type.of.feeding.interaction",
+                                "Predator.lifestage", "Location"), all = T)
+
+# give f-statistic a proper title
+names(results)[8] <- "F.statistic"
+# write to csv
+write.csv(results, "../Results/PP_Regress_loc_results.csv")
+**********************************************************************
+
+Testing PP_Regress_loc.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error:
+Loading required package: plyr
+Warning messages:
+1: In summary.lm(x) : essentially perfect fit: summary may be unreliable
+2: In summary.lm(x) : essentially perfect fit: summary may be unreliable
+3: In summary.lm(x) : essentially perfect fit: summary may be unreliable
+4: In summary.lm(x) : essentially perfect fit: summary may be unreliable
+Warning message:
+In summary.lm(x) : essentially perfect fit: summary may be unreliable
+
+======================================================================
+Inspecting script file DataWrang.R...
+
+File contents are:
+**********************************************************************
+################################################################
+################## Wrangling the Pound Hill Dataset ############
+################################################################
+
+############# Load the dataset ###############
+# header = false because the raw data don't have real headers
+MyData <- as.matrix(read.csv("../Data/PoundHillData.csv",header = F))
+
+# header = true because we do have metadata headers
+MyMetaData <- read.csv("../Data/PoundHillMetaData.csv",header = T, sep=";",
+                       stringsAsFactors = F)
+
+############# Inspect the dataset ###############
+head(MyData)
+dim(MyData)
+str(MyData)
+fix(MyData) #you can also do this
+fix(MyMetaData)
+
+############# Transpose ###############
+# To get those species into columns and treatments into rows
+MyData <- t(MyData)
+head(MyData)
+dim(MyData)
+
+############# Replace species absences with zeros ###############
+MyData[MyData == ""] = 0
+
+############# Convert raw matrix to data frame ###############
+
+TempData <- as.data.frame(MyData[-1,],stringsAsFactors = F)
+#stringsAsFactors = F is important!
+colnames(TempData) <- MyData[1,] # assign column names from original data
+
+############# Convert from wide to long format  ###############
+require(reshape2) # load the reshape2 package
+
+?melt #check out the melt function
+
+MyWrangledData <- melt(TempData, id=c("Cultivation", "Block", "Plot", "Quadrat"),
+variable.name = "Species", value.name = "Count")
+MyWrangledData[, "Cultivation"] <- as.factor(MyWrangledData[, "Cultivation"])
+MyWrangledData[, "Block"] <- as.factor(MyWrangledData[, "Block"])
+MyWrangledData[, "Plot"] <- as.factor(MyWrangledData[, "Plot"])
+MyWrangledData[, "Quadrat"] <- as.factor(MyWrangledData[, "Quadrat"])
+MyWrangledData[, "Count"] <- as.numeric(MyWrangledData[, "Count"])
+
+str(MyWrangledData)
+head(MyWrangledData)
+dim(MyWrangledData)
+
+############ Start exploring the data (extend the script below)!  #############
+**********************************************************************
+
+Testing DataWrang.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+     V1                     V2        V3        V4        V5        V6       
+[1,] "Cultivation"          "october" "october" "october" "october" "october"
+[2,] "Block"                "a"       "a"       "a"       "a"       "a"      
+[3,] "Plot"                 "1"       "1"       "1"       "1"       "1"      
+[4,] "Quadrat"              "Q1"      "Q2"      "Q3"      "Q4"      "Q5"     
+[5,] "Achillea millefolium" "4"       "8"       "3"       "20"      "6"      
+[6,] "Agrostis gigantea"    ""   
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 10.00698s
+
+======================================================================
+Inspecting script file TAutoCorr_Report.tex...
+
+File contents are:
+**********************************************************************
+\documentclass[12pt]{article}
+\usepackage{graphicx}                                                  
+\title{\vspace{-5em}Correlation of Temperature in Pairs of Years}	                   
+\author{David Bridgwood}                                                        
+\date{}          
+
+
+\begin{document}                                                                
+     
+     \maketitle                         	                                         
+                                                                                                                                         
+     \section{Methods}
+     A Pearson's correlation coefficient was calculated between the mean annual temperature at Key West, Florida for 1901-2000 (N) with 1900-1999 (N-1). The significance of this was then calculated by repeating the correlation on a randomly sampled set of years 1901-2000.
+     \section{Results}
+     A significant positive correlation was found between temperature of years (N-1) and years (N) ($r{97} = 0.3262, p < 0.001$), with the p-value consistantly $<$ 0.001 when the analysis was re-run.
+	     
+	     \begin{figure}[h]
+	     	\caption{Correlation of Mean Temperature of Years 1901-2000 (N) with their imediate predeeding year 1900-1999 (N-1).}
+	     	\centering
+		     	\includegraphics[scale = 0.5]{../Results/TAutoCorr_figure.pdf}
+	     \end{figure}                                   
+                                               
+\end{document}                    **********************************************************************
+
+Testing TAutoCorr_Report.tex...
+
+======================================================================
+Inspecting script file control.R...
+
+File contents are:
+**********************************************************************
+#!usr/bin/env Rscript
+
+# script: control.R
+# Desc: control statements in R
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+
+# required packages
+
+###############################################################################
+# 7.15 Control statements in R
+###############################################################################
+
+# if statement
+a <- T
+if( a == T){
+  print("a is TRUE")
+} else {
+    print("a is FALSE")
+}
+
+# on a single line
+z <- runif(1)  # random number
+if(z < 0.25){
+  print("Less than a quarter!")
+}
+
+# for loop using a sequence
+for(i in 1:100){
+  j <- i * i
+  print(paste(i, "squared is", j))
+}
+
+# for loop over vector of strings
+for(species in c('Heliodoxa rubinoides',
+                 'Boissonneaua jardini',
+                 'Sula nebouxii')){
+  print(paste('The species is', species))
+}
+
+# for loop using a vector
+v1 <- c("a", "bc", "def")
+for(i in v1){
+  print(i)
+}
+
+# while loop
+i <- 0
+while(i < 100){
+  print(i ^ 2)
+  i <- i + 1
+}
+**********************************************************************
+
+Testing control.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] "a is TRUE"
+[1] "1 squared is 1"
+[1] "2 squared is 4"
+[1] "3 squared is 9"
+[1] "4 squared is 16"
+[1] "5 squared is 25"
+[1] "6 squared is 36"
+[1] "7 squared is 49"
+[1] "8 squared is 64"
+[1] "9 squared is 81"
+[1] "10 squared is 100"
+[1] "11 squared is 121"
+[1] "12 squared is 144"
+[1] "13 squared is 169"
+[1] "14 squared is 196"
+[1] "15 squared is 225"
+[1] "16 squared is 256"
+[1] "17 squared is 289"
+[1] "18 squared is 324"
+[1] "19 squared is 361"
+[1] "20 squared is 400"
+[1] "21 squared is 441"
+[1
+**********************************************************************
+
+Code ran without errors
+
+Time consumed = 0.12772s
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 9 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Marks for the Week = 99.5
+
+NOTE THAT THESE ARE NOT THE FINAL MARKS FOR THE WEEK, BUT AN UPPER BOUND ON THE MARKS!
