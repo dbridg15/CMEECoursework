@@ -1,0 +1,1286 @@
+Starting weekly assessment for David, Week4
+
+Current Marks = 100
+
+Note that: 
+(1) Major sections begin with a double "====" line 
+(2) Subsections begin with a single "====" line 
+(3) Code output or text file content are printed within single "*****" lines 
+
+======================================================================
+======================================================================
+Your Git repo size this week is about 104.29 MiB on disk 
+
+PART 1: Checking project workflow...
+
+Found the following directories in parent directory: Week6, Week1, Week7, Assessment, Week5, Week2, Week4, .git, Week3
+
+Found the following files in parent directory: README.txt, .gitignore
+
+Checking for key files in parent directory...
+
+Found .gitignore in parent directory, great! 
+
+Printing contents of .gitignore:
+**********************************************************************
+*~
+*.tmp
+*.pyc
+.ropeproject
+*.tif
+*.shp
+
+find . -size +20M |
+**********************************************************************
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+###############################################################################
+My CMEE 2017-18 Coursework Repository
+###############################################################################
+
+Week1__________________________________________________________________________
+
+-Intro to Unix and Linux
+    -basic commands: find, grep, etc.
+-UNIX and shell scripting
+    -Several example shell scripts
+-Version control with git
+    -git and .gitignore file
+-Using LaTex
+    -example LaTex script and auto-compile bash script
+
+
+Week2__________________________________________________________________________
+
+-Intro to python
+    -Basic input and output
+    -Reading csv files
+    -Control Flow
+    -List Comprehensions
+    -Loops
+    -Python data types
+    -Assigning and manipulating variables
+
+
+Week3__________________________________________________________________________
+
+-R week
+    -vectorisation
+    -random numbers
+    -writing functions
+    -debugging
+
+
+Week4__________________________________________________________________________
+
+-Stats Week
+    -notes and rscripts from stats week from basics to linear models and GLMs
+
+
+Week5__________________________________________________________________________
+
+-GIS Week
+    -PDF of map produced in practical 2
+    -python script used to automate practical 1
+**********************************************************************
+
+======================================================================
+Looking for the weekly directories...
+
+Found 7 weekly directories: Week1, Week2, Week3, Week4, Week5, Week6, Week7
+
+The Week4 directory will be assessed 
+
+======================================================================
+======================================================================
+PART 2: Checking weekly code and workflow...
+
+======================================================================
+Assessing WEEK4...
+
+Found the following directories: Code, Data, Results
+
+Found the following files: README.txt
+
+Checking for readme file in weekly directory...
+
+Found README in parent directory, named: README.txt
+
+Printing contents of README.txt:
+**********************************************************************
+Week4-----------------------------------w/c 23/10/2017 due 01/11/2017
+│
+├── Code
+│   ├── stats_with_sparrows11-15.R-----code and notes from lectures 11 - 15
+│   │
+│   ├── stats_with_sparrows1-3.R-------code and notes from lectures 1 - 3
+│   │
+│   └── stats_with_sparrows4-10--------code and notes from lectures 4 - 10
+│
+├── Data
+│   ├── daphnia.txt
+│   ├── ipomopsis.txt
+│   ├── ObserverRepeatability.txt
+│   ├── SparrowSize.txt
+│   └── timber.txt
+│
+├── Results
+│   └── README.txt
+│
+└── Sandbox
+**********************************************************************
+
+Found 3 code files: stats_with_sparrows11-15.R, stats_with_sparrows4-10.R, stats_with_sparrows1-3.R
+
+Found the following extra files: Rplots.pdf
+0.5 pt deducted per extra file
+
+Current Marks = 99.5
+
+======================================================================
+Testing script/code files...
+
+======================================================================
+Inspecting script file stats_with_sparrows11-15.R...
+
+File contents are:
+**********************************************************************
+fm(list = ls())
+
+###############################################################################
+# sws11 maximum likelyhood
+###############################################################################
+
+# maximises the liklihood that the data you have comes from the model you
+# assume
+
+# e.g. 3 heads then 2 tails has a probability of
+
+(0.5^3)*(0.5^2)
+# [1] 0.03125
+
+# we want to maximise the ML
+
+# Bootstrapping --> resampling to get estimates
+
+# sensetivity analysis --> systematically excluede dataset
+
+###############################################################################
+# sws12 covariance and correlation
+###############################################################################
+
+# covariance is hwo two variables change together
+# the correlation coefficient is the covarience divided by the product of the
+# standard deviations - standardized between -1 and 1
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+d1 <- subset(d, !is.na(d$Tarsus))
+d1 <- subset(d1, !is.na(d1$Mass))
+
+
+cov(d1$Tarsus, d1$Mass)
+cor(d1$Tarsus, d1$Mass)
+
+d1$Tarsus.cm  <- d1$Tarsus/10
+
+cov(d1$Tarsus.cm, d1$Mass)
+cor(d1$Tarsus.cm, d1$Mass)
+
+# covariance is unit dependant while correlation is not!
+
+###############################################################################
+# sws13 more models
+###############################################################################
+
+rm(list = ls())
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+d1 <- subset(d, !is.na(d$Wing))
+
+summary(d1$Wing)
+hist(d1$Wing)
+
+model1 <- lm(Wing~Sex.1, data = d1)
+summary(model1)
+
+boxplot(d1$Wing~d1$Sex.1, ylab = "Wing length (mm)")
+
+anova(model1)
+# Analysis of Variance Table
+# 
+# Response: Wing
+#             Df Sum Sq Mean Sq F value    Pr(>F)    
+# Sex.1        1 2722.0 2721.98  643.15 < 2.2e-16 ***
+# Residuals 1693 7165.3    4.23                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+t.test(d1$Wing~d1$Sex.1, var.equal = T)
+# 
+# 	Two Sample t-test
+# 
+# data:  d1$Wing by d1$Sex.1
+# t = -25.36, df = 1693, p-value < 2.2e-16
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -2.731727 -2.339518
+# sample estimates:
+# mean in group female   mean in group male 
+#             76.09611             78.63173 
+# 
+
+
+# now looking at differences between individual birds!
+
+boxplot(d1$Wing~d1$BirdID, ylab = "WIng length (mm)")
+
+require(dplyr)
+
+tbl_df(d1)
+glimpse(d1)
+
+d$Mass %>% cor.test(d$Tarsus, na.rm = T)
+# 
+# 	Pearson's product-moment correlation
+# 
+# data:  . and d$Tarsus
+# t = 22.374, df = 1642, p-value < 2.2e-16
+# alternative hypothesis: true correlation is not equal to 0
+# 95 percent confidence interval:
+#  0.4454229 0.5195637
+# sample estimates:
+#       cor 
+# 0.4833596 
+# 
+
+
+d1 %>%
+    group_by(BirdID) %>%
+    summarise(count=length(BirdID)) %>%
+    count(count)
+
+
+model3 <- lm(Wing~as.factor(BirdID), data = d1)
+anova(model3)
+# Analysis of Variance Table
+# 
+# Response: Wing
+#                     Df Sum Sq Mean Sq F value    Pr(>F)    
+# as.factor(BirdID)  617 8147.3 13.2047  8.1734 < 2.2e-16 ***
+# Residuals         1077 1740.0  1.6156                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+boxplot(d$Mass~d$Year)
+
+m2 <- lm(d$Mass~as.factor(d$Year))
+anova(m2)
+# Analysis of Variance Table
+# 
+# Response: d$Mass
+#                     Df Sum Sq Mean Sq F value    Pr(>F)    
+# as.factor(d$Year)   10  340.2  34.020  7.8866 1.721e-12 ***
+# Residuals         1693 7303.0   4.314                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+summary(m2)
+t(model.matrix(m2))
+
+
+# subset not including year 2000
+
+d2 <- subset(d, d$Year != 2000)
+
+boxplot(Mass~Year, data = d2)
+m4 <- lm(Mass~as.factor(Year), data = d2)
+summary(m4)
+anova(m4)
+# Analysis of Variance Table
+# 
+# Response: Mass
+#                   Df Sum Sq Mean Sq F value Pr(>F)
+# as.factor(Year)    9   23.6  2.6243  0.6038 0.7947
+# Residuals       1466 6372.0  4.3465               
+
+
+###############################################################################
+# sws14 repeatability and pitfalls
+###############################################################################
+
+# repeatability - how consistant something is within a group compared with the
+# whole sample
+# the ratio of among group varience over the total varience
+
+# calculated with ANOVA output
+
+rm(list = ls())
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+d1 <- subset(d, !is.na(d$Wing))
+
+model3 <- lm(Wing~as.factor(BirdID), data = d1)
+anova(model3)
+# Analysis of Variance Table
+# 
+# Response: Wing
+#                     Df Sum Sq Mean Sq F value    Pr(>F)    
+# as.factor(BirdID)  617 8147.3 13.2047  8.1734 < 2.2e-16 ***
+# Residuals         1077 1740.0  1.6156                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+require(dplyr)
+
+d1 %>%
+    group_by(BirdID) %>%
+    summarise(count = length(BirdID))
+
+d1 %>%
+    group_by(BirdID) %>%
+    summarise(count = length(BirdID)) %>%
+    summarise(length(BirdID))
+
+d1 %>%
+    group_by(BirdID) %>%
+    summarise(count = length(BirdID)) %>%
+    summarise(sum(count))
+
+d1 %>%
+    group_by(BirdID) %>%
+    summarise(count = length(BirdID)) %>%
+    summarise(sum(count^2))
+
+(1/617)*(1695-(7307/1695))
+# [1] 2.740177
+
+model3 <- lm(Wing~as.factor(BirdID), data = d1)
+anova(model3)
+# Analysis of Variance Table
+# 
+# Response: Wing
+#                     Df Sum Sq Mean Sq F value    Pr(>F)    
+# as.factor(BirdID)  617 8147.3 13.2047  8.1734 < 2.2e-16 ***
+# Residuals         1077 1740.0  1.6156                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+# so the repeatability is:
+
+((13.2047-1.6156)/2.740177)/(1.6156+(13.2047-1.6156)/2.740177)
+# [1] 0.7235893
+
+# as a percentage
+.Last.value*100
+
+# Calculate the repeatabiltiy of body mass within individual birds. The N0 will
+# be different fo redo dplyr stuff!!!
+
+
+# d1 now removes NAs in mass
+d1 <- subset(d, !is.na(d$Mass))
+
+
+a <- d1 %>%
+        group_by(BirdID) %>%
+        summarise(count = length(BirdID)) %>%
+        summarise(length(BirdID))
+
+b <- d1 %>%
+        group_by(BirdID) %>%
+        summarise(count = length(BirdID)) %>%
+        summarise(sum(count))
+
+c <- d1 %>%
+        group_by(BirdID) %>%
+        summarise(count = length(BirdID)) %>%
+        summarise(sum(count^2))
+
+
+
+
+d <- (1/(a-1))*(b - (c/b))
+
+model4 <- lm(Mass~as.factor(BirdID), data = d1)
+anova(model4)
+# Analysis of Variance Table
+# 
+# Response: Mass
+#                     Df Sum Sq Mean Sq F value    Pr(>F)    
+# as.factor(BirdID)  632 5589.3  8.8438  4.6117 < 2.2e-16 ***
+# Residuals         1071 2053.9  1.9177                      
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+
+
+av <- anova(model4)
+
+e <- av$"Mean Sq"[1]
+f <- av$"Mean Sq"[2]
+
+# the repeatabiltiy is...
+((e-f)/d)/(f+(e-f)/d)
+
+# as a %
+
+.Last.value*100
+
+
+###############################################################################
+# sws15 linear models going big!!! (multiple linear models)
+###############################################################################
+
+# in multiple linear models there can be more than one explanatory variable
+# you can even mix continuous and factor data
+
+rm(list = ls())
+
+daphnia <- read.delim("../Data/daphnia.txt")
+summary(daphnia)
+
+# testing for outliers
+par(mfrow = c(1, 2))
+plot(Growth.rate~Detergent, data = daphnia)
+plot(Growth.rate~Daphnia, data = daphnia)
+
+# there are no outliers as there are on circles in the boxplots!
+
+require(dplyr)
+
+daphnia %>%
+    group_by(Detergent) %>%
+    summarise(varience=var(Growth.rate))
+
+daphnia %>%
+group_by(Daphnia) %>%
+summarise(varience=var(Growth.rate))
+
+# is the data normally distributed?
+hist(daphnia$Growth.rate)
+
+# starting the model!
+
+seFun <- function(x){
+    sqrt(var(x)/length(x))
+}
+
+detergentMean <- with(daphnia, tapply(Growth.rate, INDEX = Detergent,
+                                      FUN = mean))
+detergentSEM <- with(daphnia, tapply(Growth.rate, INDEX = Detergent,
+                                     FUN = seFun))
+cloneMean <- with(daphnia, tapply(Growth.rate, INDEX = Daphnia, FUN = mean))
+cloneSEM <- with(daphnia, tapply(Growth.rate, INDEX = Daphnia, FUN = seFun))
+
+par(mfrow = c(2,1), mar = c(4, 4, 1, 1))
+barMids <- barplot(detergentMean, xlab = "Detergent Type",
+                   ylab = "Population growth rate",
+                   ylim = c(0, 5))
+arrows(barMids, detergentMean - detergentSEM, barMids, detergentMean +
+       detergentSEM, code = 3, angle =90)
+barMids <- barplot(cloneMean, xlab = "Daphnia clone",
+                   ylab = "Population growth rate",
+                   ylim = c(0, 5))
+arrows(barMids, cloneMean - cloneSEM, barMids, cloneMean + cloneSEM,
+       code = 3, angle = 90)
+
+
+daphniaMod <- lm(Growth.rate~Detergent+Daphnia, data = daphnia)
+anova(daphniaMod)
+summary(daphniaMod)
+
+detergentMean - detergentMean[1]
+cloneMean - cloneMean[1]
+
+daphniaANOVAMod <- aov(Growth.rate~Detergent + Daphnia, data = daphnia)
+summary(daphniaANOVAMod)
+
+daphniaModHSD <- TukeyHSD(daphniaANOVAMod)
+daphniaModHSD
+
+par(mfrow = c(2, 1), mar = c(4, 4, 1, 1))
+plot(daphniaModHSD)
+
+par(mfrow=c(2, 2))
+plot(daphniaMod)
+**********************************************************************
+
+Testing stats_with_sparrows11-15.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+
+**********************************************************************
+
+Encountered error:
+Error: could not find function "fm"
+Execution halted
+
+======================================================================
+Inspecting script file stats_with_sparrows4-10.R...
+
+File contents are:
+**********************************************************************
+rm(list = ls())
+
+###############################################################################
+# sws4 standard errors
+###############################################################################
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+d1 <- subset(d, !is.na(d$Tarsus))
+d2001 <- subset(d, d$Year == 2001)
+
+# function to calculate standard error
+std.error <- function(x){
+    sqrt(var(x[!is.na(x)])/length(x[!is.na(x)]))
+}
+
+# function to calculate 95% confidence limits
+cnf.lm <-function(x){
+    left <- mean(x[!is.na(x)]) - 1.96*std.error(x)
+    right <- mean(x[!is.na(x)]) + 1.96*std.error(x)
+    y  <- c(left, right)
+    return (y)
+}
+
+
+# standard errors! and confidence intervals
+sum(!is.na(d$Tarsus))
+std.error(d$Tarsus)
+cnf.lm(d$Tarsus)
+sum(!is.na(d2001$Tarsus))
+std.error(d2001$Tarsus)
+cnf.lm(d2001$Tarsus)
+
+sum(!is.na(d$Mass))
+std.error(d$Mass)
+cnf.lm(d$Mass)
+sum(!is.na(d2001$Mass))
+std.error(d2001$Mass)
+cnf.lm(d2001$Mass)
+
+sum(!is.na(d$Wing))
+std.error(d$Wing)
+cnf.lm(d$Wing)
+sum(!is.na(d2001$Wing))
+std.error(d2001$Wing)
+cnf.lm(d2001$Wing)
+
+sum(!is.na(d$Bill))
+std.error(d$Bill)
+cnf.lm(d$Bill)
+sum(!is.na(d2001$Bill))
+std.error(d2001$Bill)
+cnf.lm(d2001$Bill)
+
+
+###############################################################################
+# sws5 hypothesis testing
+###############################################################################
+
+# boxplot to explore hypothesis that males and females have different masses
+
+boxplot(d$Mass~d$Sex.1, col = c("red", "blue"), ylab = "Body Mass (g)")
+# looks promising...
+
+t.test1 <- t.test(d$Mass~d$Sex.1)
+t.test1
+
+#
+# 	Welch Two Sample t-test
+#
+# data:  d$Mass by d$Sex.1
+# t = -5.5654, df = 1682.9, p-value = 3.039e-08
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -0.7669117 -0.3672162
+# sample estimates:
+# mean in group female   mean in group male
+#             27.46852             28.03558
+#
+
+# how much precision do you loose when you reduce the number of observations
+
+d2 <- as.data.frame(head(d, 50))
+
+t.test2 <- t.test(d2$Mass~d2$Sex.1)
+t.test2
+
+#
+# 	Welch Two Sample t-test
+#
+# data:  d2$Mass by d2$Sex.1
+# t = 0.33484, df = 26.84, p-value = 0.7403
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -0.9361255  1.3011254
+# sample estimates:
+# mean in group female   mean in group male
+#              27.5200              27.3375
+#
+
+# differences in wing length for 2001 and overall
+
+d2001 <- subset(d, d$Year == 2001)
+
+t.test(d$Wing, d2001$Wing)
+#
+# 	Welch Two Sample t-test
+#
+# data:  d$Wing and d2001$Wing
+# t = -1.0919, df = 107.58, p-value = 0.2773
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -0.7054671  0.2043338
+# sample estimates:
+# mean of x mean of y
+#  77.40206  77.65263
+#
+# there is no statistically significant differences between the wing length for
+# 2001 and the whole dataset
+
+
+# differences in mass for 2001 males and females
+
+t.test(d2001$Mass~d2001$Sex)
+#
+# 	Welch Two Sample t-test
+#
+# data:  d2001$Mass by d2001$Sex
+# t = -1.9568, df = 94.993, p-value = 0.05331
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -1.379772935  0.009962672
+# sample estimates:
+# mean in group 0 mean in group 1
+#        27.11047        27.79537
+#
+# The difference is not statistically significant when looking only at 2001
+
+
+# difference in wing length between males and females
+
+t.test(d$Wing~d$Sex.1)
+#
+# 	Welch Two Sample t-test
+#
+# data:  d$Wing by d$Sex.1
+# t = -25.402, df = 1692.9, p-value < 2.2e-16
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -2.731405 -2.339840
+# sample estimates:
+# mean in group female   mean in group male
+#             76.09611             78.63173
+#
+# yes there is a statistically significant difference!
+
+
+###############################################################################
+# sws6 statistical power
+###############################################################################
+
+require(pwr)
+
+# how many birds would you have to sample to detect a difference of an effect
+# size of 5mm
+pwr.t.test(d=(0-5)/sd(d$Wing, na.rm = T), power = .8,
+           sig.level = .05, type = "two.sample",
+           alternative = "two.sided")
+
+###############################################################################
+# sws7 degrees of freedom
+###############################################################################
+
+# more degrees of freedom!
+# a dataset of 100 birds with a 2-sample t-test because...
+
+
+###############################################################################
+# sws8 linear functions
+###############################################################################
+
+# How many df's for a line?
+# going through (0,0)?
+# with a slope of 1?
+
+###############################################################################
+# sws9 linear models
+###############################################################################
+
+y <- c(5, 4, 7, 9, 3)
+x <- c(3, 1, 4, 8, 2)
+
+
+plot(x,y)
+
+model1 <- lm(y~x)
+model1
+summary(model1)
+anova(model1)
+resid(model1)
+cov(x,y)
+var(x)
+plot(y~x)
+abline(model1)
+
+###############################################################################
+# sws10 hypothesis testing and linear models
+###############################################################################
+
+rm(list = ls())
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+
+require(ggplot2)
+
+# mass and tarsus
+plot(d$Mass~d$Tarsus, xlab = "Mass (g)",
+     ylab = "Tarsus length (mm)",
+     pch = 19, cex = 0.4)
+
+# making a perfect model!!
+x <- c(1:100)
+b <- 0.5
+m <- 1.5
+y <- m*x + b
+plot(x, y, xlim = c(0,100), ylim = c(0, 100), pch = 19, cex = 0.5)
+
+# back to mass and tarsus
+plot(d$Mass~d$Tarsus, xlab = "Mass (g)",
+     ylab = "Tarsus length (mm)",
+     pch = 19, cex = 0.4,
+     ylim = c(-5,38), xlim = c(0,22))
+
+d1 <- subset(d, !is.na(d$Mass))
+d2 <- subset(d1, !is.na(d1$Tarsus))
+length(d2$Tarsus)
+
+# linear model
+model1 <- lm(Mass~Tarsus, data = d2)
+summary(model1)  # summary of the model
+hist(model1$residuals)  # spread of the error
+head(model1$residuals)
+
+# back to the perfect model...
+model2 <- lm(y~x)
+summary(model2)
+
+# and back to the sparrow data
+# z-standardize the data now the y-intercept will be the mean Tarsus
+d2$z.Tarsus <- scale(d2$Tarsus)
+model3 <- lm(Mass~z.Tarsus, data = d2)
+summary(model3)
+
+plot(d2$Mass~d2$z.Tarsus)
+abline(v = 0, lty = "dotted")
+abline(model3)
+
+# lm instead of a t-test
+
+d$Sex <- as.numeric(d$Sex)
+
+par(mfrow = c(1, 2))
+plot(d$Wing~d$Sex.1, ylab = "Wing (mm)")
+plot(d$Wing~d$Sex, xlab = "Sex", xlim = c(-0.1, 1.1), ylab = "")
+abline(lm(d$Wing~d$Sex), lwd = 2)
+text(0.15, 76, "intercept")
+text(0.9, 77.5, "slope", col = "red")
+
+d4 <- subset(d, !is.na(d$Wing))
+m4 <- lm(Wing~Sex, data = d4)
+t4 <- t.test(d4$Wing~d4$Sex, var.equal = T)
+summary(m4)
+#
+# Call:
+# lm(formula = Wing ~ Sex, data = d4)
+#
+# Residuals:
+#      Min       1Q   Median       3Q      Max
+# -16.0961  -1.0961  -0.0961   1.3683   5.3683
+#
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)
+# (Intercept) 76.09611    0.07175 1060.50   <2e-16 ***
+# Sex          2.53562    0.09998   25.36   <2e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+# Residual standard error: 2.057 on 1693 degrees of freedom
+# Multiple R-squared:  0.2753,	Adjusted R-squared:  0.2749
+# F-statistic: 643.1 on 1 and 1693 DF,  p-value: < 2.2e-16
+#
+
+t4
+#
+#	Two Sample t-test
+#
+# data:  d4$Wing by d4$Sex
+# t = -25.36, df = 1693, p-value < 2.2e-16
+# alternative hypothesis: true difference in means is not equal to 0
+# 95 percent confidence interval:
+#  -2.731727 -2.339518
+# sample estimates:
+# mean in group 0 mean in group 1
+#        76.09611        78.63173
+#
+
+# linear model diagnostics
+
+par(mfrow = c(2,2))
+plot(model3)
+
+par(mfrow = c(2, 2))
+plot(m4)
+
+# testing bill length and mass
+
+d5 <- subset(d, !is.na(d$Bill))
+d5 <- subset(d5, !is.na(d5$Mass))
+
+model <- lm(d5$Mass~d5$Bill)
+
+plot(d5$Mass~d5$Bill)
+abline(model)
+
+
+summary(model)
+#
+# Call:
+# lm(formula = d5$Mass ~ d5$Bill)
+#
+# Residuals:
+#     Min      1Q  Median      3Q     Max
+# -6.3108 -1.4404 -0.1608  1.1637  8.3070
+#
+# Coefficients:
+#             Estimate Std. Error t value Pr(>|t|)
+# (Intercept) 16.59931    1.32732  12.506  < 2e-16 ***
+# d5$Bill      0.83042    0.09964   8.334 2.28e-16 ***
+# ---
+# Signif. codes:  0 ‘***’ 0.001 ‘**’ 0.01 ‘*’ 0.05 ‘.’ 0.1 ‘ ’ 1
+#
+# Residual standard error: 1.981 on 1109 degrees of freedom
+# Multiple R-squared:  0.05894,	Adjusted R-squared:  0.05809
+# F-statistic: 69.46 on 1 and 1109 DF,  p-value: 2.281e-16
+#
+
+par(mfrow = c(2, 2))
+plot(model)
+
+
+# Explanatory variable os the Bill size and the response variable is the mass.
+
+# COULD DO MORE IF YOU WANTED!!!
+**********************************************************************
+
+Testing stats_with_sparrows4-10.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] 1685
+[1] 0.02096211
+[1] 18.48227 18.56444
+[1] 95
+[1] 0.1030623
+[1] 17.88116 18.28516
+[1] 1704
+[1] 0.0513209
+[1] 27.65645 27.85763
+[1] 97
+[1] 0.1807144
+[1] 27.13755 27.84595
+[1] 1695
+[1] 0.0586808
+[1] 77.28705 77.51708
+[1] 95
+[1] 0.2218564
+[1] 77.21779 78.08747
+[1] 1140
+[1] 0.01771217
+[1] 13.26835 13.33779
+[1] 0
+[1] NA
+[1] NaN NaN
+
+	Welch Two Sample t-test
+
+data:  d$Mass by d$Sex.1
+t = -5.5654, df = 1682.9, p-value = 3.039e-08
+alternative hypothesis: true difference in means is not equal to 0
+
+**********************************************************************
+
+Encountered error:
+Loading required package: pwr
+Warning message:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called ‘pwr’
+Error: could not find function "pwr.t.test"
+Execution halted
+
+======================================================================
+Inspecting script file stats_with_sparrows1-3.R...
+
+File contents are:
+**********************************************************************
+rm(list = ls())
+
+###############################################################################
+# sws1 - basic R
+###############################################################################
+
+# setting working directories
+# getwd()
+# setwd("~/cmeecoursework/Week4/Code")
+# getwd()
+
+# R as a basic calculator
+
+2*2+1
+
+12/2^3
+
+# assigning values to variables
+
+x <- 5
+y <- 17
+
+x + y
+
+x2 <- x^2
+
+z <- sqrt(x2)
+
+# logical tests
+
+x < y
+
+3 <= 3
+
+# vectors
+
+myNumericVector <- c(1.3, 2.5, 6.4, 1.2, 5.6, 3.1, 2.9)
+myCharacterVector <- c("low", "low", "low", "high", "high", "high")
+MyLogicalVecotr <- c(T, T, T, F, F, T, F, T, F, F ,T, T, F, T)
+
+# str() gives the structure of a variable
+
+str(myNumericVector)
+
+# vectors should always be one type!
+
+myMixedVector <- c(1, 4, T, F, "yelp", "chicken", 7)
+str(myMixedVector)  # coerced to character!
+
+# installing packages
+
+# install.packages("broom")
+# library(broom)
+# require(broom)
+
+# when you need help ask R for it!
+
+# help(str)
+# ?log
+
+# reading in data
+
+# point to file, header = T makes top row be header names
+d <- read.table("../Data/SparrowSize.txt", header = T)
+
+# clearing objects
+
+rm(list = ls())
+
+###############################################################################
+# sws2 describing distributions
+###############################################################################
+
+# read in the data
+d <- read.table("../Data/SparrowSize.txt", header = T)
+
+str(d)  # whats the structure of d
+
+names(d)  # column names
+
+head(d)  # top few rows of the data
+
+# exploring the data
+
+length(d$Tarsus)  # how many rows are there
+
+hist(d$Tarsus)  # plot a hist
+
+mean(d$Tarsus)  # gives NA!
+
+mean(d$Tarsus, na.rm = T)  # if NAs are present they must be removed
+
+median(d$Tarsus, na.rm = T)
+
+try(mode(d$Tarsus, na.rm = T))  # tells us the data is numeric because the mode on a
+                           # numeric dataset is a bit pointless
+
+# plotting histograms in a grid
+par(mfrow = c(2, 2))
+# different bin widths make a big difference!!
+hist(d$Tarsus, breaks = 3, col = "grey")
+hist(d$Tarsus, breaks = 10, col = "grey")
+hist(d$Tarsus, breaks = 30, col = "grey")
+hist(d$Tarsus, breaks = 100, col = "grey")
+
+
+# using modeest
+
+require("modeest")
+
+mlv(d$Tarsus)  # doesnt work because the data has NA's
+
+# create a new dataframe with only rows that have a value for Tarsus
+d2 <- subset(d, d$Tarsus != "NA")
+
+length(d$Tarsus)
+length(d2$Tarsus)
+
+mlv(d2$Tarsus)  # this a prediction of the mode from numeric values
+
+# range, varience and standard deviation
+
+boxplot(d2$Tarsus)  # good to see the spread of the data
+
+range(d$Tarsus)  # need to use na.rm = T or...
+
+range(d2$Tarsus)
+
+var(d2$Tarsus)  # sd squared!
+
+# long hand varience...
+
+sum((d2$Tarsus - mean(d2$Tarsus))^2)/(length(d2$Tarsus) - 1)
+
+sqrt(var(d2$Tarsus))
+
+
+# mean, var and sd of Tarus, Bill, Mass and Wing
+
+mean(d$Tarsus, na.rm = T)
+var(d$Tarsus, na.rm = T)
+sd(d$Tarsus, na.rm = T)
+
+mean(d$Bill, na.rm = T)
+var(d$Bill, na.rm = T)
+sd(d$Bill, na.rm = T)
+
+mean(d$Mass, na.rm = T)
+var(d$Mass, na.rm = T)
+sd(d$Mass, na.rm = T)
+
+mean(d$Wing, na.rm = T)
+var(d$Wing, na.rm = T)
+sd(d$Wing, na.rm = T)
+
+
+# histograms
+
+par(mfrow = c(2, 2))
+hist(d$Tarsus, main = "Tarsus")
+hist(d$Bill, main = "Bill")
+hist(d$Mass, main = "Mass")
+hist(d$Wing, main = "Wing")
+
+# z-score and quantiles
+
+# z-standardising the data transforms it so you have a mean of 0 and a sd of 1
+
+zTarsus <- (d2$Tarsus - mean(d2$Tarsus))/sd(d2$Tarsus)
+mean(zTarsus)
+var(zTarsus)
+sd(zTarsus)
+hist(zTarsus)
+
+# but you can do it in R too!
+
+znormal <- rnorm(1000000)
+hist(znormal, breaks = 100)
+summary(znormal)  # summarises the data!
+
+
+# qnorm gives the quantiles from a probability distribution (mean = 0, sd = 1)
+# returns then number whose cumulative distribution matched the given
+# probability
+qnorm(c(0.025, 0.975))
+qnorm(c(0.05, 0.95))
+
+# pnorm calculates the probabilty that a normally distributed random number
+# will be less than the number given
+pnorm(c(0.025, 0.975))
+
+par(mfrow = c(1, 2))
+hist(znormal, breaks = 100)
+abline(v = qnorm(c(0.25, 0.5, 0.75)), lwd = 2)
+abline(v = qnorm(c(0.025, 0.975)), lwd = 2, lty = "dashed")
+plot(density(znormal))
+abline(v = qnorm(c(0.25, 0.5, 0.75)), col = "gray")
+abline(v = qnorm(c(0.025, 0.975)), lwd = 2, lty = "dotted", col = "black")
+abline(h = 0, lwd = , col = "blue")
+text(2, 0.3, "1.96", col = "red", adj = 0)
+text(-2, 0.3, "-1.96", col = "red", adj = 1)
+
+# 95% confidence intervals!!
+
+boxplot(d$Tarsus~d$Sex.1, col = c("Red", "Blue"), ylab = "Tarsus length (mm)")
+
+# middle line is the median
+# box is the interquartle range
+# the whiskers are 1.5*IQR from the box
+
+# sum of squares (SS) is the sum of the squares of all the deviations from the
+# mean
+
+rm(list = ls())
+
+###############################################################################
+# sws3 data types
+###############################################################################
+
+# data types
+    # data can be numeric of catergorical
+    # discrete of continuous
+
+# CONTINUOUS NUMERIC
+
+    # normal distribution
+        # probabiltiy distribution defined by the mean and the varience
+
+    # z-distribution
+        # this is a normal distribution which has a mean of 0 and a sd of 1
+
+
+    # log normal
+        # mesurements cannont be negative
+        # there is a positive relationship between the mean and the varience
+
+    # Exponentail distribution
+        # usually something (population) over a time-period
+
+
+# DISCRETE NUMERIC
+
+    # 0's and 1's representing binomial states (i.e. male and female)
+
+    # count data - how many offspring, trees in a forest
+        # poisson distribution
+        # negative binomial?
+
+# CATERGORICAL DATA
+
+    # can be nominal or ranked
+
+# examples in R
+
+d <- read.table("../Data/SparrowSize.txt", header = T)
+
+# what sort of data
+
+print("BirdID data is discrete numeric")
+head(d$BirdID)
+hist(d$BirdID)
+plot(density(d$BirdID, na.rm = T))
+
+print("year data is discrete numeric")  # not completely sure!!
+head(d$Year)
+hist(d$Year)
+plot(density(d$Year, na.rm = T))
+
+print("Tarsus data is continuous numeric")
+head(d$Tarsus)
+hist(d$Tarsus)
+plot(density(d$Tarsus, na.rm = T))
+
+print("Bill data is continuous numeric")
+head(d$Bill)
+hist(d$Bill)
+plot(density(d$Bill, na.rm = T))
+
+print("Wing data is continuous numeric")
+head(d$Wing)
+hist(d$Wing)
+plot(density(d$Bill, na.rm = T))
+
+print("Mass data is continuous numeric")
+head(d$Mass)
+hist(d$Mass)
+plot(density(d$Mass, na.rm = T))
+
+# r functions to draw different distributions!
+
+# gaussian (normal distribution)
+hist(rnorm(1000))
+plot(density(rnorm(1000)))
+
+# poisson distribution
+hist(rpois(1000, 4))
+plot(density(1000, 4))
+
+# bit lost on binomial
+hist(sample(0:1, 1000, replace = T))
+plot(density((sample(0:1, 1000, replace = T))))
+
+# random!
+hist(runif(10000))
+plot(density(runif(10000))
+
+rm(list = ls())
+**********************************************************************
+
+Testing stats_with_sparrows1-3.R...
+
+Output (only first 500 characters): 
+
+**********************************************************************
+[1] 5
+[1] 1.5
+[1] 22
+[1] TRUE
+[1] TRUE
+ num [1:7] 1.3 2.5 6.4 1.2 5.6 3.1 2.9
+ chr [1:7] "1" "4" "TRUE" "FALSE" "yelp" "chicken" "7"
+'data.frame':	1770 obs. of  8 variables:
+ $ BirdID: int  1 2 2 2 2 2 2 2 2 2 ...
+ $ Year  : int  2002 2001 2002 2003 2004 2004 2004 2004 2004 2005 ...
+ $ Tarsus: num  16.9 16.8 17.2 17.5 17.8 ...
+ $ Bill  : num  NA NA NA 13.5 13.4 ...
+ $ Wing  : num  76 76 76 76 77 78 77 77 77 77 ...
+ $ Mass  : num  23.6 27.5 28.1 27.8 26.5 ...
+ $ Sex   : int  0 1 1 1 1 1 1 1 1 1 ..
+**********************************************************************
+
+Encountered error:
+Error in mode(d$Tarsus, na.rm = T) : unused argument (na.rm = T)
+Loading required package: modeest
+Warning message:
+In library(package, lib.loc = lib.loc, character.only = TRUE, logical.return = TRUE,  :
+  there is no package called ‘modeest’
+Error: could not find function "mlv"
+Execution halted
+
+======================================================================
+======================================================================
+Finished running scripts
+
+Ran into 3 errors
+
+======================================================================
+======================================================================
+
+FINISHED WEEKLY ASSESSMENT
+
+Current Marks for the Week = 99.5
+
+NOTE THAT THESE ARE NOT THE FINAL MARKS FOR THE WEEK, BUT AN UPPER BOUND ON THE MARKS!
