@@ -1,9 +1,19 @@
-""" The typical Lotka-Volterra Model simulated using scipy """
+#!/usr/bin/env python3
 
+""" The typical Lotka-Volterra Model simulated using scipy with input from the
+user and prey density dependance included
+Author: David Bridgwood"""
+
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+
+# imports
 import scipy as sc
 import scipy.integrate as integrate
 import matplotlib.pylab as p  # Contains matplotlib for plotting
 import sys
+
 
 # read in the arguments from command line
 if len(sys.argv) == 5:
@@ -11,17 +21,18 @@ if len(sys.argv) == 5:
     a = float(sys.argv[2])  # Consumer search rate (determines consumption rate)
     z = float(sys.argv[3])  # Consumer mortality rate
     e = float(sys.argv[4])  # Consumer production efficiency
-    print('Four arguments given. \n r = ', str(r), '\n a = ', str(a), '\n z = ',
-          str(z), '\n d = ', str(e))
-else:
+#    print('Four arguments given. \n r = ', str(r), '\n a = ', str(a), '\n z = ',
+#          str(z), '\n d = ', str(e))
+else:  # use defaults if 4 arguments not given
     r = 1.  # Resource growth rate
     a = 0.1  # Consumer search rate (determines consumption rate)
     z = 1.5  # Consumer mortality rate
     e = 0.75  # Consumer production efficiency
-    print('Incorrect number of arguments given, defaults used \n r = ', str(r),
-          '\n a = ', str(a), '\n z = ', str(z), '\n d = ', str(e))
+#    print('Incorrect number of arguments given, defaults used \n r = ', str(r),
+#          '\n a = ', str(a), '\n z = ', str(z), '\n d = ', str(e))
 
-K = 1000
+
+K = 100  # carrying capacity
 
 
 def dR_dt(pops, t=0):
@@ -37,7 +48,7 @@ def dR_dt(pops, t=0):
 
 
 # Now define time -- integrate from 0 to 15, using 1000 points:
-t = sc.linspace(0, 15,  1000)
+t = sc.linspace(0, 100,  10000)
 
 x0 = 10
 y0 = 5
@@ -56,6 +67,6 @@ p.legend(loc='best')
 p.xlabel('Time')
 p.ylabel('Population')
 p.title("Consumer-Resource population dynamics \n r = %s a = %s \
-        z = %s e = %s K = %s" %(r, a, z, e, K))
-p.show()
+        z = %s e = %s K = %s" % (r, a, z, e, K))
+# p.show()  # show the figure
 f1.savefig('../Results/prey_and_predators_2.pdf')  # Save figure

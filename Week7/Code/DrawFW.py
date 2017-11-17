@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 """
     Plot a snapshot of a food web graph/network.
 
@@ -7,6 +9,7 @@
 
 """
 
+# imports
 import networkx as nx
 import scipy as sc
 import matplotlib.pyplot as plt

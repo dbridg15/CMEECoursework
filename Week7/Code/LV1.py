@@ -1,9 +1,12 @@
+#!/usr/bin/env python3
+
 """ The typical Lotka-Volterra Model simulated using scipy """
 
+
+# imports
 import scipy as sc
 import scipy.integrate as integrate
 import matplotlib.pylab as p  # Contains matplotlib for plotting
-
 # import matplotlip.pylab as p # Some people might need to do this
 
 
@@ -45,5 +48,5 @@ p.legend(loc='best')
 p.xlabel('Time')
 p.ylabel('Population')
 p.title('Consumer-Resource population dynamics')
-p.show()
+# p.show()
 f1.savefig('../Results/prey_and_predators_1.pdf')  # Save figure

@@ -1,3 +1,8 @@
+#!usr/bin/env Rscript
+
+# script: Nets.R
+# Desc: create a network from QMEE Net_Mat data
+
 library(igraph) # Load the igraph package
 
 rm(list = ls())

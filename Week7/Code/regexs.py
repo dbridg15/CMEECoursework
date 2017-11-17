@@ -1,7 +1,13 @@
 #!/usr/bin/env python3
 
-# imports
+""" example regular expression in python
+Author: David Bridgwood"""
 
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+
+# imports
 import re
 
 

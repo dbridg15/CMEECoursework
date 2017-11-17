@@ -1,14 +1,14 @@
 PLINK v1.90b4.10 64-bit (3 Nov 2017)
 Options in effect:
-  --bfile ../Data//ME_Analysis/ME_Dataset1
+  --bfile ../Data/ME_Analysis/ME_Dataset1
   --hardy
   --out ../Results/ME_Analysis/ME_Analysis
 
 Hostname: david
 Working directory: /home/david/cmeecoursework/Week6/Code
-Start time: Tue Nov 14 17:21:03 2017
+Start time: Wed Nov 15 10:03:10 2017
 
-Random number seed: 1510680063
+Random number seed: 1510740190
 3861 MB RAM detected; reserving 1930 MB for main workspace.
 158487 variants loaded from .bim file.
 69 people (0 males, 0 females, 69 ambiguous) loaded from .fam.
@@ -20,4 +20,4 @@ Total genotyping rate is 0.998587.
 --hardy: Writing Hardy-Weinberg report (founders only) to
 ../Results/ME_Analysis/ME_Analysis.hwe ... done.
 
-End time: Tue Nov 14 17:21:03 2017
+End time: Wed Nov 15 10:03:10 2017

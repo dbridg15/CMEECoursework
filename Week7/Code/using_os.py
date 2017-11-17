@@ -1,31 +1,32 @@
-""" This is blah blah"""
+#!/usr/bin/env python3
 
-# Use the subprocess.os module to get a list of fules and directories
-# in your ubuntu home directory
+"""Script to find all files and subdirectories beggining with C or c in the home
+directory
+Author: David Bridgwood"""
 
-# Hint: look in subprocess.os and/or subprocess.os.path and/or
-# subprocess.os.walk for helpful functions
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
 
+
+# imports
 import subprocess
-import os
 
-#################################
-# ~Get a list of files and
-# ~directories in your home/ that start with an uppercase 'C'
-
-# Type your code here:
 
 # Get the user's home directory.
 home = subprocess.os.path.expanduser("~")
 
-# Create a list to store the results.
+
+################################################################################
+# files and directories starting with C
+################################################################################
+
+# Create an empty list to store the results.
 FilesDirsStartingWithC = []
 
-
-for dirname, dirnames, filenames in os.walk(home):
+for dirname, dirnames, filenames in subprocess.os.walk(home):
     # print all subdirectories first.
     for subdirname in dirnames:
-        if subdirname.startswith('C'):
+        if subdirname.startswith('C'):  # if it starts with C add it to list
             FilesDirsStartingWithC.append(subdirname)
 
     # print all filenames.
@@ -33,21 +34,21 @@ for dirname, dirnames, filenames in os.walk(home):
         if filename.startswith('C'):
             FilesDirsStartingWithC.append(filename)
 
-# print(FilesDirsStartingWithC)
+# print number of files/directories found!
+print("All Files and Directories starting with C: \n",
+      len(FilesDirsStartingWithC), "files and directories found \n")
+# print(*FilesDirsStartingWithC, sep = '\n')
+print("\n")
 
-# Use a for loop to walk through the home directory.
-# for (dir, subdir, files) in subprocess.os.walk(home):
 
-#################################
-# Get files and directories in your home/ that start with either an
-# upper or lower case 'C'
-
-# Type your code here:
+################################################################################
+# files and directories starting with C or c
+################################################################################
 
 FilesDirsStartingWithCc = []
 
 
-for dirname, dirnames, filenames in os.walk(home):
+for dirname, dirnames, filenames in subprocess.os.walk(home):
     # print all subdirectories first.
     for subdirname in dirnames:
         if subdirname.startswith(('C', 'c')):
@@ -58,21 +59,24 @@ for dirname, dirnames, filenames in os.walk(home):
         if filename.startswith(('C', 'c')):
             FilesDirsStartingWithCc.append(filename)
 
-# print(FilesDirsStartingWithCc)
+print("All files and Directories Starting with C or c: \n",
+      len(FilesDirsStartingWithCc), "files and directories found \n")
+# print(*FilesDirsStartingWithCc, sep = '\n')
+print("\n")
 
+################################################################################
+# directories starting with C or c
+################################################################################
 
-#################################
-# Get only directories in your home/ that start with either an upper or
-# ~lower case 'C'
-
-# Type your code here:
 DirsStartingWithCc = []
 
 
-for dirname, dirnames, filenames in os.walk(home):
+for dirname, dirnames, filenames in subprocess.os.walk(home):
     # print all subdirectories first.
     for subdirname in dirnames:
         if subdirname.startswith(('C', 'c')):
             DirsStartingWithCc.append(subdirname)
 
-print(DirsStartingWithCc)
+print("All Directories starting with C: \n",
+      len(DirsStartingWithCc), "Directories found \n")
+# print(*DirsStartingWithCc, sep = '\n')
