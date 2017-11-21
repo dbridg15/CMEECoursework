@@ -51,3 +51,14 @@ Week5__________________________________________________________________________
 Week6__________________________________________________________________________
 
 -Genomics Week
+
+
+Week7__________________________________________________________________________
+
+-Advanced python week!
+    -regular expressions
+    -profiling
+    -drawing networks
+    -subprocesses
+    -models
+    -jupyter notebooks

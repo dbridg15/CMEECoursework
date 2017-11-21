@@ -4,5 +4,7 @@
 .ropeproject
 *.tif
 *.shp
+Rplots.pdf
+__pycache__/
 
 find . -size +20M |

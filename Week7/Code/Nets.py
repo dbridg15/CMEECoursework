@@ -12,6 +12,7 @@ import networkx as nx
 import pandas as pd
 import scipy as sc
 import matplotlib.pyplot as plt
+import matplotlib.lines as mlines
 
 # read in the data as pandas dataframe
 links = pd.read_csv("../Data/QMEE_Net_Mat_edges.csv")
@@ -46,26 +47,19 @@ for i in range(0, len(cols)):
 df = pd.DataFrame({'source': source, 'target': target, 'weight': weight})
 # print(df)
 
-# initialise G (the graph)
-G = nx.Graph()
+edges = df.loc[:, 'source':'target']
+edges = list(edges.apply(tuple, axis=1))
 
-# add edges from df ***this is where it gets weired with the weights***
-# when you add edges they are in G in a weired order!!
-for i in range(0, len(df)):
-    G.add_edge(df['source'][i], df['target'][i], width=df['weight'][i])
-
-# it would be great to be able to pull out the weights from this!!!
-edges = G.edges(data=True)
-
-# instead im doing it manually
-widths = [28, 6, 70, 76, 10, 12, 5, 9, 2]  # last resort!
-widths1 = [x / 5 for x in widths]  # scale widths so it looks ok
+weight = list(df.weight)
+wweight = [x/5 for x in weight]
 
 
 ################################################################################
 # sorting nodes
 ################################################################################
 
+# start the nx object!
+G = nx.Graph()
 # add nodes
 G.add_nodes_from(nodes.id)
 
@@ -87,12 +81,28 @@ for i in G:
 # drawing it
 ################################################################################
 
-# pos: something about the spacing of the nodes
-pos = nx.spring_layout(G, iterations=50)
+# sets up for legend
+line1 = mlines.Line2D(range(1), range(1), color='white',
+                      marker='o', markerfacecolor='green')
+line2 = mlines.Line2D(range(1), range(1), color='white',
+                      marker='o', markerfacecolor='red')
+line3 = mlines.Line2D(range(1), range(1), color='white',
+                      marker='o', markerfacecolor='blue')
 
-# draw G - fiddled with until it looked good
-nx.draw(G, node_color=colour_map, with_labels=True, width=widths1,
-        node_size=3000)
+
+# pos: something about the spacing of the nodes
+f = plt.figure()
+pos = nx.spring_layout(G, iterations=50)
+nx.draw_networkx_edges(G, pos, edgelist=edges, width=wweight)
+nx.draw_networkx_nodes(G, pos, node_size=3000, node_color=colour_map)
+nx.draw_networkx_labels(G, pos)
+
+
+plt.axis("off")
 plt.draw()
-# plt.legend(nodes.Type)  # still need to sort out legend!!
-plt.show()
+
+plt.legend((line1, line2, line3),
+           ('University', 'Hosting Partner', 'Non-Hosting Partner'),
+           numpoints=1, loc='lower left')
+# plt.show()
+f.savefig("../Results/Nets_py_figure.svg")

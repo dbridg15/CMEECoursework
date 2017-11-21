@@ -14,25 +14,31 @@ import scipy.integrate as integrate
 import matplotlib.pylab as p  # Contains matplotlib for plotting
 import sys
 
-
+################################################################################
 # read in the arguments from command line
+################################################################################
+
+
 if len(sys.argv) == 5:
     r = float(sys.argv[1])  # Resource growth rate
     a = float(sys.argv[2])  # Consumer search rate (determines consumption rate)
     z = float(sys.argv[3])  # Consumer mortality rate
     e = float(sys.argv[4])  # Consumer production efficiency
-#    print('Four arguments given. \n r = ', str(r), '\n a = ', str(a), '\n z = ',
-#          str(z), '\n d = ', str(e))
+#   print('Four arguments given. \n r = ', str(r), '\n a = ', str(a), '\n z = ',
+#         str(z), '\n d = ', str(e))
 else:  # use defaults if 4 arguments not given
     r = 1.  # Resource growth rate
     a = 0.1  # Consumer search rate (determines consumption rate)
     z = 1.5  # Consumer mortality rate
     e = 0.75  # Consumer production efficiency
-#    print('Incorrect number of arguments given, defaults used \n r = ', str(r),
-#          '\n a = ', str(a), '\n z = ', str(z), '\n d = ', str(e))
-
+#   print('Incorrect number of arguments given, defaults used \n r = ', str(r),
+#         '\n a = ', str(a), '\n z = ', str(z), '\n d = ', str(e))
 
 K = 100  # carrying capacity
+
+################################################################################
+# doing the maths
+################################################################################
 
 
 def dR_dt(pops, t=0):
@@ -48,7 +54,7 @@ def dR_dt(pops, t=0):
 
 
 # Now define time -- integrate from 0 to 15, using 1000 points:
-t = sc.linspace(0, 100,  10000)
+t = sc.linspace(0, 500,  5000)
 
 x0 = 10
 y0 = 5
@@ -58,6 +64,39 @@ pops, infodict = integrate.odeint(dR_dt, z0, t, full_output=True)
 
 infodict['message']     # >>> 'Integration successful.'
 
+
+################################################################################
+# is it stable?
+################################################################################
+
+
+resc = [round(i[0]) for i in pops]  # rounded to the neears whole organism
+cons = [round(i[1]) for i in pops]
+
+stbresc = float('nan')
+stbcons = float('nan')
+
+
+for i in range(len(resc)-101):  # if more than 100 timesteps are the same
+    if len(set(resc[i:4999])) == 1 and len(set(cons[i:4999])) == 1:
+        stbl = True
+        stbresc = resc[i]
+        stbcons = cons[i]
+        break
+    else:
+        stbl = False
+
+# if stbl == True:
+#     print("Population becomes constant \n Resources: %s \n Consumers: %s"
+#           % (stbresc, stbcons))
+# else:
+#     print("Population does not become constant")
+
+
+################################################################################
+# plotting
+################################################################################
+
 prey, predators = pops.T  # What's this for?
 f1 = p.figure()  # Open empty figure object
 p.plot(t, prey, 'g-', label='Resource density')  # Plot
@@ -66,7 +105,13 @@ p.grid()
 p.legend(loc='best')
 p.xlabel('Time')
 p.ylabel('Population')
-p.title("Consumer-Resource population dynamics \n r = %s a = %s \
-        z = %s e = %s K = %s" % (r, a, z, e, K))
+if stbl == True:
+    p.title("Consumer-Resource population dynamics \n r = %s a = %s \
+            z = %s e = %s K = %s \n The population becomes constant \
+            Resources: %s Consumers: %s" % (r, a, z, e, K, stbresc, stbcons))
+else:
+    p.title("Consumer-Resource population dynamics \n r = %s a = %s \
+                z = %s e = %s K = %s" % (r, a, z, e, K))
+
 # p.show()  # show the figure
-f1.savefig('../Results/prey_and_predators_2.pdf')  # Save figure
+f1.savefig('../Results/prey_and_predators_3.pdf')  # Save figure

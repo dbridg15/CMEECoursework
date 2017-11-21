@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 
-""" illustrating profileing
+# run in python 2 as python 3 has no difference between range and xrange
+
+""" illustrating profiling must be run in python2!
 Author: David Bridgwood"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
@@ -11,7 +13,7 @@ def a_useless_function(x):
     """a useless function"""
     y = 0
     # 8 zeros
-    for i in range(100000000):
+    for i in xrange(100000000):  # changed to xrange! (python2 only!)
         y = y + i
     return 0
 
@@ -22,7 +24,7 @@ def another_useless_function(x):  # Doesnt Work!!!
     z = 0
     while z <= 100000000:
         y = y + x
-        x += 1
+        z += 1
     return 0
 
 
@@ -30,7 +32,7 @@ def a_less_useless_function(x):
     """a less useless function"""
     y = 0
     # five zeros
-    for i in range(100000):
+    for i in xrange(100000):  # changed to xrange! (python2 only)
         y = y + i
     return 0
 
