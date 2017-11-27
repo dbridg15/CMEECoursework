@@ -101,8 +101,10 @@ nx.draw_networkx_labels(G, pos)
 plt.axis("off")
 plt.draw()
 
-plt.legend((line1, line2, line3),
-           ('University', 'Hosting Partner', 'Non-Hosting Partner'),
-           numpoints=1, loc='lower left')
+leg = plt.legend((line1, line2, line3),
+                 ('University', 'Hosting Partner', 'Non-Hosting Partner'),
+                 numpoints=1, loc=1)
+leg.get_frame().set_linewidth(0.0)
+plt.tight_layout(pad=4)
 # plt.show()
-f.savefig("../Results/Nets_py_figure.svg")
+f.savefig("../Results/Nets_py_figure.svg", dpi=200)
