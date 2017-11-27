@@ -144,15 +144,22 @@ question_16 <- function(size = 100, v = 0.1){
     a <- list()
     community <- neutral_time_series_speciation(community = community,
                                                 v =v, duration =200)
-    a <- c(a, octaves(species_abundance(community)))
-    for(i in range(1, 2000)){
+    a <-  c(a, list(octaves(species_abundance(community))))
+    i  <- 2000
+    for(i in 1:2000){
         community <- neutral_generation_speciation(community = community,
                                                    v = v)
         if(i %% 20 == 0){
-            a <- c(a, octaves(species_abundance(community)))
+            a <- c(a, list(octaves(species_abundance(community))))
         }
     }
-a
+    b <- sum_vect(a[[1]], a[[2]])
+    for(i in 3:length(a)){
+        b <- sum_vect(b, a[[i]])
+    }
+    b <- b/length(a)
+    barplot(b, names.arg = c("1", "2-3", "4-8", "9-16", "17-32", "32-64"),
+            xlab = "Species Richness", ylab = "Count")
 }
 
 
