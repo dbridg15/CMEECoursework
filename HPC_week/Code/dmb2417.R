@@ -8,7 +8,7 @@ rm(list = ls())
 graphics.off()
 
 ###############################################################################
-#
+# Neutral Theory Simulations
 ###############################################################################
 
 # 1
@@ -142,10 +142,11 @@ sum_vect <- function(x, y){
 question_16 <- function(size = 100, v = 0.1){
     community <- initialise_max(size)
     a <- list()
-    community <- neutral_time_series_speciation(community = community,
-                                                v =v, duration =200)
+    for(i in 1:200){
+        community <- neutral_generation_speciation(community = community,
+                                                   v = v)
+        }
     a <-  c(a, list(octaves(species_abundance(community))))
-    i  <- 2000
     for(i in 1:2000){
         community <- neutral_generation_speciation(community = community,
                                                    v = v)
@@ -158,9 +159,6 @@ question_16 <- function(size = 100, v = 0.1){
         b <- sum_vect(b, a[[i]])
     }
     b <- b/length(a)
-    barplot(b, names.arg = c("1", "2-3", "4-8", "9-16", "17-32", "32-64"),
-            xlab = "Species Richness", ylab = "Count")
+    barplot(b, names.arg = c("1", "2-3", "4-7", "8-15", "16-31", "32-63"),
+            xlab = "Species Abundance", ylab = "Average Count")
 }
-
-
-question_16()

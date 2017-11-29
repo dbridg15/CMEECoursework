@@ -1,0 +1,130 @@
+#!usr/bin/env Rscript
+
+# script:
+# Desc:
+# Author: David Bridgwood (dmb2417@ic.ac.uk)
+
+rm(list = ls())
+graphics.off()
+
+###############################################################################
+# Functions!
+###############################################################################
+
+# initialise_min
+initialise_min <- function(size){
+    rep(1, size)
+}
+
+
+# species_richness
+species_richness <- function(community){
+    length(unique(community))
+}
+
+# species_abundance
+species_abundance <- function(community){
+    as.numeric(sort(table(community), decreasing =TRUE))
+}
+
+
+# choose_two
+choose_two <- function(x){
+    v <- seq(x)
+    sample(v, 2, replace = FALSE)
+}
+
+
+# neutral_step
+neutral_step <- function(community){
+    v <- choose_two(length(community))
+    community[v[1]] <- community[v[2]]
+    return(community)
+}
+
+
+# neutral_step_speciation
+neutral_step_speciation <- function(community, v){
+    if(runif(1) > v){
+        neutral_step(community)
+    } else {
+        pos <- sample(length(community), 1)
+        community[pos] <- max(community) + 1
+        return(community)
+    }
+}
+
+
+# neutral_generation_speciation
+neutral_generation_speciation <- function(community, v){
+    gen <- ceiling(length(community)/2)
+    while(gen > 0){
+        community <- neutral_step_speciation(community = community, v = v)
+        gen <- gen-1
+    }
+    return(community)
+}
+
+
+# octaves
+octaves <- function(abundances){
+   tabulate(floor(log2(abundances))+1)
+}
+
+
+###############################################################################
+# cluster_run
+###############################################################################
+
+cluster_run <- function(speciation_rate, size, wall_time, interval_rich,
+                        interval_oct, burn_in_generations, output_file_name){
+    community <- initialise_min(size)
+    i <- 0
+    spc_rch  <- list()
+    spc_abd <- list()
+    strt <- proc.time()[3]
+    elapsed <- proc.time()[3] - strt
+    while(elapsed/60 < wall_time){
+        community <- neutral_generation_speciation(community = community,
+                                                   v = speciation_rate)
+        i <- i+1
+        if(i < burn_in_generations){
+            if(i %% interval_rich == 0){
+                spc_rch <- c(spc_rch, list(species_richness(community)))
+            }
+        } else{
+            if(i %% interval_oct){
+                spc_abd <- c(spc_abd,
+                             list(octaves(species_abundance(community))))
+            }
+        }
+        elapsed <- proc.time()[3] - strt
+    }
+    save(spc_abd, spc_rch, community, elapsed, speciation_rate, size,
+         wall_time, interval_rich, interval_oct, burn_in_generations,
+         file = output_file_name)
+}
+
+# cluster_run(0.1,100,5,1,10,200,"test.rda")
+# rm(burn_in_generations,community,elapsed,interval_oct,interval_rich,size,
+#    speciation_rate,wall_time,spc_abd,spc_rch)
+
+
+###############################################################################
+# running the code
+###############################################################################
+
+# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
+iter <- c(1:100)
+set.seed(iter)
+
+
+if((iter+3) %% 4 == 0){
+    J = 500
+}else if((iter+2) %% 4 == 0){
+    J = 1000
+}else if((iter+1) %% 4 == 0){
+    J = 2500
+}else if(iter %% 4 == 0){
+    J = 5000
+}
