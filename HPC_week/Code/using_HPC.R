@@ -1,6 +1,6 @@
 #!usr/bin/env Rscript
 
-# script:
+#sscript:
 # Desc:
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
@@ -88,12 +88,12 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich,
         community <- neutral_generation_speciation(community = community,
                                                    v = speciation_rate)
         i <- i+1
-        if(i < burn_in_generations){
+        if(i <= burn_in_generations){
             if(i %% interval_rich == 0){
                 spc_rch <- c(spc_rch, list(species_richness(community)))
             }
         } else{
-            if(i %% interval_oct){
+            if(i %% interval_oct == 0){
                 spc_abd <- c(spc_abd,
                              list(octaves(species_abundance(community))))
             }
@@ -115,7 +115,7 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich,
 ###############################################################################
 
 # iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
-iter <- c(1:100)
+iter <- 1
 set.seed(iter)
 
 
@@ -128,3 +128,17 @@ if((iter+3) %% 4 == 0){
 }else if(iter %% 4 == 0){
     J = 5000
 }
+
+v = 0.004346
+interval_rich = 1
+interval_oct = round(J/10)
+burn_in_generations = J*8
+output_file_name = paste("cluster_run_", iter, ".rda", sep = "")
+
+cluster_run(speciation_rate = v, size = J, wall_time = 5,
+            interval_rich = interval_rich, interval_oct = interval_oct,
+            burn_in_generations = burn_in_generations,
+            output_file_name = output_file_name)
+
+
+# cluster_run(0.1,100,1,1,10,200,"test.rda")
