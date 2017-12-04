@@ -4,6 +4,7 @@
 .ropeproject
 *.tif
 *.shp
+*.rda
 Rplots.pdf
 __pycache__/
 .ipynb_checkpoints/

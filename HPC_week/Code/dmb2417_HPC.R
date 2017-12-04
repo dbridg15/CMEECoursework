@@ -133,9 +133,9 @@ v = 0.004346
 interval_rich = 1
 interval_oct = round(J/10)
 burn_in_generations = J*8
-output_file_name = paste("cluster_run_", iter, ".rda", sep = "")
+output_file_name = paste("dmb2417_cluster_run_", iter, ".rda", sep = "")
 
-cluster_run(speciation_rate = v, size = J, wall_time = 5,
+cluster_run(speciation_rate = v, size = J, wall_time = (11.5*60),
             interval_rich = interval_rich, interval_oct = interval_oct,
             burn_in_generations = burn_in_generations,
             output_file_name = output_file_name)
