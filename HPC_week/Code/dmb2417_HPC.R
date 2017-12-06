@@ -1,41 +1,41 @@
 #!usr/bin/env Rscript
 
-#sscript:
-# Desc:
+# script: dmb2417_HPC.R
+# Desc: runs a neutral theory similuation with speciation - run on HPC
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
 graphics.off()
 
 ###############################################################################
-# Functions!
+# required functions
 ###############################################################################
 
-# initialise_min
+# initialise_min - returns a community of given size with minimum possible sr
 initialise_min <- function(size){
-    rep(1, size)
+    return(rep(1, size))
 }
 
 
-# species_richness
+# species_richness - returns the species richness of a given community
 species_richness <- function(community){
-    length(unique(community))
+    return(length(unique(community)))
 }
 
-# species_abundance
+# species_abundance - returns a vector of species abundance, small to large
 species_abundance <- function(community){
-    as.numeric(sort(table(community), decreasing =TRUE))
+    return(as.numeric(sort(table(community), decreasing =TRUE)))
 }
 
 
-# choose_two
+# choose_two - returns 2 random positions from a sequence
 choose_two <- function(x){
     v <- seq(x)
-    sample(v, 2, replace = FALSE)
+    return(sample(v, 2, replace = FALSE))
 }
 
 
-# neutral_step
+# neutral_step - returns a community which has undergone a neutral step
 neutral_step <- function(community){
     v <- choose_two(length(community))
     community[v[1]] <- community[v[2]]
@@ -43,7 +43,8 @@ neutral_step <- function(community){
 }
 
 
-# neutral_step_speciation
+# neutral_step_speciation - returns a community which has undergone a neutral
+# step with v possibility of speciation
 neutral_step_speciation <- function(community, v){
     if(runif(1) > v){
         neutral_step(community)
@@ -55,7 +56,8 @@ neutral_step_speciation <- function(community, v){
 }
 
 
-# neutral_generation_speciation
+# neutral_generation_speciation - returns a community after a generation of
+# neutral steps with speciation
 neutral_generation_speciation <- function(community, v){
     gen <- ceiling(length(community)/2)
     while(gen > 0){
@@ -66,9 +68,9 @@ neutral_generation_speciation <- function(community, v){
 }
 
 
-# octaves
+# octaves - returns species abundences grouped into bins of 2^n
 octaves <- function(abundances){
-   tabulate(floor(log2(abundances))+1)
+    return(tabulate(floor(log2(abundances))+1))
 }
 
 
@@ -114,8 +116,8 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich,
 # running the code
 ###############################################################################
 
-# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))
-iter <- 1
+# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))  # for HPC
+iter <- 1  # for testing
 set.seed(iter)
 
 
@@ -129,16 +131,13 @@ if((iter+3) %% 4 == 0){
     J = 5000
 }
 
-v = 0.004346
+v = 0.004346  # my personal speciation rate!
 interval_rich = 1
 interval_oct = round(J/10)
 burn_in_generations = J*8
 output_file_name = paste("dmb2417_cluster_run_", iter, ".rda", sep = "")
 
-cluster_run(speciation_rate = v, size = J, wall_time = (11.5*60),
-            interval_rich = interval_rich, interval_oct = interval_oct,
-            burn_in_generations = burn_in_generations,
-            output_file_name = output_file_name)
-
-
-# cluster_run(0.1,100,1,1,10,200,"test.rda")
+# cluster_run(speciation_rate = v, size = J, wall_time = (11.5*60),
+#             interval_rich = interval_rich, interval_oct = interval_oct,
+#             burn_in_generations = burn_in_generations,
+#             output_file_name = output_file_name)

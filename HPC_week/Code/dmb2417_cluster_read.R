@@ -1,7 +1,7 @@
 #!usr/bin/env Rscript
 
-# script:
-# Desc:
+# script: dmb2417_cluster_read.R
+# Desc: reads in and plots data produced from dmb2417_HPC.R
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
@@ -11,18 +11,18 @@ graphics.off()
 # required functions
 ###############################################################################
 
-# sum_vect
+# sum_vect - returns the sum of two vectors (without repeating)
 sum_vect <- function(x, y){
     mx <- max(length(x), length(y))
     length(x) <- mx
     length(y) <- mx
     x[is.na(x)] <- 0
     y[is.na(y)] <- 0
-    x + y
+    return(x + y)
 }
 
 
-# sum_list_vect
+# sum_list_vect - returns the sum of a list of vectors
 sum_list_vect <- function(X){
     tmp <- sum_vect(X[[1]], X[[2]])
     for(i in 3:length(X)){
@@ -32,9 +32,10 @@ sum_list_vect <- function(X){
 }
 
 
-# octaves
+# octaves - returns species abundences grouped into bins of 2^n
 octaves <- function(abundances){
-   tabulate(floor(log2(abundances))+1)
+    octs <- tabulate(floor(log2(abundances))+1)
+    return(octs)
 }
 
 
@@ -42,11 +43,14 @@ octaves <- function(abundances){
 # reading in the data and summing vector
 ###############################################################################
 
+# initilise empty lists
 spc_abd_500 <- list()
 spc_abd_1000 <- list()
 spc_abd_2500 <- list()
 spc_abd_5000 <- list()
 
+# for files 1-100, load in the data, append a vector of average octs to the
+# appropriate list
 for(i in 1:100){
     load(paste("../Results/dmb2417_cluster_run_", i, ".rda", sep = ""))
     if(size == 500){
@@ -67,6 +71,8 @@ for(i in 1:100){
     }
 }
 
+# take the mean of these lists of vectors (effectivley producing a mean of
+# means
 spc_abd_500 <- sum_list_vect(spc_abd_500)/length(spc_abd_500)
 spc_abd_1000 <- sum_list_vect(spc_abd_1000)/length(spc_abd_1000)
 spc_abd_2500 <- sum_list_vect(spc_abd_2500)/length(spc_abd_2500)

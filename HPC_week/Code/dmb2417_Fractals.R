@@ -22,8 +22,10 @@ chaos_game <- function(np = 1000){
     z <- c(list(a), list(b), list(c))
     for(i in 1:np){
         target_point <- z[[sample(c(1,2,3), 1)]]
-        new_x <- max(target_point[1], X[1]) - min(target_point[1], X[1])/2
-        new_y <- max(target_point[2], X[2]) - min(target_point[2], X[2])/2
+        new_x <- max(target_point[1], X[1]) - ((max(target_point[1], X[1]) - 
+                                                min(target_point[1], X[1]))/2)
+        new_y <- max(target_point[2], X[2]) - ((max(target_point[2], X[2]) - 
+                                                min(target_point[2], X[2]))/2)
         X <- c(new_x, new_y)
         points(X[1], X[2], cex = 0.1)
     }

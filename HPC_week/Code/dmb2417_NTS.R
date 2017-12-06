@@ -1,7 +1,7 @@
 #!usr/bin/env Rscript
 
-# script:
-# Desc:
+# script: dmb2417_NTS.R
+# Desc: functions leading up to a neutral theory simulation
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
@@ -11,49 +11,60 @@ graphics.off()
 # Neutral Theory Simulations
 ###############################################################################
 
+
 # 1
+# species_richness - returns the species richness of a given community
 species_richness <- function(community){
-    length(unique(community))
+    return(length(unique(community)))
 }
+
 
 # 2
+# initialise_max - returns a community of given size with maximum possible sr
 initialise_max <- function(size){
-    seq(size)
+    return(seq(size))
 }
+
 
 # 3
+# initialise_min - returns a community of given size with minimum possible sr
 initialise_min <- function(size){
-    rep(1, size)
+    return(rep(1, size))
 }
 
-# species_richness(initialise_min(10))
-# species_richness(initialise_max(10))
 
 # 4
+# choose_two - returns 2 random positions from a sequence
 choose_two <- function(x){
     v <- seq(x)
-    sample(v, 2, replace = FALSE)
+    return(sample(v, 2, replace = FALSE))
 }
 
+
 # 5
+# neutral_step - returns a community which has undergone a neutral step
 neutral_step <- function(community){
     v <- choose_two(length(community))
     community[v[1]] <- community[v[2]]
-    community
+    return(community)
 }
 
+
 # 6
+# neutral_generation - returns community after a generation of neutral steps
 neutral_generation <- function(community){
     gen <- ceiling(length(community)/2)
     while(gen > 0){
-#       print(community)
         community <- neutral_step(community)
         gen <- gen-1
     }
-    community
+    return(community)
 }
 
+
 # 7
+# neutral_time_series - returns a vector of species richnesses given a starting
+# community and duration (no. generations) for neutral theory simulation to run
 neutral_time_series <- function(initial,duration){
     sr <- species_richness(initial)
     while(duration > 0){
@@ -61,39 +72,49 @@ neutral_time_series <- function(initial,duration){
         sr <- c(sr, species_richness(initial))
         duration <- duration -1
     }
-    sr
+    return(sr)
 }
 
+
 # 8
+# question_8 - plots a time series of the neutral model staring at maximum
+# species richness
 question_8 <- function(size = 100, runs = 200){
     plot(neutral_time_series(initial = initialise_max(size), duration = runs),
          xlab = 'Generation', ylab = 'Species Richness', type = 'l')
 }
 
 # 9
+# neutral_step_speciation - returns a community which has undergone a neutral
+# step with v possibility of speciation
 neutral_step_speciation <- function(community, v){
     if(runif(1) > v){
         neutral_step(community)
     } else {
         pos <- sample(length(community), 1)
         community[pos] <- max(community) + 1
-        community
+        return(community)
     }
 }
 
+
 # 10
+# neutral_generation_speciation - returns a community after a generation of
+# neutral steps with speciation
 neutral_generation_speciation <- function(community, v){
     gen <- ceiling(length(community)/2)
     while(gen > 0){
-#       print(community)
         community <- neutral_step_speciation(community = community, v = v)
         gen <- gen-1
     }
-    community
+    return(community)
 }
 
 
 # 11
+# neutral_time_series_speciation - returns a vector of species richnesses given
+# a starting community and duration (no. generations) for neutral theory
+# with speciation simulation to run
 neutral_time_series_speciation <- function(community, v, duration){
     sr <- species_richness(community)
     while(duration > 0){
@@ -101,10 +122,13 @@ neutral_time_series_speciation <- function(community, v, duration){
         sr <- c(sr, species_richness(community))
         duration <- duration -1
     }
-    sr
+    return(sr)
 }
 
+
 # 12
+# plots neutral_time_series_speciation with communities starting at minimum and
+# maximum species richnesses
 question_12 <- function(size = 100, v = 0.1, runs = 200){
     plot(neutral_time_series_speciation(initialise_max(size), v=v,
                                         duration = runs),
@@ -117,28 +141,36 @@ question_12 <- function(size = 100, v = 0.1, runs = 200){
        col=c("red", "blue"), lty=1, cex=0.8)
 }
 
+
 # 13
+# species_abundance - returns a vector of species abundance, small to large
 species_abundance <- function(community){
-    as.numeric(sort(table(community), decreasing =TRUE))
+    return(as.numeric(sort(table(community), decreasing =TRUE)))
 }
 
 
 # 14
+# octaves - returns species abundences grouped into bins of 2^n
 octaves <- function(abundances){
-   tabulate(floor(log2(abundances))+1)
+    return(tabulate(floor(log2(abundances))+1))
 }
 
+
 # 15
+# sum_vect - returns the sum of two vectors (without repeating)
 sum_vect <- function(x, y){
     mx <- max(length(x), length(y))
     length(x) <- mx
     length(y) <- mx
     x[is.na(x)] <- 0
     y[is.na(y)] <- 0
-    x + y
+    return(x + y)
 }
 
+
 # 16
+# question_16() - makes barplot of average counts of species in each species
+# abundance octaves
 question_16 <- function(size = 100, v = 0.1){
     community <- initialise_max(size)
     a <- list()
