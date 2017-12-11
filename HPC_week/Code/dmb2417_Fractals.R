@@ -11,7 +11,9 @@ graphics.off()
 # fractals in nature
 ###############################################################################
 
-# 19 the chaos game!
+
+############################ 19 the chaos game! ###############################
+
 
 chaos_game <- function(np = 1000){
     a <- c(0, 0)
@@ -33,19 +35,123 @@ chaos_game <- function(np = 1000){
 
 # chaos_game()
 
-# 20 turtle
+
+################################ 20 turtle ####################################
+
 
 turtle <- function(start_pos = c(0,0), direction = pi/4, v_len = 1){
     end_x = start_pos[1] + cos(direction)*v_len
     end_y = start_pos[2] + sin(direction)*v_len
     segments(start_pos[1], start_pos[2], end_x, end_y)
+    return(c(end_x, end_y))
 }
 
 # plot.new()
 # plot.window(xlim = c(-1,1), ylim = c(-1,1))
 # turtle()
 
-# 21 elbow
+
+################################ 21 elbow #####################################
+
 
 elbow <- function(start_pos = c(0,0), direction = pi/4, v_len = 1){
+    start_pos <- turtle(start_pos, direction, v_len)
+    direction2  <- direction - (pi/4)
+    v_len1<- v_len*0.95
+    turtle(start_pos, direction2, v_len1)
+}
 
+# plot.new()
+# plot.window(xlim = c(0,4), ylim = c(-2,2))
+# elbow()
+
+
+############################## 22 spiral ######################################
+
+
+spiral <- function(start_pos = c(0,0), direction = pi/4, v_len = 1){
+    start_pos <- turtle(start_pos, direction, v_len)
+    direction2  <- direction - (pi/4)
+    v_len1 <- v_len*0.95
+    spiral(start_pos, direction2, v_len1)
+}
+
+# plot.new()
+# plot.window(xlim = c(0,4), ylim = c(-2,2))
+# spiral()
+
+
+############################## 23 spiral_2 ####################################
+
+
+spiral_2 <- function(start_pos = c(0,0), direction = pi/4, v_len = 1){
+    if(v_len > 0.01){
+        start_pos <- turtle(start_pos, direction, v_len)
+        direction2  <- direction - (pi/4)
+        v_len1 <- v_len*0.95
+        spiral_2(start_pos, direction2, v_len1)
+    }
+}
+
+# plot.new()
+# plot.window(xlim = c(0,3), ylim = c(-2,2))
+# spiral_2()
+
+
+################################ 24 tree ######################################
+
+
+tree <- function(start_pos = c(0,0), direction = pi/2 , v_len = 1){
+    if(v_len > 0.01){
+        start_pos <- turtle(start_pos, direction, v_len)
+        direction2  <- direction - (pi/4)
+        direction3 <- direction + (pi/4)
+        v_len1 <- v_len*0.65
+        tree(start_pos, direction2, v_len1)
+        tree(start_pos, direction3, v_len1)
+    }
+}
+
+# plot.new()
+# plot.window(xlim = c(-3,3), ylim = c(0,3))
+# tree()
+
+
+############################### 25 fern #######################################
+
+
+fern <- function(start_pos = c(0,0), direction = pi/2 , v_len = 1){
+    if(v_len > 0.01){
+        start_pos <- turtle(start_pos, direction, v_len)
+        direction3  <- direction + (pi/4)
+        direction2 <- direction
+        v_len1 <- v_len*0.87
+        v_len2 <- v_len*0.38
+        fern(start_pos, direction2, v_len1)
+        fern(start_pos, direction3, v_len2)
+    }
+}
+
+# plot.new()
+# plot.window(xlim = c(-3,3), ylim = c(0,8))
+# fern()
+
+
+
+############################## 26 fern_2 ######################################
+
+fern_2 <- function(start_pos = c(0,0), direction = pi/2 , v_len = 1, dir = -1){
+    if(v_len > 0.01){
+        start_pos <- turtle(start_pos, direction, v_len)
+        direction3  <- direction + (pi/4)
+        direction2 <- direction
+        v_len1 <- v_len*0.87
+        v_len2 <- v_len*0.38
+        fern_2(start_pos, direction2, v_len1, dir)
+        fern_2(start_pos, direction3, v_len2, -dir)
+    }
+}
+
+plot.new()
+plot.window(xlim = c(-3,3), ylim = c(0,10))
+fern_2()

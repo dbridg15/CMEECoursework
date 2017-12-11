@@ -9,4 +9,4 @@ echo "Running fw1316-HPC.R..."
 R --vanilla < $WORK/dmb2417_HPC.R
 mv dmb2417_cluster_run_* $WORK
 echo "Run complete."
-#EOF
+#The end
