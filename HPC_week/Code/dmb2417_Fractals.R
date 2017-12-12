@@ -143,14 +143,16 @@ fern <- function(start_pos = c(0,0), direction = pi/2 , v_len = 1){
 fern_2 <- function(start_pos = c(0,0), direction = pi/2 , v_len = 1, dir = -1){
     if(v_len > 0.01){
         start_pos <- turtle(start_pos, direction, v_len)
-        direction3  <- direction + (pi/4)
+        dir <- -dir
+        direction3 <- dir*(direction + (pi/4))
         direction2 <- direction
         v_len1 <- v_len*0.87
         v_len2 <- v_len*0.38
         fern_2(start_pos, direction2, v_len1, dir)
-        fern_2(start_pos, direction3, v_len2, -dir)
+        fern_2(start_pos, direction3, v_len2, dir)
     }
 }
+
 
 plot.new()
 plot.window(xlim = c(-3,3), ylim = c(0,10))
