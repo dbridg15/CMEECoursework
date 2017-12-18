@@ -32,64 +32,113 @@ sum_list_vect <- function(X){
 }
 
 
-# octaves - returns species abundences grouped into bins of 2^n
-octaves <- function(abundances){
-    octs <- tabulate(floor(log2(abundances))+1)
-    return(octs)
+###############################################################################
+# cluster_read
+###############################################################################
+
+cluster_read <- function(filepath = "../Results/dmb2417_cluster_run_",
+                        filecount = 100){
+
+    # initialise empty vectors
+    spc_abd_500 <- c(0)
+    spc_abd_1000 <- c(0)
+    spc_abd_2500 <- c(0)
+    spc_abd_5000 <- c(0)
+
+    count_500 <- 0
+    count_1000 <- 0
+    count_2500 <- 0
+    count_5000 <- 0
+
+    # for files 1-100, load in the data, append a vector of average octs to the
+    # appropriate list
+    for(i in 1:filecount){
+        load(paste(filepath, i, ".rda", sep = ""))
+        if(size == 500){
+            spc_abd_500 <- sum_vect(spc_abd_500, sum_list_vect(spc_abd))
+            count_500 <- count_500 + length(spc_abd)
+        }
+        if(size == 1000){
+            spc_abd_1000 <- sum_vect(spc_abd_1000, sum_list_vect(spc_abd))
+            count_1000 <- count_1000 + length(spc_abd)
+        }
+        if(size == 2500){
+            spc_abd_2500 <- sum_vect(spc_abd_2500, sum_list_vect(spc_abd))
+            count_2500 <- count_2500 + length(spc_abd)
+        }
+        if(size == 5000){
+            spc_abd_5000 <- sum_vect(spc_abd_5000, sum_list_vect(spc_abd))
+            count_5000 <- count_5000 + length(spc_abd)
+        }
+    }
+
+    # take the mean of these lists of vectors (effectivley producing a mean of
+    # means
+    spc_abd_500 <- spc_abd_500/count_500
+    spc_abd_1000 <- spc_abd_1000/count_1000
+    spc_abd_2500 <- spc_abd_2500/count_2500
+    spc_abd_5000 <- spc_abd_5000/count_5000
+
+    par(mfcol=c(2, 2), oma=c(0,0,2,0))  # initiate 2x2 plot oma is margin for title
+    barplot(spc_abd_500, xlab = "Species Abundance Octaves",
+            ylab = "Average Count", main = "J = 500")
+    barplot(spc_abd_1000, xlab = "Species Abundance Octaves",
+            ylab = "Average Count", main = "J = 1000")
+    barplot(spc_abd_2500, xlab = "Species Abundance Octaves",
+            ylab = "Average Count", main = "J = 2500")
+    barplot(spc_abd_5000, xlab = "Species Abundance Octaves",
+            ylab = "Average Count", main = "J = 5000")
+    title(paste("Speciation Rate:", speciation_rate), outer=TRUE)
+
 }
 
+cluster_read()
 
 ###############################################################################
-# reading in the data and summing vector
+# challenge C
 ###############################################################################
 
-# initilise empty lists
-spc_abd_500 <- list()
-spc_abd_1000 <- list()
-spc_abd_2500 <- list()
-spc_abd_5000 <- list()
+challenge_c <- function(filepath = "../Results/dmb2417_cluster_run_",
+                        filecount = 100){
 
-# for files 1-100, load in the data, append a vector of average octs to the
-# appropriate list
-for(i in 1:100){
-    load(paste("../Results/dmb2417_cluster_run_", i, ".rda", sep = ""))
-    if(size == 500){
-        spc_abd_500 <- c(spc_abd_500,
-                         list(sum_list_vect(spc_abd)/length(spc_abd)))
+    # initilise empty lists
+    spc_rch_500 <- c(0)
+    spc_rch_1000 <- c(0)
+    spc_rch_2500 <- c(0)
+    spc_rch_5000  <- c(0)
+
+    for(i in 1:filecount){
+        load(paste(filepath, i, ".rda", sep = ""))
+        if(size == 500){
+            spc_rch_500 <- sum_vect(spc_rch_500, unlist(spc_rch))
+        }
+        if(size == 1000){
+            spc_rch_1000 <- sum_vect(spc_rch_1000, unlist(spc_rch))
+        }
+        if(size == 2500){
+            spc_rch_2500 <- sum_vect(spc_rch_2500, unlist(spc_rch))
+        }
+        if(size == 5000){
+            spc_rch_5000 <- sum_vect(spc_rch_5000, unlist(spc_rch))
+        }
     }
-    if(size == 1000){
-        spc_abd_1000 <- c(spc_abd_1000,
-                         list(sum_list_vect(spc_abd)/length(spc_abd)))
-    }
-    if(size == 2500){
-        spc_abd_2500 <- c(spc_abd_2500,
-                         list(sum_list_vect(spc_abd)/length(spc_abd)))
-    }
-    if(size == 5000){
-        spc_abd_5000 <- c(spc_abd_5000,
-                         list(sum_list_vect(spc_abd)/length(spc_abd)))
-    }
+
+    spc_rch_500 <- spc_rch_500/25
+    spc_rch_1000 <- spc_rch_1000/25
+    spc_rch_2500 <- spc_rch_2500/25
+    spc_rch_5000  <- spc_rch_5000/25
+
+    par(mfcol=c(2, 2), oma=c(0,0,2,0))  # initiate 2x2 plot oma is margin for title
+    plot(spc_rch_500, xlab = "Generation", ylab = "Average Species Richness",
+            main = "J = 500", cex = 0.2)
+    plot(spc_rch_1000, xlab = "Generation", ylab = "Average Species Richness",
+            main = "J = 1000", cex = 0.2)
+    plot(spc_rch_2500, xlab = "Generation", ylab = "Average Species Richness",
+            main = "J = 2500", cex = 0.2)
+    plot(spc_rch_5000, xlab = "Generation", ylab = "Average Species Richness",
+            main = "J = 5000", cex = 0.2)
+    title("Species Richness Over Generations", outer=TRUE)
+
 }
 
-# take the mean of these lists of vectors (effectivley producing a mean of
-# means
-spc_abd_500 <- sum_list_vect(spc_abd_500)/length(spc_abd_500)
-spc_abd_1000 <- sum_list_vect(spc_abd_1000)/length(spc_abd_1000)
-spc_abd_2500 <- sum_list_vect(spc_abd_2500)/length(spc_abd_2500)
-spc_abd_5000 <- sum_list_vect(spc_abd_5000)/length(spc_abd_5000)
-
-
-###############################################################################
-# plot!!
-###############################################################################
-
-par(mfcol=c(2, 2), oma=c(0,0,2,0))  # initiate 2x2 plot oma is margin for title
-barplot(spc_abd_500, xlab = "Species Abundance", ylab = "Average Count",
-        main = "J = 500")
-barplot(spc_abd_1000, xlab = "Species Abundance", ylab = "Average Count",
-        main = "J = 1000")
-barplot(spc_abd_2500, xlab = "Species Abundance", ylab = "Average Count",
-        main = "J = 2500")
-barplot(spc_abd_5000, xlab = "Species Abundance", ylab = "Average Count",
-        main = "J = 5000")
-title(paste("Speciation Rate:", speciation_rate), outer=TRUE)
+challenge_c()

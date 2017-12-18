@@ -1,0 +1,115 @@
+\documentclass[11pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, portrait, margin=2cm}
+
+\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+\usepackage{parskip}
+\usepackage{lineno}
+\usepackage{graphicx}
+\usepackage[authoryear]{natbib}
+\usepackage[T1]{fontenc}
+
+%opening
+
+\begin{document}
+
+	\begin{titlepage}
+		
+		\begin{center}
+			
+		\vspace*{2cm}
+		\LARGE
+		CMEE MRes Project Proposal:
+		
+		\vspace*{2cm}
+		\Huge
+		\textbf{Using N-Dimensional Hypervolumes to Assess the Stability of Ecosystems Under Land-Use Change}\\
+		
+		\vspace{2cm}
+		\LARGE
+		
+		\textbf{Keywords:}\\
+		\vspace{0.5cm}
+		N-Dimensional Hypervolumes;\\
+		Ecosystem Stability;\\
+		Land-Use Change
+		
+		\vfill
+		
+		\end{center}
+		
+		\begin{flushleft}
+			
+		\large
+		
+		\textbf{Student:}\\
+		David Bridgwood\\
+		dmb2417@ic.ac.uk\\
+		MRes - Computational Methods in Ecology and Evolution
+		
+		\vspace{1cm}
+		
+		\textbf{Supervisor:}\\
+		Professor Robert Ewers\\
+		r.ewers@imperial.ac.uk\\
+		Faculty of Natural Sciences, Department of Life Sciences (Silwood Park)
+		
+		\vspace{2cm}
+		\end{flushleft}
+
+	\end{titlepage}
+	
+	\linenumbers
+	\onehalfspacing
+	\begin{flushleft}
+	\section*{Introduction}
+		
+		
+		\hspace{4ex} The stability of an ecosystem is its ability to self-regulate and return to an equilibria state after an environmental perturbation. Ecosystems are facing escalating pressures from climate and land-use change, these environmental perturbations are expected to cause ecosystems to move away from stability and towards new ecosystem states \citep{Standish2014}. The forests of Borneo are an example of an incredibly biodiverse ecosystem \citep{DeBruyn2014}, under severe pressures from land-use change due to timber harvest and expansion of commercial crops \citep{Tsujino2016}. It is therefore important to understand the impact that these stresses are having on the stability of Borneo’s forests.
+		
+		
+		\hspace{4ex} N-dimensional hypervolumes have historically been used to quantify ecological species niches with axis representing those things which make up a species' ideal environment (e.g. temperature and food-size) \citep{Blonder2014}, the subset of the n-dimensional space that the given shape occupies is that species' niche. The concept of multi-dimensional shapes has since been used in a variety of applications within ecology, from functional and community ecology to addressing phylogenetic and evolutionary questions \citep{Blonder2017}. \cite{Barros2016} demonstrated that it is possible to use these hypervolumes to investigate the impact that perturbations on an environment have on of an ecosystem. They were able to use n-dimensional hypervolumes to define the state of an ecosystem using ecosystem components from species abundances, to functional traits and ecosystem services. They applied several models with different levels of climate and land use change and compared their n-dimensional hypervolumes once at equilibria. This allowed them to determine if ecosystems settled at different states and so assess the possible impacts of environmental perturbations on the stability of ecosystems.
+		
+		
+		\hspace{4ex} This project will use a similar approach to \cite{Barros2016} to determine how the state of ecosystems in Borneo's rainforests are being impacted by land-use changes.
+		
+	\section*{Aims and Objectives}
+		\begin{itemize}
+			\item Building of n-dimensional hypervolumes to characterise the state of ecosystems in Borneo's rainforest under varying degrees of land-use change pressures.
+			\item Comparison of these hypervolumes to determine the trajectory of ecosystem-states under land-use change.
+		\end{itemize}
+		
+	\section*{Methods}
+		\hspace{4ex} Hypervolumes for ecosystems under different land-use changes and at different time-points will be constructed using the R package ‘hypervolume’ \citep{Blonder2017a}, with relevant ecosystem components acting as the axis. Once constructed these hypervolumes can be compared using a number of different metrics to determine the impacts of perturbation on the state of the ecosystems. Firstly changes in hypervolume size will be used to measure the magnitude of changes to the ecosystem components. The amount of overlap between hypervolumes will then be used as an indicator of similarity in ecosystem states with more similar ecosystems having a higher proportion of overlap. Finally, the change in distance between the central points of hypervolumes (the centroid) will indicate how the mean values for ecosystem components have shifted \citep{Barros2016}.
+		
+		
+		\hspace{4ex} Data for the construction of the hypervolumes will come from the SAFE project \citep{Ewers2011}, a large scale ecological experiment looking at the impacts of forest-fragmentation in Borneo. Data from this project is readily available for taxa including; beetles, fish, mammals and trees.
+		
+	\section*{Project Feasabiltiy (Timeline)}
+		\includegraphics[width = \textwidth]{Gantt.png}
+		
+	\section*{Budget}
+		\begin{tabular}{c c} 
+			\hline
+			Expense & Amount \\
+			\hline
+			Something & \pounds -- \\ 
+			Something else & \pounds -- \\
+			\hline
+			Total & \pounds 500 \\
+			\hline
+		\end{tabular}
+		
+	\vfill
+	
+	\bibliographystyle{agsm}
+	\bibliography{CMEE-APROJECT!}
+	
+	\end{flushleft}
+\end{document}

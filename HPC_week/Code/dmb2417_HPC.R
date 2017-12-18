@@ -116,8 +116,8 @@ cluster_run <- function(speciation_rate, size, wall_time, interval_rich,
 # running the code
 ###############################################################################
 
-# iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))  # for HPC
-iter <- 1  # for testing
+iter <- as.numeric(Sys.getenv("PBS_ARRAY_INDEX"))  # for HPC
+# iter <- 1  # for testing
 set.seed(iter)
 
 
