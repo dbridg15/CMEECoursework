@@ -62,7 +62,7 @@ challenge_e <- function(np = 1000){
     }
 }
 
-challenge_e(5000)
+# challenge_e(5000)
 
 ################################ 20 turtle ####################################
 
@@ -279,4 +279,3 @@ koch()
 plot.new()
 plot.window(xlim = c(-4,4), ylim = c(0,10))
 challenge_F()
-
