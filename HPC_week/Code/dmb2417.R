@@ -116,7 +116,9 @@ question_8 <- function(size = 100, runs = 200){
          xlab = 'Generation', ylab = 'Species Richness', type = 'l')
 }
 
+# pdf("../Results/question_8.pdf", width = 10, height = 6)
 # question_8()
+# dev.off()
 
 
 ###################### 9 neutral_step_speciation ##############################
@@ -192,7 +194,9 @@ question_12 <- function(size = 100, v = 0.1, runs = 200){
        col=c("red", "blue"), lty=1, cex=0.8)
 }
 
-# question_12()
+# pdf("../Results/question_12.pdf", width = 10, height = 6)
+# question_12(, v = 0.01)
+# dev.off()
 
 
 ########################## 13 species_abundance #3#############################
@@ -280,7 +284,9 @@ question_16 <- function(size = 100, v = 0.1){
     return(b)
 }
 
+# pdf("../Results/question_16.pdf", width = 10, height = 5)
 # question_16()
+# dev.off()
 
 
 ########################## Challenge A ########################################
@@ -350,23 +356,27 @@ challenge_A <- function(size = 100, v = 0.1, runs = 100){
     plot(0, type = 'n', xlab = "Generations", ylab = "Average species richness",
         xlim = c(0,1000), ylim = c(10,35), bty = 'l',
         main = "Initial Species RIchness: 100")
-    # add confidence limits as ploygon
+    # add confidence limits as polygon
     polygon(c(1:1000, rev(1:1000)), c(srmx_ub, rev(srmx_lb)),
             col = rgb(1,0,0, alpha = 0.5), border = NA)
     # add mean
     lines(srmx_avg, col = "red", lwd = 1)
+    abline(v=50)
     plot(0, type = 'n', xlab = "Generations", ylab = "Average species richness",
         xlim = c(0,1000), ylim = c(10,35), bty = 'l',
         main = "Initial Species Richness: 1")
     polygon(c(1:1000, rev(1:1000)), c(srmn_ub, rev(srmn_lb)),
             col = rgb(0,0,1, alpha = 0.5), border = NA)
     lines(srmn_avg, col = "blue", lwd = 1)
+    abline(v=50)
     return(rbind(srmx_ub, srmx_avg, srmx_lb, srmn_ub, srmn_avg, srmn_lb))
 }
 
 
 # it takes a little while to run!
-challenge_A()
+# pdf("../Results/challenge_A.pdf", width = 10, height = 8)
+# challenge_A()
+# dev.off()
 
 
 ############################ Challenge B ######################################
@@ -376,7 +386,7 @@ challenge_A()
 # size = community size, v = speciation rate, runs = repeats for each community
 # size, rows and cols = grid for plot, rch = vector of starting richnesses to
 # test, gen = generations to run it for
-challenge_B <- function(size = 100, v = 0.1, runs = 25, rows = 3, cols = 4,
+challenge_B <- function(size = 100, v = 0.1, runs = 25, rows = 4, cols = 3,
                         rch = c(1,10,20,30,40,50,60,70,80,90,100), gen = 500){
 
     # simulaiton - returns vector of species richness at each generation
@@ -441,7 +451,9 @@ challenge_B <- function(size = 100, v = 0.1, runs = 25, rows = 3, cols = 4,
 }
 
 # this also takes time!
+# pdf("../Results/challenge_B.pdf", width = 10, height = 14)
 # challenge_B()
+# dev.off()
 
 
 ###############################################################################
@@ -510,8 +522,9 @@ cluster_read <- function(filepath = "../Data/dmb2417_cluster_run_",
     return(list(spc_abd_500, spc_abd_1000, spc_abd_2500, spc_abd_5000))
 }
 
+# pdf("../Results/cluster_read.pdf", width = 10, height = 7.5)
 # cluster_read()
-
+# dev.off()
 
 ########################## challenge C ########################################
 
@@ -563,8 +576,9 @@ challenge_C <- function(filepath = "../Data/dmb2417_cluster_run_",
 
 }
 
+# pdf("../Results/challenge_C.pdf", width = 10, height = 7.5)
 # challenge_C()
-
+# dev.off()
 
 ########################### challenge D #######################################
 
@@ -603,12 +617,13 @@ challenge_D <- function(J = 100, v = 0.1){
     }
     # mean
     b <- sum_list_vect(a)/length(a)
-    barplot(b)  #barplot
+    barplot(b, names.arg = c("1", "2-3", "4-7", "8-15", "16-31", "32-63"),
+            xlab = "Species Abundance Octaves", ylab = "Average Count")
     return(b)
 }
 
-
 # challenge_D()
+
 
 ###############################################################################
 # fractals in nature
@@ -654,6 +669,7 @@ challenge_E <- function(np = 1000){
     b <- c(4, 0)
     c <- c(2, sqrt(12))
     X <- c(0, 4)  # starting outside the triangle!!
+    par(mar=c(0,0,0,0))
     plot(X[1], X[2], cex = 1, col = "red", xlim = c(0, 4), ylim = c(0, 4),
          pch = 19, xaxt = 'n', yaxt = 'n', ann = FALSE, bty = 'n')
     z <- c(list(a), list(b), list(c))
@@ -673,7 +689,7 @@ challenge_E <- function(np = 1000){
     }
 }
 
-challenge_E(5000)
+# challenge_E(5000)
 
 
 ################################ 20 turtle ####################################
@@ -744,7 +760,7 @@ spiral_2 <- function(start_pos = c(0,0), direction = pi/4, v_len = 1,
 }
 
 # plot.new()
-# plot.window(xlim = c(0,2.5), ylim = c(-1.3,1.2))
+# plot.window(xlim = c(0,2.5), ylim = c(-1,1.1))
 # spiral_2(c(0,0), direction = pi/3, v_len = 1)
 
 
