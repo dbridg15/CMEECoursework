@@ -1,0 +1,11 @@
+[Log truncated. Please don't emit large amounts of output to stdout/stderr]
+> 
+> 
+> # cluster_run(0.1,100,1,1,10,200,"test.rda")
+> 
+Run complete.
+ 
+Imperial College London HPC Service
+-----------------------------------
+Job cluster_run.sh, jobid 622176[42].cx1, username dmb2417 - end of execution at 02:30:40 Mon 04/12/17 on system cx1-137-14-1
+ 
