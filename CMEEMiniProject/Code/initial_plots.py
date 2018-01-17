@@ -1,3 +1,13 @@
+#!/usr/bin/env python3
+
+"""
+Author: David Bridgwood"""
+
+__author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
+__version__ = '0.0.1'
+
+
+# imports
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
