@@ -84,12 +84,12 @@ for i in data2["NewID"].unique():
         plt.title(i)
 
         plt.subplot(212)
-        plt.plot((1/((x*273.15)*constants.value('Boltzmann constant in eV/K'))),
+        plt.plot((1/((x+273.15)*constants.value('Boltzmann constant in eV/K'))),
                  (np.log(y)), 'bo')
         plt.xlabel("1/kT")
         plt.ylabel("ln(B)")
 
         #plt.show()
         pp.savefig()
-
+        plt.close()
 pp.close()
