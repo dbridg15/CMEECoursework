@@ -78,7 +78,7 @@ for i in data2["NewID"].unique():
 
         plt.figure(figsize = (20, 20))
         plt.subplot(211)
-        plt.plot(x, y, 'ro')
+        plt.plot(x, np.log(y), 'ro')
         plt.xlabel(xtitle)
         plt.ylabel(ytitle)
         plt.title(i)
