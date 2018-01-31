@@ -6,50 +6,39 @@ Author: David Bridgwood"""
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
 
-
 # imports
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib.backends.backend_pdf import PdfPages
 import numpy as np
 from scipy import constants
-
+from scipy.optimize import leastsq
+from scipy import stats
+from lmfit import minimize, Parameters, report_fit
 
 ################################################################################
-# sort data
+# read in as pandas dataframe
 ################################################################################
 
-data = pd.read_csv("../Data/GrowthRespPhotoData_new.csv", low_memory = False)
+GRDF = pd.read_csv("../Results/Sorted_data.csv")
 
+################################################################################
+# constants
+################################################################################
 
-# get rid of 0s -ves and NAs from data (only +ves)
-data2 = data.iloc[data.index[data["StandardisedTraitValue"] > 0]]
+k = constants.value('Boltzmann constant in eV/K')
+e = np.exp(1)
 
-# get rid of ids with < 5 data points
-data2 = data2.groupby("FinalID").filter(lambda x: len(x) > 5)
+################################################################################
+# Functions
+###############################################################################
 
-# set NewID based on OriginalID **do i even need to do this?**
-data2["NewID"] = data2.FinalID.astype("category").cat.codes
-
-# only columns i need
-data2 = data2.loc[ : ,("NewID",
-                       "FinalID",
-                       "OriginalTraitName",
-                       "OriginalTraitDef",
-                       "OriginalTraitValue",
-                       "OriginalTraitUnit",
-                       "StandardisedTraitName",
-                       "StandardisedTraitDef",
-                       "StandardisedTraitValue",
-                       "StandardisedTraitUnit",
-                       "AmbientTemp",
-                       "AmbientTempUnit",
-                       "ConTemp",
-                       "ConTempUnit",
-                       "ResTemp",
-                       "ResTempUnit",
-                       "Consumer")]
-
+def abline(slope, intercept, lcol):
+    """Plot a line from slope and intercept"""
+    axes = plt.gca()
+    x_vals = np.array(axes.get_xlim())
+    y_vals = intercept + slope * x_vals
+    plt.plot(x_vals, y_vals, lcol)
 
 ################################################################################
 # plots
@@ -57,39 +46,54 @@ data2 = data2.loc[ : ,("NewID",
 
 pp = PdfPages('../Results/initial_plots.pdf')
 
-for i in data2["NewID"].unique():
+for id in GRDF["NewID"].unique():
 
-    tmp = data2[data2["NewID"] == i]
+    print(id, 'of' , GRDF.NewID.unique().max())
 
-    if tmp.shape[0] > 5:
-        y = tmp["StandardisedTraitValue"]
-        ytitle = (tmp["StandardisedTraitName"].iloc[0] + " (" +
-                  tmp["StandardisedTraitUnit"].iloc[0] + ")")
+    curveDF = GRDF[GRDF.NewID == id]
+    curveDF = curveDF.reset_index(drop = True)
 
-        if tmp["ConTemp"].isnull().any() == False:
-            x = tmp["ConTemp"]
-            xtitle = "ConTemp (" + tmp["ConTempUnit"].iloc[0] + ")"
-        elif tmp["AmbientTemp"].isnull().any() == False:
-            x = tmp["AmbientTemp"]
-            xtitle = "AmbientTemp (" + tmp["AmbientTempUnit"].iloc[0] + ")"
-        elif tmp["ResTemp"].isnull().any() == False:
-            x = tmp["ResTemp"]
-            xtitle = "ResTemp (" + tmp["ResTempUnit"].iloc[0] + ")"
+    xVals    = np.asarray(curveDF.UsedTemp)
+    adjxVals = np.asarray(curveDF.adjTemp)
+    data     = np.asarray(curveDF.StandardisedTraitValue)
+    ldata    = np.asarray(curveDF.STVlogged)
 
-        plt.figure(figsize = (20, 20))
-        plt.subplot(211)
-        plt.plot(x, np.log(y), 'ro')
-        plt.xlabel(xtitle)
-        plt.ylabel(ytitle)
-        plt.title(i)
+    # y axis title is whatever trait unit...
+    ytitle = (curveDF["StandardisedTraitName"].iloc[0] + " (" +
+              curveDF["StandardisedTraitUnit"].iloc[0] + "))")
 
-        plt.subplot(212)
-        plt.plot((1/((x+273.15)*constants.value('Boltzmann constant in eV/K'))),
-                 (np.log(y)), 'bo')
-        plt.xlabel("1/kT")
-        plt.ylabel("ln(B)")
+    E     = curveDF.E[0]
+    Eh    = curveDF.Eh[0]
+    Eint  = curveDF.Eint[0]
+    Ehint = curveDF.Ehint[0]
 
-        #plt.show()
-        pp.savefig()
-        plt.close()
+    B0 = curveDF.B0[0]
+    Th = curveDF.Th[0]
+    Tl = curveDF.Tl[0]
+
+    # plots!
+    plt.figure(figsize = (20, 20))
+    plt.subplot(211)
+    plt.plot(xVals, data, 'ro')
+    plt.ylabel(ytitle)
+    plt.xlabel("Kelvin")
+    plt.title(id)
+
+    plt.subplot(212)
+    plt.plot(adjxVals, ldata, 'bo')
+    abline(slope = E, intercept = Eint, lcol = 'r--')
+    abline(slope = Eh, intercept = Ehint, lcol = 'g--')
+    plt.plot(((1/(k*283.15)), (1/(k*283.15))), (-10000, B0), 'b--')
+    plt.plot(((1/(k*283.15)), -10000), (B0, B0), 'b--')
+    plt.ylim(np.floor(min(ldata)), np.ceil(max(ldata)))
+    plt.xlim(np.floor(min(adjxVals)), np.ceil(max(adjxVals)))
+    stuff = "E: {} \n Eh: {} \n Th: {} \n Tl: {} \n B0: {}".format(E, Eh, Th,
+                                                                   Tl, B0)
+    plt.figtext(0.7, 0.9, fontsize = 16, s = stuff)
+    plt.xlabel("1/kT")
+    plt.ylabel("ln(B)")
+
+    pp.savefig()
+    plt.close()
+
 pp.close()
