@@ -64,6 +64,15 @@ Week7__________________________________________________________________________
     -jupyter notebooks
 
 
-Week8__________________________________________________________________________
+HPC_Week_______________________________________________________________________
+
+-High Performance computing
+    -Neutral Theory Simulations
+    -Simulations using the HPC cluster
+    - Fractals in Nature
+    -Writeup
 
 
+Proposal_______________________________________________________________________
+
+-LATEX script for project proposal

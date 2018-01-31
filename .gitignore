@@ -1,9 +1,15 @@
 *~
 *.tmp
+*.aux
+*.bbl
+*.blg
+*.log
+*.gz
 *.pyc
 .ropeproject
 *.tif
 *.shp
+*.rda
 Rplots.pdf
 __pycache__/
 .ipynb_checkpoints/
