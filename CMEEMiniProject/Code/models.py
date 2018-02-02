@@ -8,12 +8,10 @@ __version__ = '0.0.1'
 
 # imports
 import pandas as pd
-import matplotlib.pyplot as plt
 import numpy as np
 from scipy import constants
 from scipy import stats
 from scipy.optimize import leastsq
-from matplotlib.backends.backend_pdf import PdfPages
 from lmfit import minimize, Parameters, report_fit
 
 ################################################################################
@@ -38,8 +36,6 @@ e = np.exp(1)
 ################################################################################
 # run model save results and plot fitted curve
 ################################################################################
-
-pp = PdfPages('../Results/cubic_model.pdf')
 
 for id in GRDF["NewID"].unique():
 
@@ -99,13 +95,13 @@ for id in GRDF["NewID"].unique():
     cubicDF = cubicDF.append(tmp1)
 
 
-    # schoolfield model ########################################################
+    # full schoolfield model ###################################################
 
     sparams = Parameters() # ***Need to take these from the GRDF***
     sparams.add('B0', value = e**curveDF.B0[0], min = 0)
     sparams.add('E',  value = abs(curveDF.E[0]), min = 0)
-    sparams.add('El', value = abs(curveDF.E[0]), min = 0)
-    sparams.add('Eh', value = curveDF.Eh[0], min = 0)
+    sparams.add('El', value = abs(curveDF.E[0]), min = 0)  # max = E
+    sparams.add('Eh', value = curveDF.Eh[0], min = 0)  # min = E
     sparams.add('Tl', value = curveDF.Tl[0], min = 260, max = 330)
     sparams.add('Th', value = curveDF.Th[0], min = 260, max = 330)
     sparams.add('e',  value = e, vary = False)
@@ -143,12 +139,12 @@ for id in GRDF["NewID"].unique():
         tmp2 = pd.DataFrame(tmp2)
     except ValueError:
         tmp2 = {'id'     : [id],
-                'B0'     : [np.NaN],
-                'E'      : [np.NaN],
-                'El'     : [np.NaN],
-                'Eh'     : [np.NaN],
-                'Tl'     : [np.NaN],
-                'Th'     : [np.NaN],
+                'B0'     : e**curveDF.B0[0],
+                'E'      : abs(curveDF.E[0]),
+                'El'     : abs(curveDF.E[0]),
+                'Eh'     : curveDF.Eh[0],
+                'Tl'     : curveDF.Tl[0],
+                'Th'     : curveDF.Th[0],
                 'chisqr' : [np.NaN],
                 'aic'    : [np.NaN],
                 'bic'    : [np.NaN]}
@@ -156,72 +152,12 @@ for id in GRDF["NewID"].unique():
 
     schooDF = schooDF.append(tmp2)
 
-    # plots ####################################################################
-
-    # cubic ####################################################################
-
-    mdlx = np.arange(min(xVals), max(xVals), 0.5)
-
-    a = out1.params["a"].value
-    b = out1.params["b"].value
-    c = out1.params["c"].value
-    d = out1.params["d"].value
-
-    mdly = a + b*mdlx + c*mdlx**2 + d*mdlx**3
-
-    plt.figure(figsize = (20, 20))
-
-    plt.subplot(211)
-    plt.plot(xVals, ldata, 'ro')
-    plt.plot(mdlx, mdly, 'b')
-    plt.xlabel("Temperature (K)")
-    plt.ylabel("ln(B)")
-    plt.title(id)
-
-    # schoolfield model ########################################################
-
-    # change to if statement (if tmp2 is full of NaN)
-    try:
-        mdlx = np.arange(min(xVals), max(xVals), 0.5)
-
-        B0 = out2.params["B0"].value
-        E  = out2.params["E"].value
-        El = out2.params["El"].value
-        Eh = out2.params["Eh"].value
-        Tl = out2.params["Tl"].value
-        Th = out2.params["Th"].value
-
-        mdly = np.log((B0*e**((-E/k)*((1/mdlx)-(1/283.15))))/(
-               1+e**((El/k)*((1/Tl)-(1/mdlx)))+(e**((Eh/k)*((1/Th)-(1/mdlx))))))
-
-        plt.subplot(212)
-        plt.plot(xVals, ldata, 'ro')
-        plt.plot(mdlx, mdly, 'b')
-        plt.xlabel("Temperature (K)")
-        plt.ylabel("ln(B)")
-    except:  # very bad form!!!
-        plt.subplot(212)
-        plt.plot(xVals, ldata, 'ro')
-        plt.xlabel("Temperature (K)")
-        plt.ylabel("ln(B)")
-
-    stuff = "Cubic \n chisquare: {} \n aic: {} \n \n Schoolfield \n chisquare: \
-             {} \n aic: {} \n B0: {} \n E: {} \n El: {} \n Eh: {} \n Tl: {} \n \
-             Th: {}".format(tmp1.get('chisqr').values, tmp1.get('aic').values,
-                            tmp2.get('chisqr').values, tmp2.get('aic').values,
-                            tmp2.get('B0').values, tmp2.get('E').values,
-                            tmp2.get('El').values, tmp2.get('Eh').values,
-                            tmp2.get('Tl').values, tmp2.get('Th').values)
-
-    plt.figtext(0.7, 0.7, fontsize = 16, s = stuff)
-
-    pp.savefig()
-    plt.close()
-
-    out1 = None
-    out2 = None
-
-pp.close()
+    out1    = None
+    out2    = None
+    sparams = None
+    params  = None
+    tmp1    = None
+    tmp2    = None
 
 cubicDF.to_csv("../Results/cubic_model.csv")
 schooDF.to_csv("../Results/Schholfield_model.csv")
