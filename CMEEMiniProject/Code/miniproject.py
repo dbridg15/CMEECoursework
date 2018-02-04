@@ -79,7 +79,7 @@ def full_schlfld_model(id, df):
            'Eh'     : vals["Eh"],
            'Tl'     : vals["Tl"],
            'Th'     : vals["Th"],
-           'chisqr' : 1,  # will test on each try for improvment
+           'chisqr' : [np.NaN],  # will test on each try for improvment
            'aic'    : [np.NaN],
            'bic'    : [np.NaN]}
 
@@ -89,11 +89,10 @@ def full_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            res = pd.DataFrame(res)
-            if res["chisqr"].values[0] == 1:
+            if res["chisqr"] == [np.NaN]:
                 print(id, "Full Schoolfield Failed to converge!")
             else:
-                print(id, "Full Schoolfield Converged! lowest chisqr:", res["chisqr"].values[0])
+                print(id, "Full Schoolfield Converged! lowest chisqr:", res["chisqr"])
             break
 
         try:
@@ -109,7 +108,7 @@ def full_schlfld_model(id, df):
 
             out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"]:
+            if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
                 res = {'id'     : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -125,6 +124,7 @@ def full_schlfld_model(id, df):
         except ValueError:
             continue
 
+    res = pd.DataFrame(res)
     return res
 
 ################################################################################
@@ -163,7 +163,7 @@ def noh_schlfld_model(id, df):
            'E'      : vals["E"],
            'El'     : vals["El"],
            'Tl'     : vals["Tl"],
-           'chisqr' : 1,  # will test on each try for improvment
+           'chisqr' : [np.NaN],  # will test on each try for improvment
            'aic'    : [np.NaN],
            'bic'    : [np.NaN]}
 
@@ -173,11 +173,10 @@ def noh_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            res = pd.DataFrame(res)
-            if res["chisqr"].values[0] == 1:
+            if res["chisqr"] == [np.NaN]:
                 print(id, "noh Schoolfield Failed to converge!")
             else:
-                print(id, "noh Schoolfield Converged! lowest chisqr:", res["chisqr"].values[0])
+                print(id, "noh Schoolfield Converged! lowest chisqr:", res["chisqr"])
             break
 
         try:
@@ -191,7 +190,7 @@ def noh_schlfld_model(id, df):
 
             out = minimize(noh_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"]:
+            if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
                 res = {'id'     : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -205,6 +204,7 @@ def noh_schlfld_model(id, df):
         except ValueError:
             continue
 
+    res = pd.DataFrame(res)
     return res
 
 ################################################################################
@@ -243,7 +243,7 @@ def nol_schlfld_model(id, df):
            'E'      : vals["E"],
            'Eh'     : vals["Eh"],
            'Th'     : vals["Th"],
-           'chisqr' : 1,  # will test on each try for improvment
+           'chisqr' : [np.NaN],  # will test on each try for improvment
            'aic'    : [np.NaN],
            'bic'    : [np.NaN]}
 
@@ -253,11 +253,10 @@ def nol_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            res = pd.DataFrame(res)
-            if res["chisqr"].values[0] == 1:
+            if res["chisqr"] == [np.NaN]:
                 print(id, "nol Schoolfield Failed to converge!")
             else:
-                print(id, "nol Schoolfield Converged! lowest chisqr:", res["chisqr"].values[0])
+                print(id, "nol Schoolfield Converged! lowest chisqr:", res["chisqr"])
             break
 
         try:
@@ -271,7 +270,7 @@ def nol_schlfld_model(id, df):
 
             out = minimize(nol_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"]:
+            if out.chisqr < res["chisqr"] or res["chisqr"]  == [np.NaN]:
                 res = {'id'     : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -286,6 +285,7 @@ def nol_schlfld_model(id, df):
         except ValueError:
             continue
 
+    res = pd.DataFrame(res)
     return res
 
 ################################################################################
@@ -336,45 +336,28 @@ def cubic_model(id, df):
            'b'      : vals["b"],
            'c'      : vals["c"],
            'd'      : vals["d"],
-           'chisqr' : 1,  # will test on each try for improvment
+           'chisqr' : [np.NaN],  # will test on each try for improvment
            'aic'    : [np.NaN],
            'bic'    : [np.NaN]}
 
-    trycount = 0
-    while True:
+    params = Parameters()
+    params.add('a', value = vals["a"])
+    params.add('b', value = vals["b"])
+    params.add('c', value = vals["c"])
+    params.add('d', value = vals["d"])
 
-        trycount += 1
+    out = minimize(cubic_residuals, params, args = (xVals, ldata))
 
-        if trycount > 10:
-            res = pd.DataFrame(res)
-            if res["chisqr"].values[0] == 1:
-                print(id, "Cubic Failed to converge!")
-            else:
-                print(id, "Cubic Converged! lowest chisqr:", res["chisqr"].values[0])
-            break
+    res = {'id'     : [id],
+            'a'      : [out.params["a"].value],
+            'b'      : [out.params["b"].value],
+            'c'      : [out.params["c"].value],
+            'd'      : [out.params["d"].value],
+            'chisqr' : [out.chisqr],
+            'aic'    : [out.aic],
+            'bic'    : [out.bic]}
 
-        try:
-            params = Parameters()
-            params.add('a', value = vals["a"])
-            params.add('b', value = vals["b"])
-            params.add('c', value = vals["c"])
-            params.add('d', value = vals["d"])
-
-            out = minimize(cubic_residuals, params, args = (xVals, ldata))
-
-            if out.chisqr < res["chisqr"]:
-                res = {'id'     : [id],
-                       'a'      : [out.params["a"].value],
-                       'd'      : [out.params["b"].value],
-                       'c'      : [out.params["c"].value],
-                       'd'      : [out.params["d"].value],
-                       'chisqr' : [out.chisqr],
-                       'aic'    : [out.aic],
-                       'bic'    : [out.bic]}
-
-            continue
-
-        except ValueError:
-            continue
+    res = pd.DataFrame(res)
+    print(id, "Cubic chisqr:", res["chisqr"].values[0])
 
     return res
