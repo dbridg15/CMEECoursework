@@ -27,7 +27,7 @@ e = np.exp(1)
 def schlfld_vals(id, df):
     """PUT IN DOCSTRING"""
 
-    vals = {'id'    : id,
+    vals = {'Newid' : id,
             'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
             'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
             'B0'    : e**(df.B0[df.NewID == id].iloc[0]),
@@ -72,7 +72,7 @@ def full_schlfld_model(id, df):
     xVals    = vals["xVals"]
     ldata    = vals["yVals"]
 
-    res = {'id'     : vals["id"],
+    res = {'Newid'  : vals["Newid"],
            'B0'     : vals["B0"],
            'E'      : vals["E"],
            'El'     : vals["El"],
@@ -109,7 +109,7 @@ def full_schlfld_model(id, df):
             out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
 
             if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
-                res = {'id'     : [id],
+                res = {'Newid'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
                        'El'     : [out.params["El"].value],
@@ -158,7 +158,7 @@ def noh_schlfld_model(id, df):
     xVals    = vals["xVals"]
     ldata    = vals["yVals"]
 
-    res = {'id'     : vals["id"],
+    res = {'Newid'  : vals["Newid"],
            'B0'     : vals["B0"],
            'E'      : vals["E"],
            'El'     : vals["El"],
@@ -191,7 +191,7 @@ def noh_schlfld_model(id, df):
             out = minimize(noh_schlfld_residuals, params, args = (xVals, ldata))
 
             if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
-                res = {'id'     : [id],
+                res = {'Newid'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
                        'El'     : [out.params["El"].value],
@@ -238,7 +238,7 @@ def nol_schlfld_model(id, df):
     xVals    = vals["xVals"]
     ldata    = vals["yVals"]
 
-    res = {'id'     : vals["id"],
+    res = {'Newid'  : vals["Newid"],
            'B0'     : vals["B0"],
            'E'      : vals["E"],
            'Eh'     : vals["Eh"],
@@ -271,7 +271,7 @@ def nol_schlfld_model(id, df):
             out = minimize(nol_schlfld_residuals, params, args = (xVals, ldata))
 
             if out.chisqr < res["chisqr"] or res["chisqr"]  == [np.NaN]:
-                res = {'id'     : [id],
+                res = {'Newid'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
                        'Eh'     : [out.params["Eh"].value],
@@ -295,7 +295,7 @@ def nol_schlfld_model(id, df):
 def cubic_vals(id, df):
     """PUT IN DOCSTRING"""
 
-    vals = {'id'    : id,
+    vals = {'Newid' : id,
             'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
             'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
             'a'     : 0.,
@@ -331,7 +331,7 @@ def cubic_model(id, df):
     xVals    = vals["xVals"]
     ldata    = vals["yVals"]
 
-    res = {'id'     : vals["id"],
+    res = {'Newid'  : vals["Newid"],
            'a'      : vals["a"],
            'b'      : vals["b"],
            'c'      : vals["c"],
@@ -348,7 +348,7 @@ def cubic_model(id, df):
 
     out = minimize(cubic_residuals, params, args = (xVals, ldata))
 
-    res = {'id'     : [id],
+    res = {'Newid'   : [id],
             'a'      : [out.params["a"].value],
             'b'      : [out.params["b"].value],
             'c'      : [out.params["c"].value],
