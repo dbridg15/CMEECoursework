@@ -21,19 +21,19 @@ GRDF = pd.read_csv("../Results/Sorted_data.csv")
 ################################################################################
 
 cubicDF = pd.DataFrame(data    = None,
-                       columns = ('Newid', 'a', 'b', 'c', 'd', 'chisqr', 'aic',
+                       columns = ('NewID', 'a', 'b', 'c', 'd', 'chisqr', 'aic',
                                   'bic'))
 
 flschDF  = pd.DataFrame(data    = None,
-                       columns = ('Newid', 'B0', 'E', 'Eh', 'El', 'Tl', 'Th',
+                       columns = ('NewID', 'B0', 'E', 'Eh', 'El', 'Tl', 'Th',
                                   'chisqr', 'aic', 'bic'))
 
 nhschDF = pd.DataFrame(data    = None,
-                       columns = ('Newid', 'B0', 'E', 'El', 'Tl', 'chisqr',
+                       columns = ('NewID', 'B0', 'E', 'El', 'Tl', 'chisqr',
                                   'aic', 'bic'))
 
 nlschDF = pd.DataFrame(data    = None,
-                       columns = ('Newid', 'B0', 'E', 'Eh', 'Th', 'chisqr',
+                       columns = ('NewID', 'B0', 'E', 'Eh', 'Th', 'chisqr',
                                   'aic', 'bic'))
 
 ################################################################################
