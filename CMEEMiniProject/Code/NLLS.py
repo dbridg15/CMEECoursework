@@ -42,10 +42,10 @@ nlschDF = pd.DataFrame(data    = None,
 
 for id in GRDF["NewID"].unique():
 
-    cubicDF    = cubicDF.append(cubic_model(id, GRDF))
+    cubicDF = cubicDF.append(cubic_model(id, GRDF))
     flschDF = flschDF.append(full_schlfld_model(id, GRDF))
-    nhschDF  = nhschDF.append(noh_schlfld_model(id,GRDF))
-    nlschDF  = nlschDF.append(nol_schlfld_model(id,GRDF))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF))
 
 ################################################################################
 # save results to csv

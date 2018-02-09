@@ -11,7 +11,6 @@ import pandas as pd
 import numpy as np
 from scipy import constants
 from lmfit import minimize, Parameters, report_fit
-from random import uniform
 
 ################################################################################
 # constants
@@ -19,6 +18,8 @@ from random import uniform
 
 k = constants.value('Boltzmann constant in eV/K')
 e = np.exp(1)
+
+np.random.seed(111)
 
 ################################################################################
 # schlfld_vals()
@@ -97,10 +98,10 @@ def full_schlfld_model(id, df):
 
         try:
             params = Parameters()
-            params.add('B0', value = uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('El', value = uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
-            params.add('Eh', value = uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
+            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
+            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
+            params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
+            params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
             params.add('Tl', value = vals["Tl"], min = 260, max = 330)
             params.add('Th', value = vals["Th"], min = 260, max = 330)
             params.add('e',  value = e, vary = False)
@@ -181,9 +182,9 @@ def noh_schlfld_model(id, df):
 
         try:
             params = Parameters()
-            params.add('B0', value = uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('El', value = uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
+            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
+            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
+            params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
             params.add('Tl', value = vals["Tl"], min = 260, max = 330)
             params.add('e',  value = e, vary = False)
             params.add('k',  value = k, vary = False)
@@ -261,9 +262,9 @@ def nol_schlfld_model(id, df):
 
         try:
             params = Parameters()
-            params.add('B0', value = uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('Eh', value = uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
+            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
+            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
+            params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
             params.add('Th', value = vals["Th"], min = 260, max = 330)
             params.add('e',  value = e, vary = False)
             params.add('k',  value = k, vary = False)

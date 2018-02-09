@@ -135,10 +135,7 @@ GRDF["Th"]    = np.NaN
 GRDF["Tl"]    = np.NaN
 
 for id in GRDF.NewID.unique():
-    xVals    = GRDF.UsedTemp[GRDF.NewID == id].reset_index(drop = True)
     adjxVals = GRDF.adjTemp[GRDF.NewID == id].reset_index(drop = True)
-    data     = GRDF.StandardisedTraitValue[GRDF.NewID == id].reset_index(drop
-                                                                         = True)
     ldata    = GRDF.STVlogged[GRDF.NewID == id].reset_index(drop = True)
 
     split = np.argmax(ldata)  # split
