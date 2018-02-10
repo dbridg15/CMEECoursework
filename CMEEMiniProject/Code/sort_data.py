@@ -14,9 +14,6 @@ from scipy import constants
 from scipy import stats
 from scipy.optimize import leastsq
 
-# stop some annoying pandas warnings...
-pd.options.mode.chained_assignment = None  # default='warn'
-
 ################################################################################
 # constants
 ################################################################################
@@ -25,10 +22,11 @@ k = constants.value('Boltzmann constant in eV/K')
 e = np.exp(1)
 
 ################################################################################
-# Read in and sort data
+# read in data
 ################################################################################
 
-# read in with only specific columns
+print("Reading in Data...\n")
+
 GRDF = pd.read_csv("../Data/GrowthRespPhotoData_new.csv",
                    usecols = ["FinalID",
                               "StandardisedTraitName",
@@ -43,126 +41,158 @@ GRDF = pd.read_csv("../Data/GrowthRespPhotoData_new.csv",
                               "ResTempUnit"],
                    low_memory = False)
 
-# get rid of 0s -ves and NAs from data (only +ves)
-GRDF = GRDF.iloc[GRDF.index[GRDF["StandardisedTraitValue"] > 0]]
+################################################################################
+# data wrangling
+################################################################################
+
+print("Wrangling Data...\n")
 
 # create NewID based on FinalID
 GRDF["NewID"] = GRDF.FinalID.astype("category").cat.codes
 
-# sort by NewID then ConTemp; AmbientTemp; ResTemp
-# ***SHOULD ASK SAMRAAT ABOUT WHICH TEMP TO USE*
-GRDF = GRDF.sort_values(['NewID', 'ConTemp', 'AmbientTemp', 'ResTemp'])
+# get rid of 0s -ves and NAs from data (only +ves)
+GRDF = GRDF.loc[GRDF.index[GRDF["StandardisedTraitValue"] > 0]]
 
-# reset index
-GRDF = GRDF.reset_index(drop = True)
+print("    Choosing which Temperature to use...")
 
-# go through each id and if the first value it > 3 times higher
-# than the next then delete the row...
-for id in GRDF.NewID.unique():
-    tmp = GRDF[GRDF.NewID == id]
-    tmp = tmp.reset_index(drop = True)
-    try:
-        if tmp.StandardisedTraitValue[0] > 3*tmp.StandardisedTraitValue[1]:
-            GRDF = GRDF.drop(GRDF.index[GRDF.NewID == id][0])
-    except KeyError:
-        pass
+# return best temp to use: ConTemp > ResTemp > AmbientTemp
+def best_temp(group):
+    """docstring"""
+    if group.ConTemp.isnull().any():
+        if group.ResTemp.isnull().any():
+            group["UsedTemp"]     = group.AmbientTemp
+            group["UsedTempUnit"] = group.AmbientTempUnit
+            group["UsedTempType"] = "AmbientTemp"
+            return group
+        else:
+            group["UsedTemp"]     = group.ResTemp
+            group["UsedTempUnit"] = group.ResTempUnit
+            group["UsedTempType"] = "ResTemp"
+            return group
+    else:
+        group["UsedTemp"]     = group.ConTemp
+        group["UsedTempUnit"] = group.ConTempUnit
+        group["UsedTempType"] = "ConTemp"
+        return group
 
-# get rid of ids with < 5 data points
-GRDF = GRDF.groupby("FinalID").filter(lambda x: len(x) > 5)
-
-# which temperature measure to use? ConTemp > AmbientTemp > ResTemp
-GRDF["UsedTemp"] = np.NaN
-GRDF["TempType"] = np.NaN
-GRDF["TempUnit"] = np.NaN
-
-for id in GRDF.NewID.unique():
-    if GRDF.ConTemp[GRDF.NewID == id].isnull().any() == False:
-        GRDF.UsedTemp[GRDF.NewID == id] = GRDF.ConTemp[GRDF.NewID == id]
-        GRDF.TempUnit[GRDF.NewID == id] = GRDF.ConTempUnit[GRDF.NewID == id]
-        GRDF.TempType[GRDF.NewID == id] = "ConTemp"
-    elif GRDF.ResTemp[GRDF.NewID == id].isnull().any() == False:
-        GRDF.UsedTemp[GRDF.NewID == id] = GRDF.ResTemp[GRDF.NewID == id]
-        GRDF.TempUnit[GRDF.NewID == id] = GRDF.ResTempUnit[GRDF.NewID == id]
-        GRDF.TempType[GRDF.NewID == id] = "ResTemp"
-    elif GRDF.AmbientTemp[GRDF.NewID == id].isnull().any() == False:
-        GRDF.UsedTemp[GRDF.NewID == id] = GRDF.AmbientTemp[GRDF.NewID == id]
-        GRDF.TempUnit[GRDF.NewID == id] = GRDF.AmbientTempUnit[GRDF.NewID == id]
-        GRDF.TempType[GRDF.NewID == id] = "AmbientTemp"
-
+GRDF = GRDF.groupby("NewID").apply(best_temp)
 
 # convert to kelvin
-GRDF.UsedTempUnit = GRDF.TempUnit.str.lower()
-TempK = GRDF.UsedTemp[GRDF.TempUnit != "kelvin"] + 273.15
-GRDF.UsedTemp[GRDF.TempUnit != "kelvin"] = TempK
+GRDF["UsedTempK"] = GRDF.UsedTemp + 273.15
 
-# only columns i need
-GRDF = GRDF.loc[ : ,("NewID",
-                     "FinalID",
+# sort by ID then temperature
+GRDF = GRDF.sort_values(['NewID', 'UsedTempK'])
+
+
+# removes groups where all temp values are the same
+def same_temp(group):
+    """docstring"""
+    if len(group.UsedTemp.unique()) == 1:
+        return False
+    else:
+        return True
+
+GRDF = GRDF.groupby("NewID").filter(same_temp)
+
+
+# removes groups where all trait values are the same
+def same_trait(group):
+    """docstring"""
+    if len(group.StandardisedTraitValue.unique()) == 1:
+        return False
+    else:
+        return True
+
+GRDF = GRDF.groupby("NewID").filter(same_trait)
+
+print("    Dealing with outliers...")
+
+# remove first point if its 3 times higher than second
+def outliers(group):
+    """docstring"""
+    try:
+        if group.reset_index().StandardisedTraitValue[0] >\
+           3*group.reset_index().StandardisedTraitValue[1]:
+            return group.reset_index()[1:]
+        else:
+            return group.reset_index()
+    except KeyError:
+        return group.reset_index()
+
+GRDF = GRDF.groupby("NewID").apply(outliers)
+
+# only required columns
+GRDF = GRDF.loc[ : ,("FinalID",
                      "StandardisedTraitName",
                      "StandardisedTraitDef",
                      "StandardisedTraitValue",
                      "StandardisedTraitUnit",
                      "UsedTemp",
-                     "TempType")]
+                     "UsedTempType",
+                     "UsedTempK")]
+
+# remove groups with fewer than five rows
+GRDF = GRDF.groupby("NewID").filter(lambda x: len(x) > 5)
 
 # logged trait value
 GRDF["STVlogged"] = np.log(GRDF.StandardisedTraitValue)
 
 # 1/kT
-GRDF["adjTemp"] = 1/(GRDF.UsedTemp*k)
+GRDF["adjTemp"] = 1/(GRDF.UsedTempK*k)
 
-# Sort by ID then temperature
-GRDF = GRDF.sort_values(['NewID', 'UsedTemp'])
-
-# get rid of ids where all trait values are at one temperature value
-for id in GRDF.NewID.unique():
-    if len(GRDF.UsedTemp[GRDF.NewID == id].unique()) == 1:
-        GRDF = GRDF.drop(GRDF.index[GRDF.NewID == id])
-
-# reset index
-GRDF = GRDF.reset_index(drop = True)
+# reset index and make NewID a column
+GRDF.reset_index(level=0, inplace=True)
 
 ################################################################################
-# get starting values
+# calculate starting values
 ################################################################################
 
-GRDF["E"]     = np.NaN
-GRDF["Eh"]    = np.NaN
-GRDF["Eint"]  = np.NaN
-GRDF["Ehint"] = np.NaN
-GRDF["B0"]    = np.NaN
-GRDF["Th"]    = np.NaN
-GRDF["Tl"]    = np.NaN
+print("\nCalculating Starting Values...")
 
-for id in GRDF.NewID.unique():
-    adjxVals = GRDF.adjTemp[GRDF.NewID == id].reset_index(drop = True)
-    ldata    = GRDF.STVlogged[GRDF.NewID == id].reset_index(drop = True)
+def strt_vals(group):
+    """docstring"""
+    split = np.argmax(group.reset_index().STVlogged)  # split
+    x     = group.reset_index().adjTemp
+    y     = group.reset_index().STVlogged
+    xVals = group.reset_index().UsedTempK
 
-    split = np.argmax(ldata)  # split
+    if split + 1 == len(y) or split == 0\
+                           or split == 1\
+                           or x[:split].nunique() == 1\
+                           or x[split:].nunique() == 1:
 
-    if split + 1 == len(ldata) or split == 0:
-        lm1 = stats.linregress(x = adjxVals, y = ldata)
-        lm2 = stats.linregress(x = adjxVals, y = ldata)
+        lm1 = stats.linregress(x, y)
+        lm2 = stats.linregress(x, y)
     else:
         try:
-            lm1 = stats.linregress(x = adjxVals[:split], y = ldata[:split])
+            lm1 = stats.linregress(x[:split], y[:split])
         except ValueError:
-            lm1 = stats.linregress(x = adjxVals, y = ldata)
+            lm1 = stats.linregress(x, y)
         try:
-            lm2 = stats.linregress(x = adjxVals[split:], y = ldata[split:])
+            lm2 = stats.linregress(x[split:], y[split:])
         except ValueError:
-            lm2 = stats.linregress(x = adjxVals, y = ldata)
+            lm2 = stats.linregress(x, y)
 
-    GRDF.E[GRDF.NewID == id]  = lm1[0]  # slope of line right of Tpeak
-    GRDF.Eh[GRDF.NewID == id] = lm2[0]  # slope of line left of Tpeak
-    GRDF.Eint[GRDF.NewID == id]  = lm1[1]  # intercept of line right of Tpeak
-    GRDF.Ehint[GRDF.NewID == id] = lm2[1]  # intercept of line left of Tpeak
-    GRDF.B0[GRDF.NewID == id] = lm1[0]*(1/(k*283.15)) + lm1[1]  # ln(Bo) at 10C
-    GRDF.Th[GRDF.NewID == id] = xVals[np.argmax(ldata)]  # Tpeak
-    GRDF.Tl[GRDF.NewID == id] = min(xVals) # The lowest temp with STV
-    # El I will bind so it must be lower than E in the NLLS
+    vals = {"E"     : lm1[0],
+            "El"    : lm1[0]/2,
+            "Eh"    : lm2[0],
+            "Eint"  : lm1[1],
+            "Ehint" : lm2[1],
+            "B0"    : lm1[0]*(1/(k*283.15)) + lm1[1],
+            "Th"    : xVals[np.argmax(y)],
+            "Tl"    : min(xVals)}
 
-    GRDF.Eh[GRDF.Eh.isnull()] = GRDF.E[GRDF.Eh.isnull()]
+    return pd.DataFrame(vals, index = [0])
 
-# save as csv
-GRDF.to_csv("../Results/Sorted_data.csv")
+startingVals = GRDF.groupby("NewID").apply(strt_vals)
+
+# reset index of starting values and make NewID a column
+startingVals.reset_index(level=0, inplace=True)
+
+# merge GRDF and strt_vals
+GRDF = pd.merge(GRDF, startingVals, on = "NewID")
+
+# save to csv
+GRDF.to_csv("../Results/sorted_data.csv", index = False)
+
+print("\nDone!")

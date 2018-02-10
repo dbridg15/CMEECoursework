@@ -12,6 +12,10 @@ import numpy as np
 from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
+# TODO
+    # Bind the E/El/Eh values to each other
+    # Change from chi-squared to R-squared (will need to write function)
+
 ################################################################################
 # constants
 ################################################################################
@@ -29,11 +33,11 @@ def schlfld_vals(id, df):
     """PUT IN DOCSTRING"""
 
     vals = {'NewID' : id,
-            'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
+            'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
             'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
             'B0'    : e**(df.B0[df.NewID == id].iloc[0]),
             'E'     : abs(df.E[df.NewID == id].iloc[0]),
-            'El'    : abs(df.E[df.NewID == id].iloc[0]),
+            'El'    : abs(df.El[df.NewID == id].iloc[0]),
             'Eh'    : df.Eh[df.NewID == id].iloc[0],
             'Tl'    : df.Tl[df.NewID == id].iloc[0],
             'Th'    : df.Th[df.NewID == id].iloc[0]}
@@ -297,7 +301,7 @@ def cubic_vals(id, df):
     """PUT IN DOCSTRING"""
 
     vals = {'NewID' : id,
-            'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
+            'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
             'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
             'a'     : 0.,
             'b'     : 0.,

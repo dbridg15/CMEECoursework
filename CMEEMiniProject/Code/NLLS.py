@@ -14,7 +14,7 @@ import pandas as pd
 # read in the sorted dataframe
 ################################################################################
 
-GRDF = pd.read_csv("../Results/Sorted_data.csv")
+GRDF = pd.read_csv("../Results/sorted_data.csv")
 
 ################################################################################
 # set up dataframes for results
@@ -41,6 +41,8 @@ nlschDF = pd.DataFrame(data    = None,
 ################################################################################
 
 for id in GRDF["NewID"].unique():
+
+    print("\nModel fitting id:", id, "of", max(GRDF.NewID), "----------------\n"
 
     cubicDF = cubicDF.append(cubic_model(id, GRDF))
     flschDF = flschDF.append(full_schlfld_model(id, GRDF))

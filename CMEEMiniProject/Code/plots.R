@@ -14,7 +14,7 @@ require(gridExtra)
 # read in data
 ###############################################################################
 
-GRDF    <- read.csv("../Results/Sorted_data.csv")
+GRDF    <- read.csv("../Results/sorted_data.csv")
 flschDF <- read.csv("../Results/full_scholfield_model.csv")
 nhschDF <- read.csv("../Results/noh_scholfield_model.csv")
 nlschDF <- read.csv("../Results/nol_scholfield_model.csv")
@@ -24,9 +24,11 @@ cubicDF <- read.csv("../Results/cubic_model.csv")
 #
 ###############################################################################
 
-pdf("../Sandbox/test.pdf", width = 10, height = 12)
+pdf("../Sandbox/plots.pdf", width = 10, height = 12)
 
-for(id in unique(GRDF$NewID)[1:10]){
+for(id in unique(GRDF$NewID)){
+
+    print(paste("Plotting id:", id))
 
     plt1 <- KT_plt(id, GRDF)
     plt2 <- models_plt(id, GRDF, flschDF, nhschDF, nlschDF, cubicDF)

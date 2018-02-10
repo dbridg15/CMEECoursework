@@ -27,7 +27,7 @@ basic_plt <- function(id, dataframe){
 
     tmp <- subset(dataframe, NewID == id)
 
-    plt <- ggplot(data = tmp, aes(UsedTemp, StandardisedTraitValue))
+    plt <- ggplot(data = tmp, aes(UsedTempK, StandardisedTraitValue))
     plt <- plt + geom_point()
     plt <- plt + theme_classic()
     return(plt)
@@ -68,7 +68,7 @@ full_schfld <- function(id, data, values){
     if (is.na(subset(values, NewID == id)$chisqr)){
         print("Full Schoolfield did not converge")
     } else {
-        x <- subset(data, NewID == id)$UsedTemp
+        x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
 
         B0 <- subset(values, NewID == id)$B0
@@ -91,7 +91,7 @@ noh_schfld <- function(id, data, values){
     if (is.na(subset(values, NewID == id)$chisqr)){
         print("No high Schoolfield did not converge")
     } else {
-        x <- subset(data, NewID == id)$UsedTemp
+        x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
 
         B0 <- subset(values, NewID == id)$B0
@@ -112,7 +112,7 @@ nol_schfld <- function(id, data, values){
     if (is.na(subset(values, NewID == id)$chisqr)){
         print("no low schoolfield did not converge")
     } else {
-        x <- subset(data, NewID == id)$UsedTemp
+        x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
 
         B0 <- subset(values, NewID == id)$B0
@@ -132,7 +132,7 @@ cubic <- function(id, data, values){
     if (is.na(subset(values, NewID == id)$chisqr)){
         print("Cubic model did not converge")
     } else {
-        x <- subset(data, NewID == id)$UsedTemp
+        x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
 
         a <- subset(values, NewID == id)$a
@@ -153,7 +153,7 @@ cubic <- function(id, data, values){
 
 # plot all models
 models_plt <- function(id, dataframe, flsVals, nhsVals, nlsVals, cubicVals){
-    points <- subset(dataframe, NewID == id, select = c(UsedTemp, STVlogged))
+    points <- subset(dataframe, NewID == id, select = c(UsedTempK, STVlogged))
     colnames(points) <- c("Temp", "Trait")
 
     suppressWarnings(models <- rbind(full_schfld(id, GRDF, flsVals),
@@ -188,15 +188,32 @@ my_theme <- ttheme_minimal(base_size = 10, base_colour = "black",
 sch_tbl <- function(id, flsch, nhsch, nlsch){
     full <- subset(flsch, NewID == id)
     full$model <- "Full"
-    if (is.na(full$chisqr)){ full[1,] <- rep(NA, 11) }
+    if (is.na(full$chisqr)){
+        full$B0 <- NA
+        full$E  <- NA
+        full$Eh <- NA
+        full$El <- NA
+        full$Th <- NA
+        full$Tl <- NA
+    }
 
     noh  <- subset(nhsch, NewID == id)
     noh$model <- "noh"
-    if (is.na(noh$chisqr)){ noh[1,] <- rep(NA, 9) }
+    if (is.na(noh$chisqr)){
+        noh$B0 <- NA
+        noh$E  <- NA
+        noh$El <- NA
+        noh$Tl <- NA
+    }
 
     nol  <- subset(nlsch, NewID == id)
     nol$model <- "nol"
-    if (is.na(noh$chisqr)){ nol[1,] <- rep(NA, 9) }
+    if (is.na(nol$chisqr)){
+        nol$B0 <- NA
+        nol$E  <- NA
+        nol$Eh <- NA
+        nol$Th <- NA
+    }
 
     sch  <- bind_rows(full, noh, nol)
     sch  <- sch[c("model", "B0", "E", "Eh", "El", "Th", "Tl", "aic", "bic",
