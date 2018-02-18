@@ -14,6 +14,10 @@ from scipy import constants
 from scipy import stats
 from scipy.optimize import leastsq
 
+# TODO
+    # B0 should be the not logged value!
+    # add docstrings!
+
 ################################################################################
 # constants
 ################################################################################
