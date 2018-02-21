@@ -27,9 +27,22 @@ arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 
 pdf("../Sandbox/plots.pdf", width = 10, height = 12)
 
+iteration  = 0
+iterations = nrow(flschDF)
+bar_len = 65
+
+cat("Plotting:\n")
+
 for(id in unique(GRDF$NewID)){
 
-    print(paste("Plotting id:", id))
+    iteration = iteration + 1
+
+    percent = iteration/iterations
+    hashes  = paste(rep("#", round(percent*bar_len )), collapse = "")
+    spaces  = paste(rep(" ", bar_len - nchar(hashes)), collapse = "")
+    msg     = paste0("\rID ", id, paste(rep(" ", 4 - nchar(id)), collapse = ""))
+
+    cat(paste0(msg, " [", hashes, spaces, "] ", round(percent*100), "% "))
 
     plt1 <- KT_plt(id, GRDF)
     plt2 <- models_plt(id, GRDF, flschDF, nhschDF, nlschDF, cubicDF, arrhnDF)

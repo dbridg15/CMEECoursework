@@ -57,7 +57,7 @@ GRDF["NewID"] = GRDF.FinalID.astype("category").cat.codes
 # get rid of 0s -ves and NAs from data (only +ves)
 GRDF = GRDF.loc[GRDF.index[GRDF["StandardisedTraitValue"] > 0]]
 
-print("    Choosing which Temperature to use...")
+print("    Choosing which Temperature to use: ConTemp > ResTemp > AmbientTemp")
 
 # return best temp to use: ConTemp > ResTemp > AmbientTemp
 def best_temp(group):
@@ -155,7 +155,7 @@ print("\nCalculating Starting Values...")
 
 def strt_vals(group):
     """docstring"""
-    split = np.argmax(group.reset_index().STVlogged)  # split
+    split = group.reset_index().STVlogged.idxmax()  # split
     x     = group.reset_index().adjTemp
     y     = group.reset_index().STVlogged
     xVals = group.reset_index().UsedTempK
@@ -183,7 +183,7 @@ def strt_vals(group):
             "Eint"  : lm1[1],
             "Ehint" : lm2[1],
             "B0"    : lm1[0]*(1/(k*283.15)) + lm1[1],
-            "Th"    : xVals[np.argmax(y)],
+            "Th"    : xVals[y.idxmax()],
             "Tl"    : min(xVals)}
 
     return pd.DataFrame(vals, index = [0])

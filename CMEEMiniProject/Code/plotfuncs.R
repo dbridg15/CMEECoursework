@@ -66,7 +66,7 @@ KT_plt <- function(id, dataframe){
 full_schfld <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        print("Full Schoolfield did not converge")
+        #print("Full Schoolfield did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -110,7 +110,7 @@ noh_schfld <- function(id, data, values){
 nol_schfld <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        print("no low schoolfield did not converge")
+        #print("no low schoolfield did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -130,7 +130,7 @@ nol_schfld <- function(id, data, values){
 cubic <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        print("Cubic model did not converge")
+        #print("Cubic model did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTemp
         x <- seq(min(x), max(x), length.out = 100)
@@ -152,7 +152,7 @@ cubic <- function(id, data, values){
 arrhenius <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        print("Cubic model did not converge")
+        #print("Cubic model did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)

@@ -9,6 +9,7 @@ __version__ = '0.0.1'
 # imports
 from modelfuncs import *
 import pandas as pd
+import sys
 
 ################################################################################
 # read in the sorted dataframe
@@ -41,25 +42,50 @@ arrhnDF = pd.DataFrame(data    = None,
                                   'chisqr', 'aic', 'bic'))
 
 ################################################################################
+# progressBar function
+################################################################################
+
+def progressBar(value, endvalue, bar_length=40):
+
+    percent = float(value) / endvalue
+    arrow   = '#' * int(round(percent * bar_length))
+    spaces  = ' ' * (bar_length - len(arrow))
+    msg     = "\rID " + str(id).ljust(4)
+
+    sys.stdout.write("\r {0} [{1}] {2}%".format(msg, arrow + spaces,
+                                                int(round(percent * 100))))
+    sys.stdout.flush()
+
+################################################################################
 # run model function for each id
 ################################################################################
 
+print("\nStarting model fitting with NLLS")
+
+iteration  = 0
+iterations = len(GRDF.NewID.unique())
+
 for id in GRDF["NewID"].unique():
 
-    print("\nModel fitting id:", id, "of", max(GRDF.NewID), "---------------\n")
+    iteration += 1
+    progressBar(iteration, iterations, 65)
 
     cubicDF = cubicDF.append(cubic_model(id, GRDF))
-    flschDF = flschDF.append(full_schlfld_model(id, GRDF))
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF))
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF))
-    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF))
+    flschDF = flschDF.append(full_schlfld_model(id, GRDF, 10))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, 10))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, 10))
+    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF, 10))
 
 ################################################################################
 # save results to csv
 ################################################################################
+
+print("\n\nSaving Results as .csv files")
 
 cubicDF.to_csv("../Results/cubic_model.csv")
 flschDF.to_csv("../Results/full_scholfield_model.csv")
 nhschDF.to_csv("../Results/noh_scholfield_model.csv")
 nlschDF.to_csv("../Results/nol_scholfield_model.csv")
 arrhnDF.to_csv("../Results/arrhenius_model.csv")
+
+print("\nDone with Model Fitting!")

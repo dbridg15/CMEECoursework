@@ -14,7 +14,6 @@ from lmfit import minimize, Parameters, report_fit
 
 # TODO
     # Bind the E/El/Eh values to each other
-    # change cubic to celcius and not logged...
 
 ################################################################################
 # constants
@@ -67,7 +66,7 @@ def full_schlfld_residuals(params, x, data):
 # full_schlfld_model()
 ################################################################################
 
-def full_schlfld_model(id, df):
+def full_schlfld_model(id, df, trys = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -91,12 +90,8 @@ def full_schlfld_model(id, df):
 
         trycount += 1
 
-        if trycount > 10:
-            if res["aic"] == [np.NaN]:
-                print(id, "Full Schoolfield Failed to converge!")
-            else:
-                print(id, "Full Schoolfield Converged! lowest aic:", res["aic"])
-            break
+        if trycount > trys:
+           break
 
         try:
             params = Parameters()
@@ -149,7 +144,7 @@ def noh_schlfld_residuals(params, x, data):
 # noh_schlfld_model()
 ################################################################################
 
-def noh_schlfld_model(id, df):
+def noh_schlfld_model(id, df, trys = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -171,12 +166,8 @@ def noh_schlfld_model(id, df):
 
         trycount += 1
 
-        if trycount > 10:
-            if res["aic"] == [np.NaN]:
-                print(id, "noh Schoolfield Failed to converge!")
-            else:
-                print(id, "noh Schoolfield Converged! lowest aic:", res["aic"])
-            break
+        if trycount > trys:
+           break
 
         try:
             params = Parameters()
@@ -224,7 +215,7 @@ def nol_schlfld_residuals(params, x, data):
 # nol_schlfld_model()
 ################################################################################
 
-def nol_schlfld_model(id, df):
+def nol_schlfld_model(id, df, trys = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -246,12 +237,8 @@ def nol_schlfld_model(id, df):
 
         trycount += 1
 
-        if trycount > 10:
-            if res["aic"] == [np.NaN]:
-                print(id, "nol Schoolfield Failed to converge!")
-            else:
-                print(id, "nol Schoolfield Converged! lowest aic:", res["aic"])
-            break
+        if trycount > trys:
+           break
 
         try:
             params = Parameters()
@@ -350,7 +337,6 @@ def cubic_model(id, df):
             'bic'    : [out.bic]}
 
     res = pd.DataFrame(res)
-    print(id, "Cubic aic:", res["aic"].values[0])
 
     return res
 
@@ -392,7 +378,7 @@ def arrhenius_residuals(params, x, data):
 # arrhenius_model()
 ################################################################################
 
-def arrhenius_model(id, df):
+def arrhenius_model(id, df, trys):
     """PUT IN DOCSTRING"""
 
     vals = arrhenius_vals(id, df)
@@ -415,12 +401,8 @@ def arrhenius_model(id, df):
 
         trycount += 1
 
-        if trycount > 10:
-            if res["aic"] == [np.NaN]:
-                print(id, "arrhenius model Failed to converge!")
-            else:
-                print(id, "arrhenius model Converged! lowest aic:", res["aic"])
-            break
+        if trycount > trys:
+           break
 
         try:
             params = Parameters()
