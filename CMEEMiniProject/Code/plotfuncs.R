@@ -132,7 +132,7 @@ cubic <- function(id, data, values){
     if (is.na(subset(values, NewID == id)$chisqr)){
         print("Cubic model did not converge")
     } else {
-        x <- subset(data, NewID == id)$UsedTempK
+        x <- subset(data, NewID == id)$UsedTemp
         x <- seq(min(x), max(x), length.out = 100)
 
         a <- subset(values, NewID == id)$a
@@ -140,26 +140,49 @@ cubic <- function(id, data, values){
         c <- subset(values, NewID == id)$c
         d <- subset(values, NewID == id)$d
 
-        y <- a + b*x + c*x^2 + d*x^3
+        y <- log(a + b*x + c*x^2 + d*x^3)
+
+        x <- x + 273.15
 
         data.frame(x, y, model = "Cubic")
     }
 }
 
+# return x and y values from arrhenius model using values from NLLS
+arrhenius <- function(id, data, values){
+
+    if (is.na(subset(values, NewID == id)$chisqr)){
+        print("Cubic model did not converge")
+    } else {
+        x <- subset(data, NewID == id)$UsedTempK
+        x <- seq(min(x), max(x), length.out = 100)
+
+        A0      <- subset(values, NewID == id)$A0
+        Ea      <- subset(values, NewID == id)$Ea
+        deltaCp <- subset(values, NewID == id)$deltaCp
+        deltaH  <- subset(values, NewID == id)$deltaH
+        trefs   <- subset(values, NewID == id)$trefs
+
+        y <- log(A0)-((Ea-deltaH*(1-x/trefs)-deltaCp*(x-trefs-x*log(x/trefs)))/(x*k))
+
+        data.frame(x, y, model = "Arrhenius")
+    }
+}
 
 ###############################################################################
 # plot fitted models onto the data
 ###############################################################################
 
 # plot all models
-models_plt <- function(id, dataframe, flsVals, nhsVals, nlsVals, cubicVals){
+models_plt <- function(id, dataframe, flsVals, nhsVals, nlsVals, cubicVals, arhVals){
     points <- subset(dataframe, NewID == id, select = c(UsedTempK, STVlogged))
     colnames(points) <- c("Temp", "Trait")
 
     suppressWarnings(models <- rbind(full_schfld(id, GRDF, flsVals),
                                      noh_schfld(id, GRDF, nhsVals),
                                      nol_schfld(id, GRDF, nlsVals),
-                                     cubic(id, GRDF, cubicVals)))
+                                     cubic(id, GRDF, cubicVals),
+                                     arrhenius(id, GRDF, arhVals)))
     models <- na.omit(models)
     rownames(models) <- NULL
     colnames(models) <- c("Temp", "Trait", "model")
@@ -229,6 +252,15 @@ cub_tbl <- function(id, cubm){
     cub <- cub[c("model", "a", "b", "c", "d", "aic", "bic", "chisqr")]
     rownames(cub) <- NULL
     tableGrob(format(cub, digits = 5), theme = my_theme)
+}
+
+
+arh_tbl <- function(id, arhm){
+    arh <- subset(arhm, NewID == id)
+    arh$model <- "arrhenius"
+    arh <- arh[c("model", "A0", "Ea", "deltaCp", "deltaH", "trefs",  "aic", "bic", "chisqr")]
+    rownames(arh) <- NULL
+    tableGrob(format(arh, digits = 5), theme = my_theme)
 }
 
 # sch_tbl(3, flschDF, nhschDF, nlschDF)

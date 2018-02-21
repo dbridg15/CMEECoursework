@@ -36,18 +36,23 @@ nlschDF = pd.DataFrame(data    = None,
                        columns = ('NewID', 'B0', 'E', 'Eh', 'Th', 'chisqr',
                                   'aic', 'bic'))
 
+arrhnDF = pd.DataFrame(data    = None,
+                       columns = ('NewID', 'A0', 'Ea', 'deltaCp', 'deltaH',
+                                  'chisqr', 'aic', 'bic'))
+
 ################################################################################
 # run model function for each id
 ################################################################################
 
 for id in GRDF["NewID"].unique():
 
-    print("\nModel fitting id:", id, "of", max(GRDF.NewID), "----------------\n"
+    print("\nModel fitting id:", id, "of", max(GRDF.NewID), "---------------\n")
 
     cubicDF = cubicDF.append(cubic_model(id, GRDF))
     flschDF = flschDF.append(full_schlfld_model(id, GRDF))
     nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF))
     nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF))
+    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF))
 
 ################################################################################
 # save results to csv
@@ -57,3 +62,4 @@ cubicDF.to_csv("../Results/cubic_model.csv")
 flschDF.to_csv("../Results/full_scholfield_model.csv")
 nhschDF.to_csv("../Results/noh_scholfield_model.csv")
 nlschDF.to_csv("../Results/nol_scholfield_model.csv")
+arrhnDF.to_csv("../Results/arrhenius_model.csv")

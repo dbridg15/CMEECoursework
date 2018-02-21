@@ -14,7 +14,7 @@ from lmfit import minimize, Parameters, report_fit
 
 # TODO
     # Bind the E/El/Eh values to each other
-    # Change from chi-squared to R-squared (will need to write function)
+    # change cubic to celcius and not logged...
 
 ################################################################################
 # constants
@@ -57,8 +57,6 @@ def full_schlfld_residuals(params, x, data):
     Eh = params['Eh'].value
     Tl = params['Tl'].value
     Th = params['Th'].value
-    e  = params['e'].value
-    k  = params['k'].value
 
     model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(
                    1+(e**((El/k)*((1/Tl)-(1/x))))+(e**((Eh/k)*((1/Th)-(1/x))))))
@@ -94,10 +92,10 @@ def full_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            if res["chisqr"] == [np.NaN]:
+            if res["aic"] == [np.NaN]:
                 print(id, "Full Schoolfield Failed to converge!")
             else:
-                print(id, "Full Schoolfield Converged! lowest chisqr:", res["chisqr"])
+                print(id, "Full Schoolfield Converged! lowest aic:", res["aic"])
             break
 
         try:
@@ -106,14 +104,12 @@ def full_schlfld_model(id, df):
             params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
             params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
             params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
-            params.add('Tl', value = vals["Tl"], min = 260, max = 330)
-            params.add('Th', value = vals["Th"], min = 260, max = 330)
-            params.add('e',  value = e, vary = False)
-            params.add('k',  value = k, vary = False)
+            params.add('Tl', value = vals["Tl"], min = 250, max = 390)
+            params.add('Th', value = vals["Th"], min = 250, max = 390)
 
             out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
+            if out.chisqr < res["aic"] or res["aic"] == [np.NaN]:
                 res = {'NewID'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -143,8 +139,6 @@ def noh_schlfld_residuals(params, x, data):
     E  = params['E'].value
     El = params['El'].value
     Tl = params['Tl'].value
-    e  = params['e'].value
-    k  = params['k'].value
 
     model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(
                    1+(e**((El/k)*((1/Tl)-(1/x))))))
@@ -178,10 +172,10 @@ def noh_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            if res["chisqr"] == [np.NaN]:
+            if res["aic"] == [np.NaN]:
                 print(id, "noh Schoolfield Failed to converge!")
             else:
-                print(id, "noh Schoolfield Converged! lowest chisqr:", res["chisqr"])
+                print(id, "noh Schoolfield Converged! lowest aic:", res["aic"])
             break
 
         try:
@@ -190,12 +184,10 @@ def noh_schlfld_model(id, df):
             params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
             params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
             params.add('Tl', value = vals["Tl"], min = 260, max = 330)
-            params.add('e',  value = e, vary = False)
-            params.add('k',  value = k, vary = False)
 
             out = minimize(noh_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"] or res["chisqr"] == [np.NaN]:
+            if out.chisqr < res["aic"] or res["aic"] == [np.NaN]:
                 res = {'NewID'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -223,11 +215,8 @@ def nol_schlfld_residuals(params, x, data):
     E  = params['E'].value
     Eh = params['Eh'].value
     Th = params['Th'].value
-    e  = params['e'].value
-    k  = params['k'].value
 
-    model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(
-                   1+(e**((Eh/k)*((1/Th)-(1/x))))))
+    model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(1+(e**((Eh/k)*((1/Th)-(1/x))))))
 
     return model - data
 
@@ -258,10 +247,10 @@ def nol_schlfld_model(id, df):
         trycount += 1
 
         if trycount > 10:
-            if res["chisqr"] == [np.NaN]:
+            if res["aic"] == [np.NaN]:
                 print(id, "nol Schoolfield Failed to converge!")
             else:
-                print(id, "nol Schoolfield Converged! lowest chisqr:", res["chisqr"])
+                print(id, "nol Schoolfield Converged! lowest aic:", res["aic"])
             break
 
         try:
@@ -270,12 +259,10 @@ def nol_schlfld_model(id, df):
             params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
             params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
             params.add('Th', value = vals["Th"], min = 260, max = 330)
-            params.add('e',  value = e, vary = False)
-            params.add('k',  value = k, vary = False)
 
             out = minimize(nol_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["chisqr"] or res["chisqr"]  == [np.NaN]:
+            if out.chisqr < res["aic"] or res["aic"]  == [np.NaN]:
                 res = {'NewID'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -301,8 +288,8 @@ def cubic_vals(id, df):
     """PUT IN DOCSTRING"""
 
     vals = {'NewID' : id,
-            'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
-            'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
+            'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
+            'yVals' : np.asarray(df.StandardisedTraitValue[df.NewID == id]),
             'a'     : 0.,
             'b'     : 0.,
             'c'     : 0.,
@@ -363,6 +350,102 @@ def cubic_model(id, df):
             'bic'    : [out.bic]}
 
     res = pd.DataFrame(res)
-    print(id, "Cubic chisqr:", res["chisqr"].values[0])
+    print(id, "Cubic aic:", res["aic"].values[0])
 
+    return res
+
+################################################################################
+# arrhenius_vals()
+################################################################################
+
+def arrhenius_vals(id, df):
+    """PUT IN DOCSTRING"""
+
+    vals = {'NewID'   : id,
+            'xVals'   : np.asarray(df.UsedTempK[df.NewID == id]),
+            'yVals'   : np.asarray(df.STVlogged[df.NewID == id]),
+            'A0'      : [np.NaN],
+            'Ea'      : [np.NaN],
+            'deltaCp' : [np.NaN],
+            'deltaH'  : [np.NaN],
+            'trefs'   : [np.NaN]}
+
+    return vals
+
+################################################################################
+# arrhenius_residuals()
+################################################################################
+
+def arrhenius_residuals(params, x, data):
+
+    A0      = params['A0'].value
+    Ea      = params['Ea'].value
+    deltaCp = params['deltaCp'].value
+    deltaH  = params['deltaH'].value
+    trefs   = params['trefs'].value
+
+    model = np.log(A0) - ((Ea - deltaH*(1 - x/trefs) - deltaCp*(x - trefs - x*np.log(x/trefs)))/(x*k))
+
+    return model - data
+
+################################################################################
+# arrhenius_model()
+################################################################################
+
+def arrhenius_model(id, df):
+    """PUT IN DOCSTRING"""
+
+    vals = arrhenius_vals(id, df)
+
+    xVals    = vals["xVals"]
+    ldata    = vals["yVals"]
+
+    res = {'NewID'   : vals["NewID"],
+           'A0'      : vals["A0"],
+           'Ea'      : vals["Ea"],
+           'deltaCp' : vals["deltaCp"],
+           'deltaH'  : vals["deltaH"],
+           'trefs'   : vals["trefs"],
+           'chisqr'  : [np.NaN],  # will test on each try for improvment
+           'aic'     : [np.NaN],
+           'bic'     : [np.NaN]}
+
+    trycount = 0
+    while True:
+
+        trycount += 1
+
+        if trycount > 10:
+            if res["aic"] == [np.NaN]:
+                print(id, "arrhenius model Failed to converge!")
+            else:
+                print(id, "arrhenius model Converged! lowest aic:", res["aic"])
+            break
+
+        try:
+            params = Parameters()
+            params.add('A0', value = np.random.uniform(0, 10), min = 0)
+            params.add('Ea', value = np.random.uniform(0, 10), min = 0)
+            params.add('deltaCp',  value = np.random.uniform(0, 10), min= 0)
+            params.add('deltaH', value = np.random.uniform(0, 10), min = 0)
+            params.add('trefs', value = np.random.uniform(280, 350), min = 250, max = 400)
+
+            out = minimize(arrhenius_residuals, params, args = (xVals, ldata))
+
+            if out.chisqr < res["aic"] or res["aic"] == [np.NaN]:
+                res = {'NewID'   : [id],
+                       'A0'      : [out.params["A0"].value],
+                       'Ea'      : [out.params["Ea"].value],
+                       'deltaCp' : [out.params["deltaCp"].value],
+                       'deltaH'  : [out.params["deltaH"].value],
+                       'trefs'   : [out.params["trefs"].value],
+                       'chisqr'  : [out.chisqr],
+                       'aic'     : [out.aic],
+                       'bic'     : [out.bic]}
+            continue
+
+        except ValueError:
+            continue
+
+    res = pd.DataFrame(res)
     return res
