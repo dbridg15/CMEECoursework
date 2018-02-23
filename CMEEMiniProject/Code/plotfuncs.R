@@ -53,7 +53,8 @@ KT_plt <- function(id, dataframe){
     plt <- plt + geom_segment(x = (1/(283.15*k)), xend = (1/(283.15*k)),
                               y = -10000, yend = tmp$B0[1],
                               lty = 5, color = "blue")
-    plt <- plt + labs(title = id)
+    plt <- plt + xlab("1/kT")
+    plt <- plt + ylab("Logged Trait Value")
     return(plt)
 }
 
@@ -66,7 +67,7 @@ KT_plt <- function(id, dataframe){
 full_schfld <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        #print("Full Schoolfield did not converge")
+        # print("Full Schoolfield did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -89,7 +90,7 @@ full_schfld <- function(id, data, values){
 noh_schfld <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        print("No high Schoolfield did not converge")
+        # print("No high Schoolfield did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -110,7 +111,7 @@ noh_schfld <- function(id, data, values){
 nol_schfld <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        #print("no low schoolfield did not converge")
+        # print("no low schoolfield did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -130,7 +131,7 @@ nol_schfld <- function(id, data, values){
 cubic <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        #print("Cubic model did not converge")
+        # print("Cubic model did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTemp
         x <- seq(min(x), max(x), length.out = 100)
@@ -140,9 +141,10 @@ cubic <- function(id, data, values){
         c <- subset(values, NewID == id)$c
         d <- subset(values, NewID == id)$d
 
-        y <- log(a + b*x + c*x^2 + d*x^3)
+        y <- a + b*x + c*x^2 + d*x^3
 
         x <- x + 273.15
+        y <- log(y)
 
         data.frame(x, y, model = "Cubic")
     }
@@ -152,7 +154,7 @@ cubic <- function(id, data, values){
 arrhenius <- function(id, data, values){
 
     if (is.na(subset(values, NewID == id)$chisqr)){
-        #print("Cubic model did not converge")
+        # print("Cubic model did not converge")
     } else {
         x <- subset(data, NewID == id)$UsedTempK
         x <- seq(min(x), max(x), length.out = 100)
@@ -194,6 +196,8 @@ models_plt <- function(id, dataframe, flsVals, nhsVals, nlsVals, cubicVals, arhV
     plt <- plt + geom_point(data = points)
     plt <- plt + theme_classic()
     plt <- plt + theme(legend.position = "bottom")
+    plt <- plt + xlab("Temperature (K)")
+    plt <- plt + ylab("Logged Trait Value")
     return(plt)
 }
 

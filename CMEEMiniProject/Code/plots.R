@@ -9,6 +9,7 @@ rm(list = ls())
 # imports
 source("plotfuncs.R")
 require(gridExtra)
+require(grid)
 
 ###############################################################################
 # read in data
@@ -54,7 +55,10 @@ for(id in unique(GRDF$NewID)){
     grid.arrange(plt1, plt2, sctb, cutb, ahtb,
                 nrow = 5,
                 as.table = TRUE,
+                top=textGrob(paste0("ID: ", id),gp=gpar(fontsize=20,font=3)),
                 heights=c(9, 12, 4, 2, 2))
 }
+
+cat("\nDone!\n")
 
 dev.off()
