@@ -27,7 +27,7 @@ basic_plt <- function(id, dataframe){
 
     tmp <- subset(dataframe, NewID == id)
 
-    plt <- ggplot(data = tmp, aes(UsedTempK, StandardisedTraitValue))
+    plt <- ggplot(data = tmp, aes(UsedTempK, OriginalTraitValue))
     plt <- plt + geom_point()
     plt <- plt + theme_classic()
     return(plt)
@@ -38,7 +38,7 @@ KT_plt <- function(id, dataframe){
 
     tmp <- subset(dataframe, NewID == id)
 
-    plt <- ggplot(data = tmp, aes(adjTemp, STVlogged))
+    plt <- ggplot(data = tmp, aes(adjTemp, OTVlogged))
     plt <- plt + geom_point()
     plt <- plt + theme_classic()
 
@@ -48,10 +48,10 @@ KT_plt <- function(id, dataframe){
                              lty = 6, color = "green")
 
     plt <- plt + geom_segment(x = -10000, xend = (1/(283.15*k)),
-                              y = tmp$B0[1], yend = tmp$B0[1],
+                              y = log(tmp$B0[1]), yend = log(tmp$B0[1]),
                               lty = 5, color = "blue")
     plt <- plt + geom_segment(x = (1/(283.15*k)), xend = (1/(283.15*k)),
-                              y = -10000, yend = tmp$B0[1],
+                              y = -10000, yend = log(tmp$B0[1]),
                               lty = 5, color = "blue")
     plt <- plt + xlab("1/kT")
     plt <- plt + ylab("Logged Trait Value")
@@ -177,7 +177,7 @@ arrhenius <- function(id, data, values){
 
 # plot all models
 models_plt <- function(id, dataframe, flsVals, nhsVals, nlsVals, cubicVals, arhVals){
-    points <- subset(dataframe, NewID == id, select = c(UsedTempK, STVlogged))
+    points <- subset(dataframe, NewID == id, select = c(UsedTempK, OTVlogged))
     colnames(points) <- c("Temp", "Trait")
 
     suppressWarnings(models <- rbind(full_schfld(id, GRDF, flsVals),

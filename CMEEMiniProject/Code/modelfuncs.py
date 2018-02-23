@@ -33,8 +33,8 @@ def schlfld_vals(id, df):
 
     vals = {'NewID' : id,
             'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
-            'yVals' : np.asarray(df.STVlogged[df.NewID == id]),
-            'B0'    : e**(df.B0[df.NewID == id].iloc[0]),
+            'yVals' : np.asarray(df.OTVlogged[df.NewID == id]),
+            'B0'    : df.B0[df.NewID == id].iloc[0],
             'E'     : abs(df.E[df.NewID == id].iloc[0]),
             'El'    : abs(df.El[df.NewID == id].iloc[0]),
             'Eh'    : df.Eh[df.NewID == id].iloc[0],
@@ -276,7 +276,7 @@ def cubic_vals(id, df):
 
     vals = {'NewID' : id,
             'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
-            'yVals' : np.asarray(df.StandardisedTraitValue[df.NewID == id]),
+            'yVals' : np.asarray(df.OriginalTraitValue[df.NewID == id]),
             'a'     : 0.,
             'b'     : 0.,
             'c'     : 0.,
@@ -349,7 +349,7 @@ def arrhenius_vals(id, df):
 
     vals = {'NewID'   : id,
             'xVals'   : np.asarray(df.UsedTempK[df.NewID == id]),
-            'yVals'   : np.asarray(df.STVlogged[df.NewID == id]),
+            'yVals'   : np.asarray(df.OTVlogged[df.NewID == id]),
             'A0'      : [np.NaN],
             'Ea'      : [np.NaN],
             'deltaCp' : [np.NaN],

@@ -45,7 +45,7 @@ arrhnDF = pd.DataFrame(data    = None,
 # progressBar function
 ################################################################################
 
-def progressBar(value, endvalue, bar_length=40):
+def progressBar(value, endvalue, bar_length = 65):
     """add DocString"""
 
     percent = float(value) / endvalue
@@ -64,7 +64,7 @@ def progressBar(value, endvalue, bar_length=40):
 print("\nStarting model fitting with NLLS")
 
 iterations = len(GRDF.NewID.unique()) # number of iterations for progressBar
-
+tries      = 10
 
 # cubic model-------------------------------------------------------------------
 
@@ -88,7 +88,7 @@ print("\n\nFull Schoolfield Model...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    flschDF = flschDF.append(full_schlfld_model(id,GRDF, 10))
+    flschDF = flschDF.append(full_schlfld_model(id,GRDF, tries))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -102,7 +102,7 @@ print("\n\nSchoolfield Model without high...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, 10))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, tries))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -116,7 +116,7 @@ print("\n\nSchoolfield Model without low...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, 10))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, tries))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -130,7 +130,7 @@ print("\n\nEnzyme assisted Arrhenius Model...")
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF, 10))
+    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF, tries))
 
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed
