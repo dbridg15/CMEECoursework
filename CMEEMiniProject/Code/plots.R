@@ -4,6 +4,9 @@
 # Desc:
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
+start_time <- proc.time()
+print(start_time)
+
 rm(list = ls())
 
 # imports
@@ -62,3 +65,7 @@ for(id in unique(GRDF$NewID)){
 cat("\nDone!\n")
 
 dev.off()
+
+end_time <- start_time - proc.time()
+
+print(end_time)

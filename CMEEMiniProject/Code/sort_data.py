@@ -110,8 +110,8 @@ def same_trait(group):
 
 GRDF = GRDF.groupby("NewID").filter(same_trait)
 
-print("    Dealing with outliers...")
-
+# print("    Dealing with outliers...")
+#
 # function was used to remove outliers before switching back to
 # OriginalTraitValue
 # remove first point if its 3 times higher than second

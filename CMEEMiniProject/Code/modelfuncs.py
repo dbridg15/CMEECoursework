@@ -66,7 +66,7 @@ def full_schlfld_residuals(params, x, data):
 # full_schlfld_model()
 ################################################################################
 
-def full_schlfld_model(id, df, trys = 10):
+def full_schlfld_model(id, df, tries = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -90,7 +90,7 @@ def full_schlfld_model(id, df, trys = 10):
 
         trycount += 1
 
-        if trycount > trys:
+        if trycount > tries:
            break
 
         try:
@@ -144,7 +144,7 @@ def noh_schlfld_residuals(params, x, data):
 # noh_schlfld_model()
 ################################################################################
 
-def noh_schlfld_model(id, df, trys = 10):
+def noh_schlfld_model(id, df, tries = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -166,7 +166,7 @@ def noh_schlfld_model(id, df, trys = 10):
 
         trycount += 1
 
-        if trycount > trys:
+        if trycount > tries:
            break
 
         try:
@@ -215,7 +215,7 @@ def nol_schlfld_residuals(params, x, data):
 # nol_schlfld_model()
 ################################################################################
 
-def nol_schlfld_model(id, df, trys = 10):
+def nol_schlfld_model(id, df, tries = 10):
     """PUT IN DOCSTRING"""
 
     vals = schlfld_vals(id, df)
@@ -237,7 +237,7 @@ def nol_schlfld_model(id, df, trys = 10):
 
         trycount += 1
 
-        if trycount > trys:
+        if trycount > tries:
            break
 
         try:
@@ -378,7 +378,7 @@ def arrhenius_residuals(params, x, data):
 # arrhenius_model()
 ################################################################################
 
-def arrhenius_model(id, df, trys):
+def arrhenius_model(id, df, tries):
     """PUT IN DOCSTRING"""
 
     vals = arrhenius_vals(id, df)
@@ -401,15 +401,15 @@ def arrhenius_model(id, df, trys):
 
         trycount += 1
 
-        if trycount > trys:
+        if trycount > tries:
            break
 
         try:
             params = Parameters()
             params.add('A0', value = np.random.uniform(0, 10), min = 0)
             params.add('Ea', value = np.random.uniform(0, 10), min = 0)
-            params.add('deltaCp',  value = np.random.uniform(0, 10), min= 0)
-            params.add('deltaH', value = np.random.uniform(0, 10), min = 0)
+            params.add('deltaCp',  value = np.random.uniform(0, 10))
+            params.add('deltaH', value = np.random.uniform(0, 10))
             params.add('trefs', value = np.random.uniform(280, 350), min = 250, max = 400)
 
             out = minimize(arrhenius_residuals, params, args = (xVals, ldata))

@@ -64,7 +64,7 @@ def progressBar(value, endvalue, bar_length = 65):
 print("\nStarting model fitting with NLLS")
 
 iterations = len(GRDF.NewID.unique()) # number of iterations for progressBar
-tries      = 10
+tries      = 1
 
 # cubic model-------------------------------------------------------------------
 
