@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 """
-Author: David Bridgwood"""
+Author:      David Bridgwood
+Description: script containg functions to perform non linear least squared model
+             fitting on thermal performance curves"""
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -13,7 +15,7 @@ from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
 # TODO
-    # Bind the E/El/Eh values to each other
+    # comments!
 
 ################################################################################
 # constants
@@ -22,14 +24,14 @@ from lmfit import minimize, Parameters, report_fit
 k = constants.value('Boltzmann constant in eV/K')
 e = np.exp(1)
 
-np.random.seed(111)
+np.random.seed(111)  # set random seed for repeatability
 
 ################################################################################
 # schlfld_vals()
 ################################################################################
 
 def schlfld_vals(id, df):
-    """PUT IN DOCSTRING"""
+    """returns in a dictionary x, y and starting values for fitting schoolfield models"""
 
     vals = {'NewID' : id,
             'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
@@ -48,7 +50,7 @@ def schlfld_vals(id, df):
 ################################################################################
 
 def full_schlfld_residuals(params, x, data):
-    """PUT IN DOCSTRING!!!"""
+    """returns residuals of data and model with given parameters for full_schlfld_model"""
 
     B0 = params['B0'].value
     E  = params['E'].value
@@ -66,8 +68,15 @@ def full_schlfld_residuals(params, x, data):
 # full_schlfld_model()
 ################################################################################
 
-def full_schlfld_model(id, df, tries = 10):
-    """PUT IN DOCSTRING"""
+def full_schlfld_model(id, df, tries = 10, method = 1):
+    """performs non linear least square model fitting for given ids TPC on full_schlfld_model
+
+    keyword arguments:
+        id     -- specific curve id
+        df     -- dataframe containg TPC data and starting values for all ids
+        tries  -- number of tries with randomized starting values
+        method -- 1 - stops trying once model converges
+                  2 - continue trying to improve fit upto tries"""
 
     vals = schlfld_vals(id, df)
 
@@ -90,14 +99,18 @@ def full_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries or res["aic"] != [np.NaN]:
-           break
+        if method == 1:
+            if res["aic"] != [np.NaN] or trycount > tries:
+                break
+        elif method == 2:
+            if trycount > tries:
+                break
 
         try:
             if trycount == 1:
                 params = Parameters()
                 params.add('B0', value = vals["B0"], min = 0)
-                params.add('E',  value = vals["E"], min= 0)
+                params.add('E',  value = vals["E"],  min = 0)
                 params.add('El', value = vals["El"], min = 0)
                 params.add('Eh', value = vals["Eh"], min = 0)
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
@@ -105,7 +118,7 @@ def full_schlfld_model(id, df, tries = 10):
             else:
                 params = Parameters()
                 params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
-                params.add('E',  value = np.random.uniform(0, vals["E"]*2), min= 0)
+                params.add('E',  value = np.random.uniform(0, vals["E"]*2),  min = 0)
                 params.add('El', value = np.random.uniform(0, vals["El"]*2), min = 0)
                 params.add('Eh', value = np.random.uniform(0, vals["Eh"]*2), min = 0)
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
@@ -137,7 +150,7 @@ def full_schlfld_model(id, df, tries = 10):
 ################################################################################
 
 def noh_schlfld_residuals(params, x, data):
-    """PUT IN DOCSTRING!!!"""
+    """returns residuals of data and model with given parameters for schlfld_model without high parameters"""
 
     B0 = params['B0'].value
     E  = params['E'].value
@@ -153,8 +166,15 @@ def noh_schlfld_residuals(params, x, data):
 # noh_schlfld_model()
 ################################################################################
 
-def noh_schlfld_model(id, df, tries = 10):
-    """PUT IN DOCSTRING"""
+def noh_schlfld_model(id, df, tries = 10, method = 1):
+     """performs non linear least square model fitting for given ids TPC on schlfld_model without high parameters
+
+    keyword arguments:
+        id     -- specific curve id
+        df     -- dataframe containg TPC data and starting values for all ids
+        tries  -- number of tries with randomized starting values
+        method -- 1 - stops trying once model converges
+                  2 - continue trying to improve fit upto tries"""
 
     vals = schlfld_vals(id, df)
 
@@ -166,8 +186,8 @@ def noh_schlfld_model(id, df, tries = 10):
            'E'      : vals["E"],
            'El'     : vals["El"],
            'Tl'     : vals["Tl"],
-           'chisqr' : [np.NaN],  # will test on each try for improvment
-           'aic'    : [np.NaN],
+           'chisqr' : [np.NaN],
+           'aic'    : [np.NaN],  # will test on each try for improvment
            'bic'    : [np.NaN]}
 
     trycount = 0
@@ -175,8 +195,12 @@ def noh_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries or res["aic"] != [np.NaN]:
-           break
+        if method == 1:
+            if res["aic"] != [np.NaN] or trycount > tries:
+                break
+        elif method == 2:
+            if trycount > tries:
+                break
 
         try:
             if trycount == 1:
@@ -217,7 +241,7 @@ def noh_schlfld_model(id, df, tries = 10):
 ################################################################################
 
 def nol_schlfld_residuals(params, x, data):
-    """PUT IN DOCSTRING!!!"""
+    """returns residuals of data and model with given parameters for schlfld_model without low parameters"""
 
     B0 = params['B0'].value
     E  = params['E'].value
@@ -232,8 +256,15 @@ def nol_schlfld_residuals(params, x, data):
 # nol_schlfld_model()
 ################################################################################
 
-def nol_schlfld_model(id, df, tries = 10):
-    """PUT IN DOCSTRING"""
+def nol_schlfld_model(id, df, tries = 10, method = 1):
+    """performs non linear least square model fitting for given ids TPC on schlfld_model without low parameters
+
+    keyword arguments:
+        id     -- specific curve id
+        df     -- dataframe containg TPC data and starting values for all ids
+        tries  -- number of tries with randomized starting values
+        method -- 1 - stops trying once model converges
+                  2 - continue trying to improve fit upto tries"""
 
     vals = schlfld_vals(id, df)
 
@@ -245,8 +276,8 @@ def nol_schlfld_model(id, df, tries = 10):
            'E'      : vals["E"],
            'Eh'     : vals["Eh"],
            'Th'     : vals["Th"],
-           'chisqr' : [np.NaN],  # will test on each try for improvment
-           'aic'    : [np.NaN],
+           'chisqr' : [np.NaN],
+           'aic'    : [np.NaN],  # will test on each try for improvment
            'bic'    : [np.NaN]}
 
     trycount = 0
@@ -254,8 +285,12 @@ def nol_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries or res["aic"] != [np.NaN]:
-           break
+        if method == 1:
+            if res["aic"] != [np.NaN] or trycount > tries:
+                break
+        elif method == 2:
+            if trycount > tries:
+                break
 
         try:
             if trycount == 1:
@@ -298,7 +333,7 @@ def nol_schlfld_model(id, df, tries = 10):
 ################################################################################
 
 def cubic_vals(id, df):
-    """PUT IN DOCSTRING"""
+    """returns in a dictionary x, y and starting values for fitting cubic model"""
 
     vals = {'NewID' : id,
             'xVals' : np.asarray(df.UsedTemp[df.NewID == id]),
@@ -315,6 +350,8 @@ def cubic_vals(id, df):
 ################################################################################
 
 def cubic_residuals(params, x, data):
+    """returns residuals of data and model with given parameters for cubic model"""
+
     a = params['a'].value
     b = params['b'].value
     c = params['c'].value
@@ -329,7 +366,11 @@ def cubic_residuals(params, x, data):
 ################################################################################
 
 def cubic_model(id, df):
-    """PUT IN DOCSTRING"""
+    """performs non linear least square model fitting for given ids TPC on cubic model
+
+    keyword arguments:
+        id     -- specific curve id
+        df     -- dataframe containg TPC data and starting values for all ids"""
 
     vals = cubic_vals(id, df)
 
@@ -371,7 +412,7 @@ def cubic_model(id, df):
 ################################################################################
 
 def arrhenius_vals(id, df):
-    """PUT IN DOCSTRING"""
+    """returns in a dictionary x, y and starting values (NAs) for fitting enzyme assisted arrhenius model"""
 
     vals = {'NewID'   : id,
             'xVals'   : np.asarray(df.UsedTempK[df.NewID == id]),
@@ -389,6 +430,7 @@ def arrhenius_vals(id, df):
 ################################################################################
 
 def arrhenius_residuals(params, x, data):
+    """returns residuals of data and model with given parameters for enzyme assisted arrhenius model"""
 
     A0      = params['A0'].value
     Ea      = params['Ea'].value
@@ -404,8 +446,15 @@ def arrhenius_residuals(params, x, data):
 # arrhenius_model()
 ################################################################################
 
-def arrhenius_model(id, df, tries):
-    """PUT IN DOCSTRING"""
+def arrhenius_model(id, df, tries = 10, method = 1):
+    """performs non linear least square model fitting for given ids TPC on enzyme assisted arrhenius model
+
+    keyword arguments:
+        id     -- specific curve id
+        df     -- dataframe containg TPC data and starting values for all ids
+        tries  -- number of tries with randomized starting values
+        method -- 1 - stops trying once model converges
+                  2 - continue trying to improve fit upto tries"""
 
     vals = arrhenius_vals(id, df)
 
@@ -427,8 +476,12 @@ def arrhenius_model(id, df, tries):
 
         trycount += 1
 
-        if trycount > tries:
-           break
+        if method == 1:
+            if res["aic"] != [np.NaN] or trycount > tries:
+                break
+        elif method == 2:
+            if trycount > tries:
+                break
 
         try:
             params = Parameters()
