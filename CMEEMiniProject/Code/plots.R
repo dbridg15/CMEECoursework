@@ -1,11 +1,9 @@
 #!usr/bin/env Rscript
 
-# script:
-# Desc:
+# script: plots.R
+# Desc:   plots thermal performance curve for each unique curve and saves to
+#         pdf
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
-
-start_time <- proc.time()
-print(start_time)
 
 rm(list = ls())
 
@@ -26,46 +24,47 @@ cubicDF <- read.csv("../Results/cubic_model.csv")
 arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 
 ###############################################################################
-#
+# do the plots
 ###############################################################################
 
-pdf("../Sandbox/plots.pdf", width = 10, height = 12)
+pdf("../Results/plots.pdf", width = 10, height = 10)
 
-iteration  = 0
-iterations = nrow(flschDF)
-bar_len = 65
+iteration  = 0              # start iteration as 0 for loading bar
+iterations = nrow(flschDF)  # iterations for loading bar is number of ids
+bar_len = 65                # length of loading bat in terminal
 
 cat("Plotting:\n")
 
 for(id in unique(GRDF$NewID)){
 
-    iteration = iteration + 1
+  # loading bar ---------------------------------------------------------------
+  iteration = iteration + 1  # increment iteration
 
-    percent = iteration/iterations
-    hashes  = paste(rep("#", round(percent*bar_len )), collapse = "")
-    spaces  = paste(rep(" ", bar_len - nchar(hashes)), collapse = "")
-    msg     = paste0("\rID ", id, paste(rep(" ", 4 - nchar(id)), collapse = ""))
+  percent = iteration/iterations
+  hashes  = paste(rep("#", round(percent*bar_len )), collapse = "")  # #'s in loading bar
+  spaces  = paste(rep(" ", bar_len - nchar(hashes)), collapse = "")  # empty space in loading bar
+  msg     = paste0("\rID ", id, paste(rep(" ", 4 - nchar(id)), collapse = ""))  # message before loading bar
+  # print loading bar \r means it overwrites on each iteration
+  cat(paste0(msg, " [", hashes, spaces, "] ", round(percent*100), "% "))
 
-    cat(paste0(msg, " [", hashes, spaces, "] ", round(percent*100), "% "))
+  # end of loadign bar --------------------------------------------------------
 
-    plt1 <- KT_plt(id, GRDF)
-    plt2 <- models_plt(id, GRDF, flschDF, nhschDF, nlschDF, cubicDF, arrhnDF)
+  plt1 <- KT_plt(id, GRDF)  #1/KT plot with lines for E , Eh and B0
+  # plot with data points and model curves overlaid
+  plt2 <- models_plt(id, GRDF, flschDF, nhschDF, nlschDF, cubicDF, arrhnDF)
 
-    sctb <- sch_tbl(id, flschDF, nhschDF, nlschDF)
-    cutb <- cub_tbl(id, cubicDF)
-    ahtb <- arh_tbl(id, arrhnDF)
+  sctb <- sch_tbl(id, flschDF, nhschDF, nlschDF)  # table with Schoolfield values
+  cutb <- cub_tbl(id, cubicDF)                    # table with cubic values
+  ahtb <- arh_tbl(id, arrhnDF)                    # table with arrhenius values
 
-    grid.arrange(plt1, plt2, sctb, cutb, ahtb,
-                nrow = 5,
-                as.table = TRUE,
-                top=textGrob(paste0("ID: ", id),gp=gpar(fontsize=20,font=3)),
-                heights=c(9, 12, 4, 2, 2))
+  # arrange all the objects in a grid on the page
+  grid.arrange(plt1, plt2, sctb, cutb, ahtb,
+              nrow = 5,
+              as.table = TRUE,
+              top=textGrob(paste0("ID: ", id), gp=gpar(fontsize=20,font=3)),
+              heights=c(9, 12, 4, 2, 2))
 }
 
 cat("\nDone!\n")
 
 dev.off()
-
-end_time <- start_time - proc.time()
-
-print(end_time)

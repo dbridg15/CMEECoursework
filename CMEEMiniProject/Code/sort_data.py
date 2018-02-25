@@ -15,8 +15,6 @@ from scipy import stats
 from scipy.optimize import leastsq
 
 # TODO
-    # B0 should be the not logged value!
-    # change to OriginalTraitValue - done but check!
     # add docstrings!
 
 ################################################################################

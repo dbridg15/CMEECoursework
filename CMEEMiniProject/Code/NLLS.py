@@ -64,7 +64,6 @@ def progressBar(value, endvalue, bar_length = 65):
 print("\nStarting model fitting with NLLS")
 
 iterations = len(GRDF.NewID.unique()) # number of iterations for progressBar
-tries      = 1
 
 # cubic model-------------------------------------------------------------------
 
@@ -88,7 +87,7 @@ print("\n\nFull Schoolfield Model...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    flschDF = flschDF.append(full_schlfld_model(id,GRDF, tries))
+    flschDF = flschDF.append(full_schlfld_model(id, GRDF, tries = 25))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -102,7 +101,7 @@ print("\n\nSchoolfield Model without high...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, tries))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, tries = 25))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -116,7 +115,7 @@ print("\n\nSchoolfield Model without low...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, tries))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, tries = 25))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -130,7 +129,7 @@ print("\n\nEnzyme assisted Arrhenius Model...")
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    arrhnDF = arrhnDF.append(arrhenius_model(id,GRDF, tries))
+    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, tries = 5))
 
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed

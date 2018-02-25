@@ -90,17 +90,26 @@ def full_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries:
+        if trycount > tries or res["aic"] != [np.NaN]:
            break
 
         try:
-            params = Parameters()
-            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
-            params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
-            params.add('Tl', value = vals["Tl"], min = 250, max = 390)
-            params.add('Th', value = vals["Th"], min = 250, max = 390)
+            if trycount == 1:
+                params = Parameters()
+                params.add('B0', value = vals["B0"], min = 0)
+                params.add('E',  value = vals["E"], min= 0)
+                params.add('El', value = vals["El"], min = 0)
+                params.add('Eh', value = vals["Eh"], min = 0)
+                params.add('Tl', value = vals["Tl"], min = 250, max = 400)
+                params.add('Th', value = vals["Th"], min = 250, max = 400)
+            else:
+                params = Parameters()
+                params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
+                params.add('E',  value = np.random.uniform(0, vals["E"]*2), min= 0)
+                params.add('El', value = np.random.uniform(0, vals["El"]*2), min = 0)
+                params.add('Eh', value = np.random.uniform(0, vals["Eh"]*2), min = 0)
+                params.add('Tl', value = vals["Tl"], min = 250, max = 400)
+                params.add('Th', value = vals["Th"], min = 250, max = 400)
 
             out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
 
@@ -166,15 +175,23 @@ def noh_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries:
+        if trycount > tries or res["aic"] != [np.NaN]:
            break
 
         try:
-            params = Parameters()
-            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('El', value = np.random.uniform(vals["El"]*.2, vals["El"]*1.8), min = 0)
-            params.add('Tl', value = vals["Tl"], min = 260, max = 330)
+            if trycount == 1:
+                params = Parameters()
+                params.add('B0', value = vals["B0"], min = 0)
+                params.add('E',  value = vals["E"],  min= 0)
+                params.add('El', value = vals["El"], min = 0)
+                params.add('Tl', value = vals["Tl"], min = 250, max = 400)
+
+            else:
+                params = Parameters()
+                params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
+                params.add('E',  value = np.random.uniform(0, vals["E"]*2), min= 0)
+                params.add('El', value = np.random.uniform(0, vals["El"]*2), min = 0)
+                params.add('Tl', value = vals["Tl"], min = 250, max = 400)
 
             out = minimize(noh_schlfld_residuals, params, args = (xVals, ldata))
 
@@ -237,15 +254,24 @@ def nol_schlfld_model(id, df, tries = 10):
 
         trycount += 1
 
-        if trycount > tries:
+        if trycount > tries or res["aic"] != [np.NaN]:
            break
 
         try:
-            params = Parameters()
-            params.add('B0', value = np.random.uniform(vals["B0"]*.2, vals["B0"]*1.8), min = 0)
-            params.add('E',  value = np.random.uniform(vals["E"]*.2, vals["E"]*1.8), min= 0)
-            params.add('Eh', value = np.random.uniform(vals["Eh"]*.2, vals["Eh"]*1.8), min = 0)
-            params.add('Th', value = vals["Th"], min = 260, max = 330)
+            if trycount == 1:
+                params = Parameters()
+                params.add('B0', value = vals["B0"], min = 0)
+                params.add('E',  value = vals["E"], min= 0)
+                params.add('Eh', value = vals["Eh"], min = 0)
+                params.add('Th', value = vals["Th"], min = 250, max = 400)
+
+            else:
+                params = Parameters()
+                params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
+                params.add('E',  value = np.random.uniform(0, vals["E"]*2), min= 0)
+                params.add('Eh', value = np.random.uniform(0, vals["Eh"]*2), min = 0)
+                params.add('Th', value = vals["Th"], min = 250, max = 400)
+
 
             out = minimize(nol_schlfld_residuals, params, args = (xVals, ldata))
 
@@ -392,8 +418,8 @@ def arrhenius_model(id, df, tries):
            'deltaCp' : vals["deltaCp"],
            'deltaH'  : vals["deltaH"],
            'trefs'   : vals["trefs"],
-           'chisqr'  : [np.NaN],  # will test on each try for improvment
-           'aic'     : [np.NaN],
+           'chisqr'  : [np.NaN],
+           'aic'     : [np.NaN],  # will test on each try for improvment
            'bic'     : [np.NaN]}
 
     trycount = 0
@@ -408,8 +434,8 @@ def arrhenius_model(id, df, tries):
             params = Parameters()
             params.add('A0', value = np.random.uniform(0, 10), min = 0)
             params.add('Ea', value = np.random.uniform(0, 10), min = 0)
-            params.add('deltaCp',  value = np.random.uniform(0, 10))
-            params.add('deltaH', value = np.random.uniform(0, 10))
+            params.add('deltaCp',  value = np.random.uniform(-10, 10))
+            params.add('deltaH', value = np.random.uniform(-10, 10))
             params.add('trefs', value = np.random.uniform(280, 350), min = 250, max = 400)
 
             out = minimize(arrhenius_residuals, params, args = (xVals, ldata))
