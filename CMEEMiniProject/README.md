@@ -13,26 +13,26 @@ Author: David Bridgwood _(dmb2417@ic.ac.uk)_
 
 ## File Structure ##
 
-CMEEMiniProject/
-│   code
-│   ├── compare.R
-│   ├── modelfuncs.py
-│   ├── NLLS.py
-│   ├── plotfuncs.R
-│   ├── plots.R
-│   └── sort\_data.py
-├── Data
-│   ├── GrowthRespPhotoData.csv
-│   ├── GrowthRespPhotoData\_new.csv
-│   ├── ThermResp.csv
-│   ├── ThermRespData.csv
-│   └── TraitInfo.csv
-├── Results
-│   ├── arrhenius\_model.csv
-│   ├── cubic\_model.csv
-│   ├── full\_scholfield\_model.csv
-│   ├── noh\_scholfield\_model.csv
-│   ├── nol\_scholfield\_model.csv
-│   ├── plots.pdf
-│   └── sorted\_data.csv
+CMEEMiniProject/\n
+│   code\n
+│   ├── compare.R\n
+│   ├── modelfuncs.py\n
+│   ├── NLLS.py\n
+│   ├── plotfuncs.R\n
+│   ├── plots.R\n
+│   └── sort\_data.py\n
+├── Data\n
+│   ├── GrowthRespPhotoData.csv\n
+│   ├── GrowthRespPhotoData\_new.csv\n
+│   ├── ThermResp.csv\n
+│   ├── ThermRespData.csv\n
+│   └── TraitInfo.csv\n
+├── Results\n
+│   ├── arrhenius\_model.csv\n
+│   ├── cubic\_model.csv\n
+│   ├── full\_scholfield\_model.csv\n
+│   ├── noh\_scholfield\_model.csv\n
+│   ├── nol\_scholfield\_model.csv\n
+│   ├── plots.pdf\n
+│   └── sorted\_data.csv\n
 └── Sandbox
