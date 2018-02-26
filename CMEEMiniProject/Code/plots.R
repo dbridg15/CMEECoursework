@@ -27,7 +27,7 @@ arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 # do the plots
 ###############################################################################
 
-pdf("../Results/plots.pdf", width = 10, height = 10)
+pdf("../Results/plots.pdf", width = 10, height = 12)
 
 iteration  = 0              # start iteration as 0 for loading bar
 iterations = nrow(flschDF)  # iterations for loading bar is number of ids

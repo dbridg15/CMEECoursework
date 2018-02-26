@@ -15,7 +15,6 @@ from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
 # TODO
-    # comments!
 
 ################################################################################
 # constants
@@ -311,7 +310,7 @@ def nol_schlfld_model(id, df, tries = 10, method = 1):
                 break
 
         try:
-	    # on first try use starting values
+            # on first try use starting values
             if trycount == 1:
                 params = Parameters()
                 params.add('B0', value = vals["B0"], min = 0)
@@ -520,10 +519,10 @@ def arrhenius_model(id, df, tries = 10, method = 1):
             params.add('deltaH', value = np.random.uniform(-10, 10))
             params.add('trefs', value = np.random.uniform(280, 350), min = 250, max = 400)
 
-	    # see if it converged
+            # see if it converged
             out = minimize(arrhenius_residuals, params, args = (xVals, ldata))
 
-	    # if aic from this try is lower than previous lowest overwrite res
+            # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
             if out.aic < res["aic"] or res["aic"] == [np.NaN]:
                 res = {'NewID'   : [id],

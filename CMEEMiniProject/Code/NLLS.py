@@ -8,7 +8,6 @@ __version__ = '0.0.1'
 
 # imports
 from modelfuncs import *
-import pandas as pd
 import sys
 
 ################################################################################
@@ -46,14 +45,14 @@ arrhnDF = pd.DataFrame(data    = None,
 ################################################################################
 
 def progressBar(value, endvalue, bar_length = 65):
-    """add DocString"""
+    """function which prints progress through model functions as a progressBar"""
 
     percent = float(value) / endvalue
-    arrow   = '#' * int(round(percent * bar_length))
-    spaces  = ' ' * (bar_length - len(arrow))
+    hashes  = '#' * int(round(percent * bar_length))
+    spaces  = ' ' * (bar_length - len(hashes))
     msg     = "\rID " + str(id).ljust(4)
 
-    sys.stdout.write("\r {0} [{1}] {2}%".format(msg, arrow + spaces,
+    sys.stdout.write("\r {0} [{1}] {2}%".format(msg, hashes + spaces,
                                                 int(round(percent * 100))))
     sys.stdout.flush()
 
@@ -63,7 +62,8 @@ def progressBar(value, endvalue, bar_length = 65):
 
 print("\nStarting model fitting with NLLS")
 
-iterations = len(GRDF.NewID.unique()) # number of iterations for progressBar
+# number of iterations for progressBar is number of unique ids
+iterations = len(GRDF.NewID.unique())
 
 # cubic model-------------------------------------------------------------------
 
@@ -71,13 +71,15 @@ iteration  = 0
 print("\nCubic Model...")
 
 for id in GRDF["NewID"].unique():
-    iteration += 1
-    progressBar(iteration, iterations, 65)
-    cubicDF = cubicDF.append(cubic_model(id, GRDF))
+    iteration += 1                                   # increment iterations
+    progressBar(iteration, iterations, 65)           # print progressBar to console
+    cubicDF = cubicDF.append(cubic_model(id, GRDF))  # append output of NLLS fitting
 
+# calulate how many converged and print to console
 failed    = cubicDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+
 
 # full schoolfield model--------------------------------------------------------
 
@@ -87,11 +89,13 @@ print("\n\nFull Schoolfield Model...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
+    # method 1 for speed
     flschDF = flschDF.append(full_schlfld_model(id, GRDF, tries = 25, method = 1))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+
 
 # no high schoolfield-----------------------------------------------------------
 
@@ -101,11 +105,13 @@ print("\n\nSchoolfield Model without high...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
+    # method 1 for speed
     nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, tries = 25, method = 1))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+
 
 # no low schoolfield------------------------------------------------------------
 
@@ -115,11 +121,13 @@ print("\n\nSchoolfield Model without low...") # change the text!
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
+    # method 1 for speed
     nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, tries = 25, method = 1))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+
 
 # arrhenius model---------------------------------------------------------------
 
@@ -129,6 +137,7 @@ print("\n\nEnzyme assisted Arrhenius Model...")
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
+    # method 2 for slightly better curves
     arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, tries = 5, method = 2))
 
 failed    = arrhnDF.aic.isnull().sum()
