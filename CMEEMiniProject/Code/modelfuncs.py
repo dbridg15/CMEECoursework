@@ -78,11 +78,12 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
         method -- 1 - stops trying once model converges
                   2 - continue trying to improve fit upto tries"""
 
-    vals = schlfld_vals(id, df)
+    vals = schlfld_vals(id, df)  # get starting values and data from values function
 
-    xVals    = vals["xVals"]
-    ldata    = vals["yVals"]
+    xVals    = vals["xVals"]     # temperatures
+    ldata    = vals["yVals"]     # corresponding trait values
 
+    # res will be output - set initial values as starting values
     res = {'NewID'  : vals["NewID"],
            'B0'     : vals["B0"],
            'E'      : vals["E"],
@@ -90,23 +91,24 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
            'Eh'     : vals["Eh"],
            'Tl'     : vals["Tl"],
            'Th'     : vals["Th"],
-           'chisqr' : [np.NaN],  # will test on each try for improvment
-           'aic'    : [np.NaN],
+           'chisqr' : [np.NaN],
+           'aic'    : [np.NaN],  # will test on each try for improvment
            'bic'    : [np.NaN]}
 
     trycount = 0
     while True:
 
-        trycount += 1
+        trycount += 1  # inrement trycount
 
-        if method == 1:
+        if method == 1:  # method 1 check if curve has converged or tries have run out
             if res["aic"] != [np.NaN] or trycount > tries:
                 break
-        elif method == 2:
+        elif method == 2:  # method 2 just check if tries have run out
             if trycount > tries:
                 break
 
         try:
+            # on first try use starting values
             if trycount == 1:
                 params = Parameters()
                 params.add('B0', value = vals["B0"], min = 0)
@@ -115,6 +117,7 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
                 params.add('Eh', value = vals["Eh"], min = 0)
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
+            # on following tries starting values are randomised
             else:
                 params = Parameters()
                 params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
@@ -124,9 +127,12 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
 
+            # try minimize function to minimize residuals
             out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["aic"] or res["aic"] == [np.NaN]:
+            # if aic from this try is lower than previous lowest overwrite res
+            # (only relevant for method == 2)
+            if out.aic < res["aic"] or res["aic"] == [np.NaN]:
                 res = {'NewID'  : [id],
                        'B0'     : [out.params["B0"].value],
                        'E'      : [out.params["E"].value],
@@ -139,9 +145,11 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
                        'bic'    : [out.bic]}
             continue
 
+        # if it didnt converge go to next try/break if tries have run out
         except ValueError:
             continue
 
+    # convert res to dataframe and output
     res = pd.DataFrame(res)
     return res
 
@@ -493,7 +501,7 @@ def arrhenius_model(id, df, tries = 10, method = 1):
 
             out = minimize(arrhenius_residuals, params, args = (xVals, ldata))
 
-            if out.chisqr < res["aic"] or res["aic"] == [np.NaN]:
+            if out.aic < res["aic"] or res["aic"] == [np.NaN]:
                 res = {'NewID'   : [id],
                        'A0'      : [out.params["A0"].value],
                        'Ea'      : [out.params["Ea"].value],
