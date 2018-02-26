@@ -167,7 +167,7 @@ def noh_schlfld_residuals(params, x, data):
 ################################################################################
 
 def noh_schlfld_model(id, df, tries = 10, method = 1):
-     """performs non linear least square model fitting for given ids TPC on schlfld_model without high parameters
+    """performs non linear least square model fitting for given ids TPC on schlfld_model without high parameters
 
     keyword arguments:
         id     -- specific curve id

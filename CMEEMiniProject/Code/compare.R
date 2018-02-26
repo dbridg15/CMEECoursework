@@ -18,6 +18,7 @@ cubicDF <- read.csv("../Results/cubic_model.csv")
 flschDF <- read.csv("../Results/full_scholfield_model.csv")
 nhschDF <- read.csv("../Results/noh_scholfield_model.csv")
 nlschDF <- read.csv("../Results/nol_scholfield_model.csv")
+arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 
 aicdf <- data.frame("NewID" = cubicDF$NewID,
                     "cubic" = cubicDF$aic,
