@@ -20,25 +20,11 @@ GRDF = pd.read_csv("../Results/sorted_data.csv")
 # set up dataframes for results
 ################################################################################
 
-cubicDF = pd.DataFrame(data    = None,
-                       columns = ('NewID', 'a', 'b', 'c', 'd', 'chisqr', 'aic',
-                                  'bic'))
-
-flschDF  = pd.DataFrame(data    = None,
-                       columns = ('NewID', 'B0', 'E', 'Eh', 'El', 'Tl', 'Th',
-                                  'chisqr', 'aic', 'bic'))
-
-nhschDF = pd.DataFrame(data    = None,
-                       columns = ('NewID', 'B0', 'E', 'El', 'Tl', 'chisqr',
-                                  'aic', 'bic'))
-
-nlschDF = pd.DataFrame(data    = None,
-                       columns = ('NewID', 'B0', 'E', 'Eh', 'Th', 'chisqr',
-                                  'aic', 'bic'))
-
-arrhnDF = pd.DataFrame(data    = None,
-                       columns = ('NewID', 'A0', 'Ea', 'deltaCp', 'deltaH',
-                                  'chisqr', 'aic', 'bic'))
+cubicDF = pd.DataFrame(data = None)
+flschDF = pd.DataFrame(data = None)
+nhschDF = pd.DataFrame(data = None)
+nlschDF = pd.DataFrame(data = None)
+arrhnDF = pd.DataFrame(data = None)
 
 ################################################################################
 # progressBar function
@@ -81,7 +67,7 @@ converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
 
 
-# full schoolfield model--------------------------------------------------------
+# # full schoolfield model--------------------------------------------------------
 
 iteration  = 0
 print("\n\nFull Schoolfield Model...") # change the text!

@@ -15,6 +15,8 @@ from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
 # TODO
+    # check RSquared calculations
+    # sort non-logged Rsquared and aic
 
 ################################################################################
 # constants
@@ -24,6 +26,13 @@ k = constants.value('Boltzmann constant in eV/K')
 e = np.exp(1)
 
 np.random.seed(111)  # set random seed for repeatability
+
+################################################################################
+# get_TSS()
+################################################################################
+
+def get_TSS(data):
+    return sum((data - np.mean(data))**2)
 
 ################################################################################
 # schlfld_vals()
@@ -64,6 +73,26 @@ def full_schlfld_residuals(params, x, data):
     return model - data
 
 ################################################################################
+#
+################################################################################
+
+def full_schlfld_nl_residuals(params, x, data):
+    """returns non logged residuals of data and model with given parameters for full_schlfld_model"""
+
+    B0 = params['B0'].value
+    E  = params['E'].value
+    El = params['El'].value
+    Eh = params['Eh'].value
+    Tl = params['Tl'].value
+    Th = params['Th'].value
+
+    model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(
+                   1+(e**((El/k)*((1/Tl)-(1/x))))+(e**((Eh/k)*((1/Th)-(1/x))))))
+
+    return np.exp(model) - np.exp(data)
+
+
+################################################################################
 # full_schlfld_model()
 ################################################################################
 
@@ -80,19 +109,26 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
     xVals    = vals["xVals"]     # temperatures
-    ldata    = vals["yVals"]     # corresponding trait values
+    yVals    = vals["yVals"]     # corresponding trait values
 
     # res will be output - set initial values as starting values
-    res = {'NewID'  : vals["NewID"],
-           'B0'     : vals["B0"],
-           'E'      : vals["E"],
-           'El'     : vals["El"],
-           'Eh'     : vals["Eh"],
-           'Tl'     : vals["Tl"],
-           'Th'     : vals["Th"],
-           'chisqr' : [np.NaN],
-           'aic'    : [np.NaN],  # will test on each try for improvment
-           'bic'    : [np.NaN]}
+    res = {'NewID'   : vals["NewID"],
+           'B0'      : vals["B0"],
+           'E'       : vals["E"],
+           'El'      : vals["El"],
+           'Eh'      : vals["Eh"],
+           'Tl'      : vals["Tl"],
+           'Th'      : vals["Th"],
+           'chisqr'  : [np.NaN],
+           'RSS'     : [np.NaN],
+           'TSS'     : [np.NaN],
+           'Rsqrd'   : [np.NaN],
+           'nlRSS'   : [np.NaN],
+           'nlTSS'   : [np.NaN],
+           'nlRsqrd' : [np.NaN],
+           'nlaic'   : [np.NaN],
+           'aic'     : [np.NaN],  # will test on each try for improvment
+           'bic'     : [np.NaN]}
 
     trycount = 0
     while True:
@@ -128,21 +164,37 @@ def full_schlfld_model(id, df, tries = 10, method = 1):
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
 
             # try minimize function to minimize residuals
-            out = minimize(full_schlfld_residuals, params, args = (xVals, ldata))
+            out = minimize(full_schlfld_residuals, params, args = (xVals, yVals))
+
+            RSS      = sum(full_schlfld_residuals(out.params, xVals, yVals)**2)
+            TSS      = get_TSS(yVals)
+            Rsquared = 1 - (RSS/TSS)
+
+            nl_RSS   = sum(full_schlfld_nl_residuals(out.params, xVals, yVals)**2)
+            nl_TSS   = get_TSS(np.exp(yVals))
+            nl_Rsqrd = 1 - (nl_RSS/nl_TSS)
+            nl_aic   = len(xVals)*np.log(nl_RSS/len(xVals)) + 2*6
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
             if out.aic < res["aic"] or res["aic"] == [np.NaN]:
-                res = {'NewID'  : [id],
-                       'B0'     : [out.params["B0"].value],
-                       'E'      : [out.params["E"].value],
-                       'El'     : [out.params["El"].value],
-                       'Eh'     : [out.params["Eh"].value],
-                       'Tl'     : [out.params["Tl"].value],
-                       'Th'     : [out.params["Th"].value],
-                       'chisqr' : [out.chisqr],
-                       'aic'    : [out.aic],
-                       'bic'    : [out.bic]}
+                res = {'NewID'   : [id],
+                       'B0'      : [out.params["B0"].value],
+                       'E'       : [out.params["E"].value],
+                       'El'      : [out.params["El"].value],
+                       'Eh'      : [out.params["Eh"].value],
+                       'Tl'      : [out.params["Tl"].value],
+                       'Th'      : [out.params["Th"].value],
+                       'chisqr'  : [out.chisqr],
+                       'RSS'     : RSS,
+                       'TSS'     : TSS,
+                       'Rsqrd'   : Rsquared,
+                       'nlRSS'   : nl_RSS,
+                       'nlTSS'   : nl_TSS,
+                       'nlRsqrd' : nl_Rsqrd,
+                       'nlaic'   : nl_aic,
+                       'aic'     : [out.aic],
+                       'bic'     : [out.bic]}
             continue
 
         # if it didnt converge go to next try/break if tries have run out
@@ -187,17 +239,20 @@ def noh_schlfld_model(id, df, tries = 10, method = 1):
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
     xVals    = vals["xVals"]     # temperatures
-    ldata    = vals["yVals"]     # corresponding trait values
+    yVals    = vals["yVals"]     # corresponding trait values
 
     # res will be output - set initial values as starting values
-    res = {'NewID'  : vals["NewID"],
-           'B0'     : vals["B0"],
-           'E'      : vals["E"],
-           'El'     : vals["El"],
-           'Tl'     : vals["Tl"],
-           'chisqr' : [np.NaN],
-           'aic'    : [np.NaN],  # will test on each try for improvment
-           'bic'    : [np.NaN]}
+    res = {'NewID'    : vals["NewID"],
+           'B0'       : vals["B0"],
+           'E'        : vals["E"],
+           'El'       : vals["El"],
+           'Tl'       : vals["Tl"],
+           'chisqr'   : [np.NaN],
+           'RSS'      : [np.NaN],
+           'TSS'      : [np.NaN],
+           'Rsquared' : [np.NaN],
+           'aic'      : [np.NaN],  # will test on each try for improvment
+           'bic'      : [np.NaN]}
 
     trycount = 0
     while True:
@@ -229,19 +284,26 @@ def noh_schlfld_model(id, df, tries = 10, method = 1):
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
 
             # try minimize function to minimize residuals
-            out = minimize(noh_schlfld_residuals, params, args = (xVals, ldata))
+            out = minimize(noh_schlfld_residuals, params, args = (xVals, yVals))
+
+            RSS      = sum(noh_schlfld_residuals(out.params, xVals, yVals)**2)
+            TSS      = get_TSS(yVals),
+            Rsquared = 1 - (RSS/TSS)
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
             if out.aic < res["aic"] or res["aic"] == [np.NaN]:
-                res = {'NewID'  : [id],
-                       'B0'     : [out.params["B0"].value],
-                       'E'      : [out.params["E"].value],
-                       'El'     : [out.params["El"].value],
-                       'Tl'     : [out.params["Tl"].value],
-                       'chisqr' : [out.chisqr],
-                       'aic'    : [out.aic],
-                       'bic'    : [out.bic]}
+                res = {'NewID'    : [id],
+                       'B0'       : [out.params["B0"].value],
+                       'E'        : [out.params["E"].value],
+                       'El'       : [out.params["El"].value],
+                       'Tl'       : [out.params["Tl"].value],
+                       'chisqr'   : [out.chisqr],
+                       'RSS'      : RSS,
+                       'TSS'      : TSS,
+                       'Rsquared' : Rsquared,
+                       'aic'      : [out.aic],
+                       'bic'      : [out.bic]}
             continue
 
         # if it didnt converge go to next try/break if tries have run out
@@ -285,17 +347,20 @@ def nol_schlfld_model(id, df, tries = 10, method = 1):
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
     xVals    = vals["xVals"]     # temperatures
-    ldata    = vals["yVals"]     # corresponding trait values
+    yVals    = vals["yVals"]     # corresponding trait values
 
     # res will be output - set initial values as starting values
-    res = {'NewID'  : vals["NewID"],
-           'B0'     : vals["B0"],
-           'E'      : vals["E"],
-           'Eh'     : vals["Eh"],
-           'Th'     : vals["Th"],
-           'chisqr' : [np.NaN],
-           'aic'    : [np.NaN],  # will test on each try for improvment
-           'bic'    : [np.NaN]}
+    res = {'NewID'    : vals["NewID"],
+           'B0'       : vals["B0"],
+           'E'        : vals["E"],
+           'Eh'       : vals["Eh"],
+           'Th'       : vals["Th"],
+           'RSS'      : [np.NaN],
+           'TSS'      : [np.NaN],
+           'Rsquared' : [np.NaN],
+           'chisqr'   : [np.NaN],
+           'aic'      : [np.NaN],  # will test on each try for improvment
+           'bic'      : [np.NaN]}
 
     trycount = 0
     while True:
@@ -327,19 +392,26 @@ def nol_schlfld_model(id, df, tries = 10, method = 1):
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
 
             # try minimize function to minimize residuals
-            out = minimize(nol_schlfld_residuals, params, args = (xVals, ldata))
+            out = minimize(nol_schlfld_residuals, params, args = (xVals, yVals))
+
+            RSS      = sum(nol_schlfld_residuals(out.params, xVals, yVals)**2)
+            TSS      = get_TSS(yVals),
+            Rsquared = 1 - (RSS/TSS)
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
             if out.aic < res["aic"] or res["aic"]  == [np.NaN]:
-                res = {'NewID'  : [id],
-                       'B0'     : [out.params["B0"].value],
-                       'E'      : [out.params["E"].value],
-                       'Eh'     : [out.params["Eh"].value],
-                       'Th'     : [out.params["Th"].value],
-                       'chisqr' : [out.chisqr],
-                       'aic'    : [out.aic],
-                       'bic'    : [out.bic]}
+                res = {'NewID'    : [id],
+                       'B0'       : [out.params["B0"].value],
+                       'E'        : [out.params["E"].value],
+                       'Eh'       : [out.params["Eh"].value],
+                       'Th'       : [out.params["Th"].value],
+                       'chisqr'   : [out.chisqr],
+                       'RSS'      : RSS,
+                       'TSS'      : TSS,
+                       'Rsquared' : Rsquared,
+                       'aic'      : [out.aic],
+                       'bic'      : [out.bic]}
 
             continue
 
@@ -399,16 +471,19 @@ def cubic_model(id, df):
     vals = cubic_vals(id, df)  # get starting values and data from values function
 
     xVals    = vals["xVals"]   # temperatures
-    ldata    = vals["yVals"]   # corresponding trait values
+    yVals    = vals["yVals"]   # corresponding trait values
 
-    res = {'NewID'  : vals["NewID"],
-           'a'      : vals["a"],
-           'b'      : vals["b"],
-           'c'      : vals["c"],
-           'd'      : vals["d"],
-           'chisqr' : [np.NaN],
-           'aic'    : [np.NaN],  # will test on each try for improvment
-           'bic'    : [np.NaN]}
+    res = {'NewID'    : vals["NewID"],
+           'a'        : vals["a"],
+           'b'        : vals["b"],
+           'c'        : vals["c"],
+           'd'        : vals["d"],
+           'chisqr'   : [np.NaN],
+           'RSS'      : [np.NaN],
+           'TSS'      : [np.NaN],
+           'Rsquared' : [np.NaN],
+           'aic'      : [np.NaN],  # will test on each try for improvment
+           'bic'      : [np.NaN]}
 
     # add parameters
     params = Parameters()
@@ -418,17 +493,24 @@ def cubic_model(id, df):
     params.add('d', value = vals["d"])
 
     # minimize
-    out = minimize(cubic_residuals, params, args = (xVals, ldata))
+    out = minimize(cubic_residuals, params, args = (xVals, yVals))
+
+    RSS      = sum(cubic_residuals(out.params, xVals, yVals)**2)
+    TSS      = get_TSS(yVals),
+    Rsquared = 1 - (RSS/TSS)
 
     # save output in res convert to dataframe and return
-    res = {'NewID'   : [id],
-            'a'      : [out.params["a"].value],
-            'b'      : [out.params["b"].value],
-            'c'      : [out.params["c"].value],
-            'd'      : [out.params["d"].value],
-            'chisqr' : [out.chisqr],
-            'aic'    : [out.aic],
-            'bic'    : [out.bic]}
+    res = {'NewID'     : [id],
+            'a'        : [out.params["a"].value],
+            'b'        : [out.params["b"].value],
+            'c'        : [out.params["c"].value],
+            'd'        : [out.params["d"].value],
+            'chisqr'   : [out.chisqr],
+            'RSS'      : RSS,
+            'TSS'      : TSS,
+            'Rsquared' : Rsquared,
+            'aic'      : [out.aic],
+            'bic'      : [out.bic]}
 
     res = pd.DataFrame(res)
 
@@ -486,18 +568,21 @@ def arrhenius_model(id, df, tries = 10, method = 1):
     vals = arrhenius_vals(id, df)  # get starting values and data from values function
 
     xVals    = vals["xVals"]     # temperatures
-    ldata    = vals["yVals"]     # corresponding trait values
+    yVals    = vals["yVals"]     # corresponding trait values
 
     # res will be output - set initial values as starting values
-    res = {'NewID'   : vals["NewID"],
-           'A0'      : vals["A0"],
-           'Ea'      : vals["Ea"],
-           'deltaCp' : vals["deltaCp"],
-           'deltaH'  : vals["deltaH"],
-           'trefs'   : vals["trefs"],
-           'chisqr'  : [np.NaN],
-           'aic'     : [np.NaN],  # will test on each try for improvment
-           'bic'     : [np.NaN]}
+    res = {'NewID'    : vals["NewID"],
+           'A0'       : vals["A0"],
+           'Ea'       : vals["Ea"],
+           'deltaCp'  : vals["deltaCp"],
+           'deltaH'   : vals["deltaH"],
+           'trefs'    : vals["trefs"],
+           'chisqr'   : [np.NaN],
+           'RSS'      : [np.NaN],
+           'TSS'      : [np.NaN],
+           'Rsquared' : [np.NaN],
+           'aic'      : [np.NaN],  # will test on each try for improvment
+           'bic'      : [np.NaN]}
 
     trycount = 0
     while True:
@@ -520,20 +605,27 @@ def arrhenius_model(id, df, tries = 10, method = 1):
             params.add('trefs', value = np.random.uniform(280, 350), min = 250, max = 400)
 
             # see if it converged
-            out = minimize(arrhenius_residuals, params, args = (xVals, ldata))
+            out = minimize(arrhenius_residuals, params, args = (xVals, yVals))
+
+            RSS      = sum(arrhenius_residuals(out.params, xVals, yVals)**2)
+            TSS      = get_TSS(yVals),
+            Rsquared = 1 - (RSS/TSS)
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
             if out.aic < res["aic"] or res["aic"] == [np.NaN]:
-                res = {'NewID'   : [id],
-                       'A0'      : [out.params["A0"].value],
-                       'Ea'      : [out.params["Ea"].value],
-                       'deltaCp' : [out.params["deltaCp"].value],
-                       'deltaH'  : [out.params["deltaH"].value],
-                       'trefs'   : [out.params["trefs"].value],
-                       'chisqr'  : [out.chisqr],
-                       'aic'     : [out.aic],
-                       'bic'     : [out.bic]}
+                res = {'NewID'    : [id],
+                       'A0'       : [out.params["A0"].value],
+                       'Ea'       : [out.params["Ea"].value],
+                       'deltaCp'  : [out.params["deltaCp"].value],
+                       'deltaH'   : [out.params["deltaH"].value],
+                       'trefs'    : [out.params["trefs"].value],
+                       'chisqr'   : [out.chisqr],
+                       'RSS'      : RSS,
+                       'TSS'      : TSS,
+                       'Rsquared' : Rsquared,
+                       'aic'      : [out.aic],
+                       'bic'      : [out.bic]}
             continue
 
         # if it didnt converge go to next try/break if tries have run out

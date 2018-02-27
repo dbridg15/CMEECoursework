@@ -1,38 +1,64 @@
-# CMEE MiniProject #
+#CMEE MiniProject
 
-Author: David Bridgwood _(dmb2417@ic.ac.uk)_
+**Author:** David Bridgwood _(dmb2417@ic.ac.uk)_
 
-## Description ##
-
-
-## Dependancies ##
+**Description:** Something...
 
 
-## How to run ##
+##Dependancies
 
+####python 3.6
+- pandas
+- numpy
+- scipy
+	- .constants 
+	- .stats
+- sys
+- lmfit
+	- .minimize
+	- .Pamameters
+	- .report_fit
 
-## File Structure ##
+####R
+- ggplot2
+- dplyr
+- gridExtra
+- grid
 
-CMEEMiniProject/  
-│   code  
-│   ├── compare.R  
-│   ├── modelfuncs.py  
-│   ├── NLLS.py  
-│   ├── plotfuncs.R  
-│   ├── plots.R  
-│   └── sort\_data.py  
-├── Data  
-│   ├── GrowthRespPhotoData.csv  
-│   ├── GrowthRespPhotoData\_new.csv  
-│   ├── ThermResp.csv  
-│   ├── ThermRespData.csv  
-│   └── TraitInfo.csv  
-├── Results  
-│   ├── arrhenius\_model.csv  
-│   ├── cubic\_model.csv  
-│   ├── full\_scholfield\_model.csv  
-│   ├── noh\_scholfield\_model.csv  
-│   ├── nol\_scholfield\_model.csv  
-│   ├── plots.pdf  
-│   └── sorted\_data.csv  
+## How to run
+
+To run the entire project enter the Code directory and execute the 'run_project.sh' file.
+
+	bash run_project.sh
+	
+This take approximately X minutes to run. Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
+
+##File Structure
+
+CMEEMiniProject/
+│ 
+├──code
+│      ├── compare.R
+│	├── modelfuncs.py
+│      ├── NLLS.py
+│      ├── plotfuncs.R
+│      ├── plots.R
+│      └── sort\_data.py
+│
+├── Data
+│      ├── GrowthRespPhotoData.csv
+│      ├── GrowthRespPhotoData\_new.csv
+│      ├── ThermResp.csv
+│      ├── ThermRespData.csv
+│      └── TraitInfo.csv
+│
+├── Results
+│      ├── arrhenius\_model.csv
+│      ├── cubic\_model.csv
+│      ├── full\_scholfield\_model.csv
+│      ├── noh\_scholfield\_model.csv
+│      ├── nol\_scholfield\_model.csv
+│      ├── plots.pdf
+│      └── sorted\_data.cs 
+│
 └── Sandbox
