@@ -10,6 +10,9 @@ __version__ = '0.0.1'
 from modelfuncs import *
 import sys
 
+from datetime import datetime
+startTime = datetime.now()
+
 ################################################################################
 # read in the sorted dataframe
 ################################################################################
@@ -76,7 +79,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    flschDF = flschDF.append(full_schlfld_model(id, GRDF, tries = 25, method = 1))
+    flschDF = flschDF.append(full_schlfld_model(id, GRDF, min_tries = 5, max_tries = 25, method = 1))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -92,7 +95,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, tries = 25, method = 1))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, min_tries = 5, max_tries = 25, method = 1))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -108,7 +111,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, tries = 25, method = 1))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, min_tries = 5, max_tries = 25, method = 1))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -124,7 +127,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 2 for slightly better curves
-    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, tries = 5, method = 2))
+    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = 5, max_tries = 25, method = 10))
 
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed
@@ -143,3 +146,5 @@ nlschDF.to_csv("../Results/nol_scholfield_model.csv")
 arrhnDF.to_csv("../Results/arrhenius_model.csv")
 
 print("\nDone with Model Fitting!")
+
+print(datetime.now() - startTime)
