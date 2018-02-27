@@ -314,7 +314,7 @@ def noh_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
             nl_RSS   = sum(noh_schlfld_nl_residuals(out.params, xVals, yVals)**2)
             nl_TSS   = get_TSS(np.exp(yVals))
             nl_Rsqrd = 1 - (nl_RSS/nl_TSS)
-            nl_aic   = len(xVals)*np.log(nl_RSS/len(xVals)) + 2*6
+            nl_aic   = len(xVals)*np.log(nl_RSS/len(xVals)) + 2*4
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
@@ -451,7 +451,7 @@ def nol_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
             nl_RSS   = sum(nol_schlfld_nl_residuals(out.params, xVals, yVals)**2)
             nl_TSS   = get_TSS(np.exp(yVals))
             nl_Rsqrd = 1 - (nl_RSS/nl_TSS)
-            nl_aic   = len(xVals)*np.log(nl_RSS/len(xVals)) + 2*6
+            nl_aic   = len(xVals)*np.log(nl_RSS/len(xVals)) + 2*4
 
             # if aic from this try is lower than previous lowest overwrite res
             # (only relevant for method == 2)
@@ -532,17 +532,17 @@ def cubic_model(id, df):
     xVals    = vals["xVals"]   # temperatures
     yVals    = vals["yVals"]   # corresponding trait values
 
-    res = {'NewID'    : vals["NewID"],
-           'a'        : vals["a"],
-           'b'        : vals["b"],
-           'c'        : vals["c"],
-           'd'        : vals["d"],
-           'chisqr'   : [np.NaN],
-           'RSS'      : [np.NaN],
-           'TSS'      : [np.NaN],
-           'Rsquared' : [np.NaN],
-           'aic'      : [np.NaN],  # will test on each try for improvment
-           'bic'      : [np.NaN]}
+    res = {'NewID'  : vals["NewID"],
+           'a'      : vals["a"],
+           'b'      : vals["b"],
+           'c'      : vals["c"],
+           'd'      : vals["d"],
+           'chisqr' : [np.NaN],
+           'RSS'    : [np.NaN],
+           'TSS'    : [np.NaN],
+           'Rsqrd'  : [np.NaN],
+           'aic'    : [np.NaN],  # will test on each try for improvment
+           'bic'    : [np.NaN]}
 
     # add parameters
     params = Parameters()
@@ -559,17 +559,17 @@ def cubic_model(id, df):
     Rsquared = 1 - (RSS/TSS)
 
     # save output in res convert to dataframe and return
-    res = {'NewID'     : [id],
-            'a'        : [out.params["a"].value],
-            'b'        : [out.params["b"].value],
-            'c'        : [out.params["c"].value],
-            'd'        : [out.params["d"].value],
-            'chisqr'   : [out.chisqr],
-            'RSS'      : RSS,
-            'TSS'      : TSS,
-            'Rsquared' : Rsquared,
-            'aic'      : [out.aic],
-            'bic'      : [out.bic]}
+    res = {'NewID'   : [id],
+            'a'      : [out.params["a"].value],
+            'b'      : [out.params["b"].value],
+            'c'      : [out.params["c"].value],
+            'd'      : [out.params["d"].value],
+            'chisqr' : [out.chisqr],
+            'RSS'    : RSS,
+            'TSS'    : TSS,
+            'Rsqrd'  : Rsquared,
+            'aic'    : [out.aic],
+            'bic'    : [out.bic]}
 
     res = pd.DataFrame(res)
 
@@ -614,7 +614,7 @@ def arrhenius_residuals(params, x, data):
 # arrhenius_nl_residuals()
 ################################################################################
 
-def arrhenius_residuals(params, x, data):
+def arrhenius_nl_residuals(params, x, data):
     """returns residuals of data and model with given parameters for enzyme assisted arrhenius model"""
 
     A0      = params['A0'].value

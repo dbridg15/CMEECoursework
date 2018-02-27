@@ -293,8 +293,8 @@ sch_tbl <- function(id, flsch, nhsch, nlsch){
   }
 
   sch  <- bind_rows(full, noh, nol)
-  sch  <- sch[c("model", "B0", "E", "Eh", "El", "Th", "Tl", "aic", "bic",
-                "chisqr")]
+  sch  <- sch[c("model", "B0", "E", "Eh", "El", "Th", "Tl", "Rsqrd", "nlRsqrd",
+                "nlaic")]
   rownames(sch) <- NULL
   # output dataframe as a grob which can be plotted alongside ggplot with gridExtra
   tableGrob(format(sch, digits = 5), theme = my_theme)
@@ -304,7 +304,7 @@ sch_tbl <- function(id, flsch, nhsch, nlsch){
 cub_tbl <- function(id, cubm){
   cub <- subset(cubm, NewID == id)
   cub$model <- "cubic"
-  cub <- cub[c("model", "a", "b", "c", "d", "aic", "bic", "chisqr")]
+  cub <- cub[c("model", "a", "b", "c", "d", "aic", "Rsqrd")]
   rownames(cub) <- NULL
   tableGrob(format(cub, digits = 5), theme = my_theme)
 }
@@ -313,7 +313,8 @@ cub_tbl <- function(id, cubm){
 arh_tbl <- function(id, arhm){
   arh <- subset(arhm, NewID == id)
   arh$model <- "arrhenius"
-  arh <- arh[c("model", "A0", "Ea", "deltaCp", "deltaH", "trefs",  "aic", "bic", "chisqr")]
+  arh <- arh[c("model", "A0", "Ea", "deltaCp", "deltaH", "trefs",  "Rsqrd",
+               "nlRsqrd", "nlaic")]
   rownames(arh) <- NULL
   tableGrob(format(arh, digits = 5), theme = my_theme)
 }

@@ -79,7 +79,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    flschDF = flschDF.append(full_schlfld_model(id, GRDF, min_tries = 5, max_tries = 25, method = 1))
+    flschDF = flschDF.append(full_schlfld_model(id, GRDF, min_tries = 3, max_tries = 25, method = 1))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -95,7 +95,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, min_tries = 5, max_tries = 25, method = 1))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, min_tries = 3, max_tries = 25, method = 1))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -111,7 +111,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, min_tries = 5, max_tries = 25, method = 1))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, min_tries = 3, max_tries = 25, method = 1))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -126,8 +126,8 @@ print("\n\nEnzyme assisted Arrhenius Model...")
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    # method 2 for slightly better curves
-    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = 5, max_tries = 25, method = 10))
+    # min 10 tries as they all converge so but more tries improve fit
+    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = 10, max_tries = 10, method = 1))
 
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed
@@ -140,10 +140,10 @@ print("\n{0} of {1} curves converged.".format(converged, iterations))
 print("\n\nSaving Results as .csv files")
 
 cubicDF.to_csv("../Results/cubic_model.csv")
-flschDF.to_csv("../Results/full_scholfield_model.csv")
-nhschDF.to_csv("../Results/noh_scholfield_model.csv")
-nlschDF.to_csv("../Results/nol_scholfield_model.csv")
-arrhnDF.to_csv("../Results/arrhenius_model.csv")
+#flschDF.to_csv("../Results/full_scholfield_model.csv")
+#nhschDF.to_csv("../Results/noh_scholfield_model.csv")
+#nlschDF.to_csv("../Results/nol_scholfield_model.csv")
+#arrhnDF.to_csv("../Results/arrhenius_model.csv")
 
 print("\nDone with Model Fitting!")
 
