@@ -64,7 +64,7 @@ for id in GRDF["NewID"].unique():
     cubicDF = cubicDF.append(cubic_model(id, GRDF))  # append output of NLLS fitting
 
 # calulate how many converged and print to console
-failed    = cubicDF.aic.isnull().sum()
+failed    = cubicDF.nlaic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
 print("Time taken: ", datetime.now() - startTime)

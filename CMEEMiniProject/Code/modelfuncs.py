@@ -541,7 +541,7 @@ def cubic_model(id, df):
            'RSS'    : [np.NaN],
            'TSS'    : [np.NaN],
            'Rsqrd'  : [np.NaN],
-           'aic'    : [np.NaN],  # will test on each try for improvment
+           'nlaic'  : [np.NaN],  # will test on each try for improvment
            'bic'    : [np.NaN]}
 
     # add parameters
@@ -568,7 +568,7 @@ def cubic_model(id, df):
             'RSS'    : RSS,
             'TSS'    : TSS,
             'Rsqrd'  : Rsquared,
-            'aic'    : [out.aic],
+            'nlaic'  : [out.aic],
             'bic'    : [out.bic]}
 
     res = pd.DataFrame(res)
