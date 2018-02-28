@@ -73,4 +73,4 @@ dev.off()
 
 cat("\nDone!\n")
 
-cat(paste0("Time taken: ", proc.time() - start_time))
+cat(paste0("Time taken: ", (proc.time() - start_time)[3], "\n"))
