@@ -12,6 +12,8 @@ source("plotfuncs.R")
 require(gridExtra)
 require(grid)
 
+start_time <- proc.time()
+
 ###############################################################################
 # read in data
 ###############################################################################
@@ -27,13 +29,14 @@ arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 # do the plots
 ###############################################################################
 
-pdf("../Results/plots.pdf", width = 10, height = 12)
 
 iteration  = 0              # start iteration as 0 for loading bar
 iterations = nrow(flschDF)  # iterations for loading bar is number of ids
 bar_len = 65                # length of loading bat in terminal
 
 cat("Plotting:\n")
+
+pdf("../Results/plots.pdf", width = 10, height = 12)
 
 for(id in unique(GRDF$NewID)){
 
@@ -65,6 +68,9 @@ for(id in unique(GRDF$NewID)){
               heights=c(9, 12, 4, 2, 2))
 }
 
-cat("\nDone!\n")
 
 dev.off()
+
+cat("\nDone!\n")
+
+cat(paste0("Time taken: ", proc.time() - start_time))

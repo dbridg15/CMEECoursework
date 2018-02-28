@@ -9,9 +9,7 @@ __version__ = '0.0.1'
 # imports
 from modelfuncs import *
 import sys
-
 from datetime import datetime
-startTime = datetime.now()
 
 ################################################################################
 # read in the sorted dataframe
@@ -49,14 +47,15 @@ def progressBar(value, endvalue, bar_length = 65):
 # run model function for each id
 ################################################################################
 
-print("\nStarting model fitting with NLLS")
+print("Starting model fitting with NLLS")
 
 # number of iterations for progressBar is number of unique ids
 iterations = len(GRDF.NewID.unique())
 
 # cubic model-------------------------------------------------------------------
 
-iteration  = 0
+startTime = datetime.now()
+iteration = 0
 print("\nCubic Model...")
 
 for id in GRDF["NewID"].unique():
@@ -68,11 +67,13 @@ for id in GRDF["NewID"].unique():
 failed    = cubicDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+print("Time taken: ", datetime.now() - startTime)
 
 
 # # full schoolfield model--------------------------------------------------------
 
-iteration  = 0
+startTime = datetime.now()
+iteration = 0
 print("\n\nFull Schoolfield Model...") # change the text!
 
 for id in GRDF["NewID"].unique():
@@ -84,11 +85,13 @@ for id in GRDF["NewID"].unique():
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+print("Time taken: ", datetime.now() - startTime)
 
 
 # no high schoolfield-----------------------------------------------------------
 
-iteration  = 0
+startTime = datetime.now()
+iteration = 0
 print("\n\nSchoolfield Model without high...") # change the text!
 
 for id in GRDF["NewID"].unique():
@@ -100,10 +103,12 @@ for id in GRDF["NewID"].unique():
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+print("Time taken: ", datetime.now() - startTime)
 
 
 # no low schoolfield------------------------------------------------------------
 
+startTime = datetime.now()
 iteration  = 0
 print("\n\nSchoolfield Model without low...") # change the text!
 
@@ -116,10 +121,12 @@ for id in GRDF["NewID"].unique():
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+print("Time taken: ", datetime.now() - startTime)
 
 
 # arrhenius model---------------------------------------------------------------
 
+startTime = datetime.now()
 iteration  = 0
 print("\n\nEnzyme assisted Arrhenius Model...")
 
@@ -132,6 +139,7 @@ for id in GRDF["NewID"].unique():
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed
 print("\n{0} of {1} curves converged.".format(converged, iterations))
+print("Time taken: ", datetime.now() - startTime)
 
 ################################################################################
 # save results to csv
@@ -140,11 +148,9 @@ print("\n{0} of {1} curves converged.".format(converged, iterations))
 print("\n\nSaving Results as .csv files")
 
 cubicDF.to_csv("../Results/cubic_model.csv")
-#flschDF.to_csv("../Results/full_scholfield_model.csv")
-#nhschDF.to_csv("../Results/noh_scholfield_model.csv")
-#nlschDF.to_csv("../Results/nol_scholfield_model.csv")
-#arrhnDF.to_csv("../Results/arrhenius_model.csv")
+flschDF.to_csv("../Results/full_scholfield_model.csv")
+nhschDF.to_csv("../Results/noh_scholfield_model.csv")
+nlschDF.to_csv("../Results/nol_scholfield_model.csv")
+arrhnDF.to_csv("../Results/arrhenius_model.csv")
 
 print("\nDone with Model Fitting!")
-
-print(datetime.now() - startTime)

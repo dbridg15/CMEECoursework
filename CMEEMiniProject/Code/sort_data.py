@@ -15,6 +15,9 @@ import pandas as pd
 import numpy as np
 from scipy import constants
 from scipy import stats
+from datetime import datetime
+
+startTime = datetime.now()
 
 # TODO
 
@@ -57,7 +60,7 @@ GRDF["NewID"] = GRDF.FinalID.astype("category").cat.codes
 # get rid of 0s -ves and NAs from data (only +ves)
 GRDF = GRDF.loc[GRDF.index[GRDF["OriginalTraitValue"] > 0]]
 
-print("    Choosing which Temperature to use: ConTemp > ResTemp > AmbientTemp")
+print("Choosing which Temperature to use: ConTemp > ResTemp > AmbientTemp")
 
 # return best temp to use: ConTemp > ResTemp > AmbientTemp
 def best_temp(group):
@@ -209,3 +212,5 @@ GRDF = pd.merge(GRDF, startingVals, on = "NewID")
 GRDF.to_csv("../Results/sorted_data.csv", index = False)
 
 print("\nDone!")
+
+print("Time taken: ", datetime.now() - startTime)
