@@ -17,6 +17,9 @@ from lmfit import minimize, Parameters, report_fit
 # TODO
     # check RSquared calculations
     # sort non-logged Rsquared and aic
+    # change AIC to AICc (and calculate for cubic!)
+    # update comments and docstrings!
+    # change check in tries to be calculated AICc
 
 ################################################################################
 # constants

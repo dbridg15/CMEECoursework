@@ -68,9 +68,22 @@ for(id in unique(GRDF$NewID)){
               heights=c(9, 12, 4, 2, 2))
 }
 
-
 dev.off()
 
 cat("\nDone!\n")
 
-cat(paste0("Time taken: ", (proc.time() - start_time)[3], "\n"))
+# print time taken in hr:mn:sc.ms (there must be an easier way!)
+elapsed <- proc.time() - start_time
+
+hrs = as.character(floor(elapsed[3]/3600))  # hours
+hrs = paste0(rep("0", 2 - nchar(hrs)), hrs)
+
+mins = as.character(floor(elapsed[3]/60))  # mins
+mins = paste0(rep("0", 2 - nchar(mins)), mins)
+
+secs = as.character(floor(elapsed[3]%%60)) # seconds
+secs = paste0(rep("0", 2 - nchar(secs)),secs)
+
+ms = substr(as.character((elapsed[3]%%60)%%1), 3, 5)  # ms
+
+cat(paste0("Time taken: ", hrs, ":", mins, ":", secs, ".", ms, "\n"))

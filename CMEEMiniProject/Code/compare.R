@@ -5,10 +5,12 @@
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
-
+# suppressPackageStartupMessages()
 # imports
 require(ggplot2)
 require(tidyr)
+
+start_time <- proc.time()
 
 ###############################################################################
 # read in data
@@ -21,11 +23,11 @@ nlschDF = read.csv("../Results/nol_scholfield_model.csv")
 arrhnDF = read.csv("../Results//arrhenius_model.csv")
 
 aicdf = data.frame("NewID" = cubicDF$NewID,
-                  "cubic" = cubicDF$nlaic,
-                  "flsch" = flschDF$nlaic,
-                  "nhsch" = nhschDF$nlaic,
-                  "nlsch" = nlschDF$nlaic,
-                  "arrhn" = arrhnDF$nlaic)
+                   "cubic" = cubicDF$nlaic,
+                   "flsch" = flschDF$nlaic,
+                   "nhsch" = nhschDF$nlaic,
+                   "nlsch" = nlschDF$nlaic,
+                   "arrhn" = arrhnDF$nlaic)
 
 ###############################################################################
 # functions
@@ -61,7 +63,7 @@ compare <- function(models){
   colnames(aicDF) <- c("NewID", models)
 
   for (i in 1:length(models)){
-    aicDF[DFdelta[i]] <- apply(aicDF, 1, delta, model = mdls[i])
+    aicDF[DFdelta[i]] <- apply(aicDF, 1, delta, model = models[i])
   }
 
   for (i in 1:length(models)){
@@ -73,7 +75,7 @@ compare <- function(models){
     aicDF[DFpass[i]] <- eval(parse(text = (paste0("aicDF$", DFdelta[i])))) <= 2
   }
 
-  cat("Based off of delta when < 2 from minimum aic means models are comparable\n\n")
+  cat("\nBased off of delta when < 2 from minimum aic means models are comparable\n\n")
 
   for (i in 1: length(models)){
     passed <- sum(eval(parse(text = (paste0("aicDF$", DFpass[i])))), na.rm = TRUE)
@@ -82,12 +84,12 @@ compare <- function(models){
                "%) curves best or comparable to best\n"))
   }
 
-  pltDF <- data.frame(NewID  = aicDF$NewID, model = mdls[1],
+  pltDF <- data.frame(NewID  = aicDF$NewID, model = models[1],
                       aic    = eval(parse(text = DFaic[1])),
                       delta  = eval(parse(text = paste0("aicDF$",DFdelta[1]))),
                       weight = eval(parse(text = paste0("aicDF$",DFweight[1]))))
 
-  for(i in 2:length(mdls)){
+  for(i in 2:length(models)){
     pltDF <- rbind.data.frame(pltDF,
                    data.frame(NewID  = aicDF$NewID, model = models[i],
                               aic    = eval(parse(text = DFaic[1])),
@@ -104,7 +106,7 @@ compare <- function(models){
 
   fit <- aov(weight ~ model, data = pltDF)
 
-  cat("\n\n\nNow looking at weighted aic\n\n")
+  cat("\n\nNow looking at weighted aic\n\n")
   print(TukeyHSD(fit))
 
   return(aicDF)
@@ -114,7 +116,35 @@ compare <- function(models){
 # run the stuff!
 ###############################################################################
 
-mdls <- c("cubic", "flsch", "nhsch", "nlsch", "arrhn")
-#mdls <- c("flsch", "nhsch", "nlsch", "arrhn")
+mdls1 <- c("cubic", "flsch", "nhsch", "nlsch", "arrhn")
+mdls2 <- c("flsch", "nhsch", "nlsch", "arrhn")
 
-aicDF <- compare(mdls)
+pdf("../Results/compare_aic.pdf")
+
+cat("\nComparing all models---------------------------------------------------------\n")
+a <- compare(mdls1)
+
+cat("\nComparing all but cubic model------------------------------------------------\n")
+b <- compare(mdls2)
+
+cat("\nSaving plots...\n")
+
+dev.off()
+
+cat("\nDone!\n")
+
+# print time taken in hr:mn:sc.ms (there must be an easier way!)
+elapsed <- proc.time() - start_time
+
+hrs = as.character(floor(elapsed[3]/3600))  # hours
+hrs = paste0(rep("0", 2 - nchar(hrs)), hrs)
+
+mins = as.character(floor(elapsed[3]/60))  # mins
+mins = paste0(rep("0", 2 - nchar(mins)), mins)
+
+secs = as.character(floor(elapsed[3]%%60)) # seconds
+secs = paste0(rep("0", 2 - nchar(secs)),secs)
+
+ms = substr(as.character((elapsed[3]%%60)%%1), 3, 5)  # ms
+
+cat(paste0("Time taken: ", hrs, ":", mins, ":", secs, ".", ms, "\n"))

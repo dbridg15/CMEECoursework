@@ -304,7 +304,7 @@ sch_tbl <- function(id, flsch, nhsch, nlsch){
 cub_tbl <- function(id, cubm){
   cub <- subset(cubm, NewID == id)
   cub$model <- "cubic"
-  cub <- cub[c("model", "a", "b", "c", "d", "aic", "Rsqrd")]
+  cub <- cub[c("model", "a", "b", "c", "d", "nlaic", "Rsqrd")]
   rownames(cub) <- NULL
   tableGrob(format(cub, digits = 5), theme = my_theme)
 }

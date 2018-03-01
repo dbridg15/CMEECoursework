@@ -2,3 +2,5 @@
 Results/*
 !Results/.gitkeep
 *.pdf
+.RData
+.Rhistory
