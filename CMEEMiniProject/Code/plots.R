@@ -29,16 +29,29 @@ arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 # do the plots
 ###############################################################################
 
+args = commandArgs(trailingOnly = TRUE)
 
-iteration  = 0              # start iteration as 0 for loading bar
-iterations = nrow(flschDF)  # iterations for loading bar is number of ids
-bar_len = 65                # length of loading bat in terminal
+if (length(args) == 1){
+    if (args[1] == "All"){
+        run_ids = unique(GRDF$NewID)
+        cat(paste0("\nPlotting All curves\n"))
+    } else{
+        run_ids = sample(unique(GRDF$NewID), args[1], replace = FALSE)
+        cat(paste0("\nPlotting random ", args[1], " curves\n"))
+    }
+}else{
+    run_ids = sample(unique(GRDF$NewID), 50, replace = FALSE)
+    cat(paste0("\nPlotting random 50 curves\n"))
+}
 
-cat("Plotting:\n")
+iteration  = 0                # start iteration as 0 for loading bar
+iterations = length(run_ids)  # iterations for loading bar is number of ids
+bar_len = 65                  # length of loading bat in terminal
+
 
 pdf("../Results/plots.pdf", width = 10, height = 12)
 
-for(id in unique(GRDF$NewID)){
+for(id in run_ids){
 
   # loading bar ---------------------------------------------------------------
   iteration = iteration + 1  # increment iteration

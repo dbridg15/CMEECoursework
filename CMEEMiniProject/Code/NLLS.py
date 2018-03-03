@@ -11,6 +11,16 @@ from modelfuncs import *
 import sys
 from datetime import datetime
 
+if len(sys.argv) == 3:
+    min_t = int(sys.argv[1])
+    max_t = int(sys.argv[2])
+    print("Using given parameters:\nMin Tries: {0}\nMax Tries: {1}".format(min_t, max_t))
+else:
+    min_tries = 3
+    max_tries = 25
+    print("Using default parameters:\nMin Tries: {0}\nMax Tries: {1}".format(min_t, max_t))
+
+
 ################################################################################
 # read in the sorted dataframe
 ################################################################################
@@ -80,7 +90,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    flschDF = flschDF.append(full_schlfld_model(id, GRDF, min_tries = 3, max_tries = 25, method = 1))
+    flschDF = flschDF.append(full_schlfld_model(id, GRDF, min_tries = min_t, max_tries = max_t, method = 1))
 
 failed    = flschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -98,7 +108,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, min_tries = 3, max_tries = 25, method = 1))
+    nhschDF = nhschDF.append(noh_schlfld_model(id,GRDF, min_tries = min_t, max_tries = max_t, method = 1))
 
 failed    = nhschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -116,7 +126,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # method 1 for speed
-    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, min_tries = 3, max_tries = 25, method = 1))
+    nlschDF = nlschDF.append(nol_schlfld_model(id,GRDF, min_tries = min_t, max_tries = max_t, method = 1))
 
 failed    = nlschDF.aic.isnull().sum()
 converged = iterations - failed
@@ -134,7 +144,7 @@ for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
     # min 10 tries as they all converge so but more tries improve fit
-    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = 10, max_tries = 10, method = 1))
+    arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = min_t, max_tries = max_t, method = 1))
 
 failed    = arrhnDF.aic.isnull().sum()
 converged = iterations - failed
