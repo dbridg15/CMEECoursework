@@ -11,13 +11,19 @@ from modelfuncs import *
 import sys
 from datetime import datetime
 
+# TODO
+
+################################################################################
+# get min and max tries from command line if given
+################################################################################
+
 if len(sys.argv) == 3:
     min_t = int(sys.argv[1])
     max_t = int(sys.argv[2])
     print("Using given parameters:\nMin Tries: {0}\nMax Tries: {1}".format(min_t, max_t))
 else:
-    min_tries = 3
-    max_tries = 25
+    min_t = 3
+    max_t = 25
     print("Using default parameters:\nMin Tries: {0}\nMax Tries: {1}".format(min_t, max_t))
 
 

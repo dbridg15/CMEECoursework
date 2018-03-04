@@ -11,6 +11,7 @@ __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
 
 # imports
+import sys
 import pandas as pd
 import numpy as np
 from scipy import constants
@@ -20,6 +21,17 @@ from datetime import datetime
 startTime = datetime.now()
 
 # TODO
+
+################################################################################
+# get file path from command line if given
+################################################################################
+
+if len(sys.argv) == 2:
+    path = sys.argv[1]
+    print("\nUsing given path:\n{0}\n".format(path))
+else:
+    path = "../Data/GrowthRespPhotoData_new.csv"
+    print("\nUsing default path:\n{0}\n".format(path))
 
 ################################################################################
 # constants
@@ -34,18 +46,17 @@ e = np.exp(1)
 
 print("Reading in Data...\n")
 
-GRDF = pd.read_csv("../Data/GrowthRespPhotoData_new.csv",
-                   usecols = ["FinalID",
-                              "OriginalTraitName",
-                              "OriginalTraitDef",
-                              "OriginalTraitValue",
-                              "OriginalTraitUnit",
-                              "AmbientTemp",
-                              "AmbientTempUnit",
-                              "ConTemp",
-                              "ConTempUnit",
-                              "ResTemp",
-                              "ResTempUnit"],
+GRDF = pd.read_csv(path, usecols = ["FinalID",
+                                    "OriginalTraitName",
+                                    "OriginalTraitDef",
+                                    "OriginalTraitValue",
+                                    "OriginalTraitUnit",
+                                    "AmbientTemp",
+                                    "AmbientTempUnit",
+                                    "ConTemp",
+                                    "ConTempUnit",
+                                    "ResTemp",
+                                    "ResTempUnit"],
                    low_memory = False)
 
 ################################################################################

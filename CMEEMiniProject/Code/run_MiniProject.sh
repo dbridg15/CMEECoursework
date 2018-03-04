@@ -1,6 +1,6 @@
 #!/bin/bash
 # Author:      David Bridgwood dmb2417@ic.ac.uk
-# Script:      run_project.sh
+# Script:      run_MiniProject.sh
 # Description: runs CMEE MiniProject
 
 ###############################################################################
@@ -12,7 +12,7 @@ echo "##########################################################################
 echo "# sort_data.py"
 echo "###############################################################################"
 echo ""
-python3 sort_data.py
+python3 sort_data.py ../Data/GrowthRespPhotoData_new.csv
 
 echo ""
 echo "###############################################################################"

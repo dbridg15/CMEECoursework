@@ -27,11 +27,21 @@
 
 ## How to run
 
-To run the entire project enter the Code directory and execute the 'run_project.sh' file.
+To run the entire project with default parameters (see below) execute the 'run_project.sh' file from the Code directory.
 
 	bash run_project.sh
 	
 This take approximately X minutes to run. Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
+
+To run the project with chosen parameters execute each script separately as below.
+
+	python3 sort_data.py 
+	
+	python3 NLLS.py
+	
+	Rscript plots.R
+	
+	Rscript compare.R
 
 ##File Structure
 
