@@ -1,0 +1,164 @@
+\documentclass[11pt]{article}
+
+\usepackage{geometry}
+\geometry{a4paper, portrait, margin=3cm}
+
+\usepackage{todonotes}
+%TC:macro \todo [ignore]
+
+	\usepackage{helvet}
+\renewcommand{\familydefault}{\sfdefault}
+
+\usepackage{setspace}
+\usepackage{indentfirst}
+
+\usepackage{siunitx}
+
+\usepackage{parskip}
+\usepackage{lineno}
+\usepackage{graphicx}
+\usepackage[labelfont=bf]{caption}
+\usepackage{float}
+\usepackage[authoryear]{natbib}
+\usepackage[T1]{fontenc}
+
+%opening
+
+\begin{document}
+
+	\begin{titlepage}
+		
+		\begin{center}
+			
+		\vspace*{2cm}
+		\LARGE
+		CMEE MiniProject:
+		
+		\vspace*{3cm}
+		\Huge
+		\textbf{Some Very Clever Title}\\
+		
+		\vspace{5cm}
+		\Large
+		
+		\textbf{Student:} David Bridgwood \textit{(dmb2417@ic.ac.uk)}\\
+		\vspace*{1cm}
+		\textbf{Affiliation:} Department of Life Sciences. Imperial College London\\
+		\vspace*{1cm}
+		\textbf{Word Count:} 10000000
+		
+		\vspace{2cm}
+		
+		\end{center}
+
+	\end{titlepage}
+	
+	\linenumbers
+	\doublespacing
+	\section*{Abstract}
+	
+	\todo[inline]{not required}
+		
+	\section{Introduction}
+	Metabolic rate is a fundamental measure in biology influencing levels from biochemistry through to ecosystem functioning \citep{Brown2004a, Gillooly2001}. This rate is temperature dependant due to nature of chemical reactions, where increases in energy lead to a higher rate of molecule collisions of and so higher rate of reaction. However higher temperatures eventually lead to reduction in rate due to decreased protein stability \citep{Schulte2015}. Changes in metabolic rate have impacts across all levels of biology affecting ecological processes such species interaction, population growth and ecosystem functioning \citep{Savage2004}. Metabolism has even been linked to evolution with higher rates associated with greater genetic divergence \citep{Allen2006}. Given the continuing rise in global temperatures it is becoming increasingly important for us to understand the mechanisms behind how metabolic rates change with temperature to better predict species' responses to further warming \citep{Schulte2015}. 
+	
+	Thermal performance curves (TPCs) are used to describe how metabolic rate are influenced by temperature \citep{Kontopoulos2018}. TPCs tend to follow a similar shape, being unimodal with skew to the right, rates rise to and level off at an optimum temperature for the given trait ($T_{\textrm{opt}}$) before a sharp fall with further temperature increases \citep{Dell2011a} \todo[inline]{ADD/REFER TO FIGURE!}. There has been much debate recently around the mechanisms underlying this curve with a variety of models proposed \citep{DeLong2017, Kontopoulos2018, Schoolfield1981}. Models can be phenomenological, describing the data but not the underlying mechanisms, or mechanistic and attempt to describe the data by predicting the mechanisms which underpin it. This enable us to understand what influences observations by describing in a general way the biological processes which govern them.
+	
+	This study will use model fitting and selection to identify which of five models including both phenomenological and mechanistic, best fit and describe data of hundreds of TPCs from a wide range of taxa. This will increase our understanding of which mechanisms are involved in the response of metabolism to temperature. 
+		
+		\subsection{The Models}
+		In this analysis five models were compared:  
+		
+		A general cubic polynomial which is able to describe unimodal data such as TPCs but does not have any biological underpinning as with mechanistic models.  
+		
+		\begin{equation}
+		B = B_0 + B_1T + B_2T^2 + B_3T^3
+		\end{equation}	
+		
+		In this equation the $T$ values are measured in  \si{\degreeCelsius}. 
+		
+		The Schoolfield model \citep{Schoolfield1981}, which attempts to explain the rise and fall of TPCs using understanding of how protein stability is affected by changes in temperature, impacting the efficiency of a rate-limiting enzyme. The equation gives the trait value $B$ at the given temperature T measured in Kelvin. 
+		
+		\begin{equation}
+		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_l}{k}(\frac{1}{T_l}-\frac{1}{T})} + e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
+		\end{equation}
+		
+		In this equation $B_0$ represents the trait value at $T_{\textrm{ref}}$ in this case \SI{283.15}{\kelvin} was used. $E$ is the activation energy of the reaction. $E_\textrm{l}$ and $E_\textrm{h}$ are the low and high deactivation energies which dictate the change in rate of reaction at low and high temperatures. $T_\textrm{l}$ is the temperature at which enzyme activity is at 50\% due to low temperatures and $T_\textrm{h}$ where enzyme activity is at 50\% due to high temperatures. and $k$ is Boltzmann's constant ($8.61 \times 10^{-5} \textrm{eV K}^{-1}$). In many cases high or low temperature deactivation is not detectable in data (not enough measurements taken at low and high temperatures) and so two simplified version of the model were used which exclude these parameters respectively. 
+		
+		\begin{equation}
+		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 +       e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
+		\end{equation}
+		
+		\begin{equation}
+		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_l}{k}(\frac{1}{T_l}-\frac{1}{T})}}
+		\end{equation}
+	
+		The Enzyme Assisted Arrhenius Model (EAAR) proposed by \cite{DeLong2017} attempts to explain the rise and fall of TPCs in a slightly different way. Unlike the Schoolfield model which assumes a maximum rate which is reduced at low and high temperatures because of lowered enzyme performance, it assumes a baseline reaction rate with a high activation energy which is lowered with the assistance of an enzyme thus increasing the rate of the reaction. The equation gives the trait value $V$ at a given temperature $T$ in Kelvin. 
+	
+		\begin{equation}
+		V = A_0e\frac{-(E_b-(E_{\Delta H}(1 - \frac{T}{T_m}) + E_{\Delta Cp}(T - T_m - T\ln\frac{T}{T_m})))}{kT}
+		\end{equation}
+		
+		In this equation $A_0$ is a constant unique to each reaction. $E_\textrm{b}$ is the baseline activation energy. $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ are both changes in the activation energy of the reaction associated with enthalpy change and heat capacity of catalysts respectively. $T_m$ is the melting point and $k$ is again Boltzmann's constant. 
+		
+	\section{Methods}
+		
+		\subsection{Data}
+		
+		Data for the analysis was taken from the Biotraits database \citep{AnthonyDellSamraatPawar2013} a large resource containing measures of ecological rates and traits across a variety of temperature points, for species ranging from bacteria to terrestrial plants attempting to cover the extensive variation in metabolic responses to temperature found in life on Earth. This database contained over 25826 rows of data from 2165 experiments compiled from 100's of published sources. \todo[inline]{SAY MORE?}
+		
+		In order to ensure that all models could be fitted (or an attempt to fit made), data was filtered to only include groups which contained a minimum of six points with trait values greater than zero. As the full Schoolfield model has six parameters a minimum of six points are needed to perform the non-linear least-squared fitting. Groups where all temperature values or all trait values were identical were removed as these would be impossible to fit. 
+		
+		\subsection{Calulating Starting Values and Fitting Models}
+		
+		To increase the likelihood of the Schoolfield models converging starting values were calculated from the data. $E$ was taken as the slope of the right hand side of the log(traitValue) by $\frac{1}{KT}$ curve and $E_\textrm{h}$ the left hand side \ref{fig2}, except in cases where the peak of the curve was at the left or right in which case $E$ and $E_\textrm{h}$ starting values were the same; the slope through all points, $E_\textrm{l}$ was taken as $0.5\times E$. $B_0$ was calculated from the line used for $E$ where the the temperature is \SI{10}{\degreeCelsius} ($\frac{1}{KT}$ = 40.98). $T_\textrm{h}$ was estimated as the temperature with the highest trait value while $T_\textrm{l}$ was the lowest temperature for which there was a trait value.
+		
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width = \textwidth]{figure2.pdf}
+			\caption{log transformed trait values against $\frac{1}{KT}$. Starting values for $E$ were taken as the slope of the right hand side (red line), and $E_\textrm{h}$ the left side (green line). $B_0$ was predicted where the line used to calculate $E$ was at $\frac{1}{KT_{\textrm{ref}}}$.}
+			\label{fig2}
+		\end{figure}
+		\todo{what is this plot ID?}
+		
+		Starting values for the EAAR could not be predicted from the data and so random values were chosen: between 0:10 for $A_0$ and $E_\textrm{b}$, between -10:10 for $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ and between 280 and 350 for $T_{\Delta\textrm{m}}$.  
+		
+		All models were fitted with the Non-Linear Least-Squares method using the python package lmfit \todo[inline]{CITE lmfit}, attempting to minimize the residuals of the given model. The cubic model was fit using the original (not log transformed data) trait values and temperature in \si{\degreeCelsius}. As the model is phenomenological and has no biological meaning starting values could not be predicted from the data and were set at 0. 
+		
+		The three versions of the Schoolfield model were fitted on the $\ln$ transformed trait data and temperature in Kelvin initially using staring values as describe above. Further fits were then attempted on each group a minimum of two more times with starting values randomised between zero and twice the calculated starting values and the output with lowest AIC was chosen. For groups which had not converged after these 3 attempts up to a further 22 (total of 25) attempts were made with these randomised starting values to get as many curves as possible to fit. Fitting of the EAAR followed the same method – taking the best fit of the first three tries and continuing up to 25 attempts if fitting still failed. 
+
+		
+		\subsection{Comparison of Models}
+		
+		As different models were fitted on the logged and non-logged data, Rsquared and AIC needed to be converted to be comparable. Models which had been fitted on the log transformed data had their residuals un-transformed (exponent of the fitted values minus the non-log transformed data). Residual Sum of Squares ($RSS$), Total Sum of Squares ($TSS$) were recalculated using these un-logged residuals and from these an Rsquared value and AIC were calculated using the below equation. 
+		
+		\begin{equation}
+		AIC = N\ln{\frac{RSS}{N}} + 2P
+		\end{equation}
+		
+		Models were compared within each group; a $\Delta$AIC was calculated as the difference between the lowest AIC and the AIC for that model. Where $\Delta$AIC was less than or equal to two the models were considered to be the best or comparable the best (cite!). An Akaike weight $W_i(\textrm{AIC})$ was also calculated for each model for each group using the equation below, this gives a probability that the model best describes the data.
+		
+		\begin{equation}
+		W_i(\textrm{AIC}) = \frac{\exp\{-\frac{1}{2}\Delta_i(\textrm{AIC)}\}}{\sum_{k=1}^{K} \exp\{-\frac{1}{2}\Delta_k(\textrm{AIC)}\}}
+		\end{equation}
+		
+		These Akaike weights were calculated including all models as well as excluding the cubic model, in order to identify which mechanistic model best describes the TPC data and therefore better understand the mechanisms underpinning them. 
+		
+		\subsection{Computing Languages Used}		
+		
+		Three computing languages were used throughout the analysis: 
+		
+		\begin{itemize}
+			\item Python 3.6 was used in the data wrangling stage using the library pandas for efficient data manipulation, estimating starting values used the libraries SciPy and NumPy for scientific and numerical functions and model fitting with NLLS with the library lmfit.
+			\item R 3.4.2 was used for plotting with the package ggplot2 for easily readable plots and general analysis of the results was made easy with the wide variety of inbuilt functions.
+			\item The command line language Bash (4.4.12) was used to tie the project together into one repeatable workflow. 
+		\end{itemize}
+		
+	\section{Results}
+	
+	\section{Discussion}
+	
+	\bibliographystyle{agsm}
+	\bibliography{MiniProject}
+
+\end{document}

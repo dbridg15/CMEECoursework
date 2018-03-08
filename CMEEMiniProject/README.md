@@ -48,27 +48,27 @@ To run the project with chosen parameters execute each script separately as belo
 CMEEMiniProject/
 │ 
 ├──code
-│      ├── compare.R
-│	├── modelfuncs.py
-│      ├── NLLS.py
-│      ├── plotfuncs.R
-│      ├── plots.R
-│      └── sort\_data.py
+│   ├── compare.R
+│   ├── modelfuncs.py
+│   ├── NLLS.py
+│   ├── plotfuncs.R
+│   ├── plots.R
+│   └── sort\_data.py
 │
 ├── Data
-│      ├── GrowthRespPhotoData.csv
-│      ├── GrowthRespPhotoData\_new.csv
-│      ├── ThermResp.csv
-│      ├── ThermRespData.csv
-│      └── TraitInfo.csv
+│   ├── GrowthRespPhotoData.csv
+│   ├── GrowthRespPhotoData\_new.csv
+│   ├── ThermResp.csv
+│   ├── ThermRespData.csv
+│   └── TraitInfo.csv
 │
 ├── Results
-│      ├── arrhenius\_model.csv
-│      ├── cubic\_model.csv
-│      ├── full\_scholfield\_model.csv
-│      ├── noh\_scholfield\_model.csv
-│      ├── nol\_scholfield\_model.csv
-│      ├── plots.pdf
-│      └── sorted\_data.cs 
+│   ├── arrhenius\_model.csv
+│   ├── cubic\_model.csv
+│   ├── full\_scholfield\_model.csv
+│   ├── noh\_scholfield\_model.csv
+│   ├── nol\_scholfield\_model.csv
+│   ├── plots.pdf
+│   └── sorted\_data.csv
 │
 └── Sandbox
