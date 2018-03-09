@@ -6,12 +6,11 @@
 #         and curve statistics
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
-rm(list = ls())
-
 # imports
 require(ggplot2)
 require(dplyr)
 require(gridExtra)
+require(tidyr)
 
 ###############################################################################
 # constants
@@ -321,3 +320,92 @@ arh_tbl <- function(id, arhm){
 
 # sch_tbl(3, flschDF, nhschDF, nlschDF)
 # cub_tbl(3, cubicDF)
+
+###############################################################################
+# comparing AIC  functions
+###############################################################################
+
+
+delta <- function(row, model){
+  abs(min(row, na.rm = TRUE) - row[model])
+}
+
+weight <- function(row, model_delta, comparing){
+  if (is.na(row[model_delta])){
+    0
+  } else {
+    exp(-.5*row[model_delta])/sum(exp(-.5*row[comparing]), na.rm = TRUE)
+  }
+}
+
+compare <- function(models, rtrn = "aicDF"){
+
+  DFaic    <- paste0(models, "DF$nlaic")
+  DFdelta  <- paste0(models, "_delta")
+  DFweight <- paste0(models, "_weight")
+  DFpass   <- paste0(models, "_pass")
+
+
+  aicDF <- data.frame("NewID" = eval(parse(text = (paste0(models[1], "DF$NewID")))))
+
+  for (i in 1:length(models)){
+    aicDF <- cbind(aicDF, eval(parse(text = DFaic[i])))
+  }
+
+  colnames(aicDF) <- c("NewID", models)
+
+  for (i in 1:length(models)){
+    aicDF[DFdelta[i]] <- apply(aicDF, 1, delta, model = models[i])
+  }
+
+  for (i in 1:length(models)){
+    aicDF[DFweight[i]] <- apply(aicDF, 1, weight, model_delta = DFdelta[i],
+                                comparing = DFdelta)
+  }
+
+  for (i in 1:length(models)){
+    aicDF[DFpass[i]] <- eval(parse(text = (paste0("aicDF$", DFdelta[i])))) <= 2
+  }
+
+  cat("\nBased off of delta when < 2 from minimum aic means models are comparable\n\n")
+
+  for (i in 1: length(models)){
+    passed <- sum(eval(parse(text = (paste0("aicDF$", DFpass[i])))), na.rm = TRUE)
+
+    cat(paste0(models[i], ": ", passed, " (", round((passed/nrow(aicDF))*100, 2),
+               "%) curves best or comparable to best\n"))
+  }
+
+  pltDF <- data.frame(NewID  = aicDF$NewID, model = models[1],
+                      aic    = eval(parse(text = DFaic[1])),
+                      delta  = eval(parse(text = paste0("aicDF$",DFdelta[1]))),
+                      weight = eval(parse(text = paste0("aicDF$",DFweight[1]))))
+
+  for(i in 2:length(models)){
+    pltDF <- rbind.data.frame(pltDF,
+                   data.frame(NewID  = aicDF$NewID, model = models[i],
+                              aic    = eval(parse(text = DFaic[1])),
+                              delta  = eval(parse(text = paste0("aicDF$",DFdelta[i]))),
+                              weight = eval(parse(text = paste0("aicDF$",DFweight[i])))))
+  }
+
+  plt <- ggplot(data = pltDF, aes(y = weight, x = model))
+  plt <- plt + geom_boxplot(outlier.shape=NA, lwd = .3)
+  plt <- plt + geom_jitter(position=position_jitter(width=.3, height=0), alpha = 0.3, cex = .1)
+  plt <- plt + stat_summary(fun.y=mean, geom="point", shape=18, size=2.5, show.legend = FALSE)
+  plt <- plt + theme_classic()
+  # print(plt)
+
+  fit <- aov(weight ~ model, data = pltDF)
+
+  cat("\n\nNow looking at weighted aic\n\n")
+  print(TukeyHSD(fit))
+
+  if (rtrn == "aicDF"){
+    return(aicDF)
+  } else if (rtrn == "pltDF"){
+      return(pltDF)
+  } else {
+      return(plt)
+  }
+}

@@ -6,13 +6,14 @@
 \usepackage{todonotes}
 %TC:macro \todo [ignore]
 
-	\usepackage{helvet}
+\usepackage{helvet}
 \renewcommand{\familydefault}{\sfdefault}
 
 \usepackage{setspace}
 \usepackage{indentfirst}
 
 \usepackage{siunitx}
+\usepackage{amssymb}
 
 \usepackage{parskip}
 \usepackage{lineno}
@@ -36,7 +37,7 @@
 		
 		\vspace*{3cm}
 		\Huge
-		\textbf{Some Very Clever Title}\\
+		\textbf{All this for just 6\%}\\
 		
 		\vspace{5cm}
 		\Large
@@ -60,9 +61,9 @@
 	\todo[inline]{not required}
 		
 	\section{Introduction}
-	Metabolic rate is a fundamental measure in biology influencing levels from biochemistry through to ecosystem functioning \citep{Brown2004a, Gillooly2001}. This rate is temperature dependant due to nature of chemical reactions, where increases in energy lead to a higher rate of molecule collisions of and so higher rate of reaction. However higher temperatures eventually lead to reduction in rate due to decreased protein stability \citep{Schulte2015}. Changes in metabolic rate have impacts across all levels of biology affecting ecological processes such species interaction, population growth and ecosystem functioning \citep{Savage2004}. Metabolism has even been linked to evolution with higher rates associated with greater genetic divergence \citep{Allen2006}. Given the continuing rise in global temperatures it is becoming increasingly important for us to understand the mechanisms behind how metabolic rates change with temperature to better predict species' responses to further warming \citep{Schulte2015}. 
+	Metabolic rate is a fundamental measure in biology influencing levels from biochemistry through to ecosystem functioning \citep{Brown2004a, Gillooly2001}. This rate is temperature dependant due to nature of chemical reactions, where increases in energy lead to a higher rate of molecule collisions of and so higher rate of reaction. However higher temperatures eventually lead to reduction in rate due to decreased protein stability \citep{Schulte2015}. Changes in metabolic rate have impacts across all levels of biology affecting ecological processes such species interaction, population growth and ecosystem functioning \citep{Savage2004}. Metabolism has even been linked to evolution with higher rates associated with greater genetic divergence \citep{Allen2006}. Given the continuing rise in global temperatures it is becoming increasingly important for us to understand the mechanisms behind how metabolic rates change with temperature to better predict species' responses to further warming \citep{Schulte2015}.
 	
-	Thermal performance curves (TPCs) are used to describe how metabolic rate are influenced by temperature \citep{Kontopoulos2018}. TPCs tend to follow a similar shape, being unimodal with skew to the right, rates rise to and level off at an optimum temperature for the given trait ($T_{\textrm{opt}}$) before a sharp fall with further temperature increases \citep{Dell2011a} \todo[inline]{ADD/REFER TO FIGURE!}. There has been much debate recently around the mechanisms underlying this curve with a variety of models proposed \citep{DeLong2017, Kontopoulos2018, Schoolfield1981}. Models can be phenomenological, describing the data but not the underlying mechanisms, or mechanistic and attempt to describe the data by predicting the mechanisms which underpin it. This enable us to understand what influences observations by describing in a general way the biological processes which govern them.
+	Thermal performance curves (TPCs) are used to describe how metabolic rate are influenced by temperature \citep{Kontopoulos2018}. TPCs tend to follow a similar shape, being unimodal with skew to the right, rates rise to and level off at an optimum temperature for the given trait ($T_{\textrm{opt}}$) before a sharp fall with further temperature increases \citep{Dell2011a}. There has been much debate recently around the mechanisms underlying this curve with a variety of models proposed \citep{DeLong2017, Kontopoulos2018, Schoolfield1981}. Models can be phenomenological, describing the data but not the underlying mechanisms, or mechanistic and attempt to describe the data by predicting the mechanisms which underpin it. This enable us to understand what influences observations by describing in a general way the biological processes which govern them.
 	
 	This study will use model fitting and selection to identify which of five models including both phenomenological and mechanistic, best fit and describe data of hundreds of TPCs from a wide range of taxa. This will increase our understanding of which mechanisms are involved in the response of metabolism to temperature. 
 		
@@ -85,13 +86,17 @@
 		
 		In this equation $B_0$ represents the trait value at $T_{\textrm{ref}}$ in this case \SI{283.15}{\kelvin} was used. $E$ is the activation energy of the reaction. $E_\textrm{l}$ and $E_\textrm{h}$ are the low and high deactivation energies which dictate the change in rate of reaction at low and high temperatures. $T_\textrm{l}$ is the temperature at which enzyme activity is at 50\% due to low temperatures and $T_\textrm{h}$ where enzyme activity is at 50\% due to high temperatures. and $k$ is Boltzmann's constant ($8.61 \times 10^{-5} \textrm{eV K}^{-1}$). In many cases high or low temperature deactivation is not detectable in data (not enough measurements taken at low and high temperatures) and so two simplified version of the model were used which exclude these parameters respectively. 
 		
+		\noindent\begin{minipage}{0.5\linewidth}
 		\begin{equation}
-		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 +       e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
+		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
 		\end{equation}
-		
+		\end{minipage}%
+		\begin{minipage}{0.5\linewidth}
 		\begin{equation}
 		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_l}{k}(\frac{1}{T_l}-\frac{1}{T})}}
 		\end{equation}
+		\end{minipage}\par\vspace{\belowdisplayskip}
+
 	
 		The Enzyme Assisted Arrhenius Model (EAAR) proposed by \cite{DeLong2017} attempts to explain the rise and fall of TPCs in a slightly different way. Unlike the Schoolfield model which assumes a maximum rate which is reduced at low and high temperatures because of lowered enzyme performance, it assumes a baseline reaction rate with a high activation energy which is lowered with the assistance of an enzyme thus increasing the rate of the reaction. The equation gives the trait value $V$ at a given temperature $T$ in Kelvin. 
 	
@@ -99,33 +104,33 @@
 		V = A_0e\frac{-(E_b-(E_{\Delta H}(1 - \frac{T}{T_m}) + E_{\Delta Cp}(T - T_m - T\ln\frac{T}{T_m})))}{kT}
 		\end{equation}
 		
+		
 		In this equation $A_0$ is a constant unique to each reaction. $E_\textrm{b}$ is the baseline activation energy. $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ are both changes in the activation energy of the reaction associated with enthalpy change and heat capacity of catalysts respectively. $T_m$ is the melting point and $k$ is again Boltzmann's constant. 
 		
 	\section{Methods}
 		
 		\subsection{Data}
 		
-		Data for the analysis was taken from the Biotraits database \citep{AnthonyDellSamraatPawar2013} a large resource containing measures of ecological rates and traits across a variety of temperature points, for species ranging from bacteria to terrestrial plants attempting to cover the extensive variation in metabolic responses to temperature found in life on Earth. This database contained over 25826 rows of data from 2165 experiments compiled from 100's of published sources. \todo[inline]{SAY MORE?}
+		Data for the analysis was taken from the Biotraits database \citep{AnthonyDellSamraatPawar2013} a large resource containing measures of ecological rates and traits across a variety of temperature points, for species ranging from bacteria to terrestrial plants attempting to cover the extensive variation in metabolic responses to temperature found in life on Earth. This database contained over 25826 rows of data from 2165 experiments compiled from hundreds of published sources.
 		
 		In order to ensure that all models could be fitted (or an attempt to fit made), data was filtered to only include groups which contained a minimum of six points with trait values greater than zero. As the full Schoolfield model has six parameters a minimum of six points are needed to perform the non-linear least-squared fitting. Groups where all temperature values or all trait values were identical were removed as these would be impossible to fit. 
 		
 		\subsection{Calulating Starting Values and Fitting Models}
 		
-		To increase the likelihood of the Schoolfield models converging starting values were calculated from the data. $E$ was taken as the slope of the right hand side of the log(traitValue) by $\frac{1}{KT}$ curve and $E_\textrm{h}$ the left hand side \ref{fig2}, except in cases where the peak of the curve was at the left or right in which case $E$ and $E_\textrm{h}$ starting values were the same; the slope through all points, $E_\textrm{l}$ was taken as $0.5\times E$. $B_0$ was calculated from the line used for $E$ where the the temperature is \SI{10}{\degreeCelsius} ($\frac{1}{KT}$ = 40.98). $T_\textrm{h}$ was estimated as the temperature with the highest trait value while $T_\textrm{l}$ was the lowest temperature for which there was a trait value.
+		To increase the likelihood of the Schoolfield models converging starting values were calculated from the data. $E$ was taken as the slope of the right hand side of the log(traitValue) by $\frac{1}{KT}$ curve and $E_\textrm{h}$ the left hand side (figure \ref{fig2}.), except in cases where the peak of the curve was at the left or right in which case $E$ and $E_\textrm{h}$ starting values were the same; the slope through all points, $E_\textrm{l}$ was taken as $0.5\times E$. $B_0$ was calculated from the line used for $E$ where the the temperature is \SI{10}{\degreeCelsius} ($\frac{1}{KT}$ = 40.98). $T_\textrm{h}$ was estimated as the temperature with the highest trait value while $T_\textrm{l}$ was the lowest temperature for which there was a trait value.
 		
 		\begin{figure}[H]
 			\centering
-			\includegraphics[width = \textwidth]{figure2.pdf}
-			\caption{log transformed trait values against $\frac{1}{KT}$. Starting values for $E$ were taken as the slope of the right hand side (red line), and $E_\textrm{h}$ the left side (green line). $B_0$ was predicted where the line used to calculate $E$ was at $\frac{1}{KT_{\textrm{ref}}}$.}
+			\includegraphics[width = \textwidth]{../Results/figure2.pdf}
+			\caption{log transformed trait values against $\frac{1}{KT}$. Starting values for $E$ were taken as the slope of the right hand side (red line), and $E_\textrm{h}$ the left side (green line). $B_0$ was predicted where the line used to calculate $E$ was at $\frac{1}{KT_{\textrm{ref}}}$. The data for this example is taken from \cite{OSullivan2013} showing the Leaf Respiration Rate of \textit{Eucalyptus pauciflora}.}
 			\label{fig2}
 		\end{figure}
-		\todo{what is this plot ID?}
 		
-		Starting values for the EAAR could not be predicted from the data and so random values were chosen: between 0:10 for $A_0$ and $E_\textrm{b}$, between -10:10 for $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ and between 280 and 350 for $T_{\Delta\textrm{m}}$.  
+		Starting values for the EAAR could not be predicted from the data and so random values were chosen: between 0:10 for $A_0$ and $E_\textrm{b}$, between -10:10 for $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ and between 280 and 350 for $T_\textrm{m}$.  
 		
-		All models were fitted with the Non-Linear Least-Squares method using the python package lmfit \todo[inline]{CITE lmfit}, attempting to minimize the residuals of the given model. The cubic model was fit using the original (not log transformed data) trait values and temperature in \si{\degreeCelsius}. As the model is phenomenological and has no biological meaning starting values could not be predicted from the data and were set at 0. 
+		All models were fitted with the Non-Linear Least-Squares method using the python package LMFIT \citep{Newville2014}, attempting to minimize the residuals of the given model. The cubic model was fit using the original (not log transformed data) trait values and temperature in \si{\degreeCelsius}. As the model is phenomenological and has no biological meaning starting values could not be predicted from the data and were set at 0. 
 		
-		The three versions of the Schoolfield model were fitted on the $\ln$ transformed trait data and temperature in Kelvin initially using staring values as describe above. Further fits were then attempted on each group a minimum of two more times with starting values randomised between zero and twice the calculated starting values and the output with lowest AIC was chosen. For groups which had not converged after these 3 attempts up to a further 22 (total of 25) attempts were made with these randomised starting values to get as many curves as possible to fit. Fitting of the EAAR followed the same method – taking the best fit of the first three tries and continuing up to 25 attempts if fitting still failed. 
+		The three versions of the Schoolfield model were fitted on the $\ln$ transformed trait data and temperature in Kelvin initially using staring values as describe above. Further fits were then attempted on each group a minimum of two more times with starting values randomised between zero and twice the calculated starting values and the output with lowest AIC was chosen. For groups which had not converged after these 3 attempts up to a further 22 (total of 25) attempts were made with these randomised starting values to get as many curves as possible to fit. Fitting of the EAAR followed the same method, taking the best fit of the first three tries and continuing up to 25 attempts if fitting still failed. 
 
 		
 		\subsection{Comparison of Models}
@@ -134,7 +139,7 @@
 		
 		\begin{equation}
 		AIC = N\ln{\frac{RSS}{N}} + 2P
-		\end{equation}
+		\end{equation}		
 		
 		Models were compared within each group; a $\Delta$AIC was calculated as the difference between the lowest AIC and the AIC for that model. Where $\Delta$AIC was less than or equal to two the models were considered to be the best or comparable the best (cite!). An Akaike weight $W_i(\textrm{AIC})$ was also calculated for each model for each group using the equation below, this gives a probability that the model best describes the data.
 		
@@ -155,6 +160,86 @@
 		\end{itemize}
 		
 	\section{Results}
+	
+	Once the data had been sorted to remove groups with too few points 1582 groups remained with an average of 13.83 observations each.
+	
+	During the fitting process curves converged on all groups for the Cubic and EAAR models, while all but 11 of the Full Schoolfield model converged, and all but 8 and 3 of the No High and No Low Schoolfield respectively converged within the 25 attempts permitted.
+	
+	Figure \ref{fig3} shows an example curve where model fitting was successful for all models, with the Full Schoolfield model having the lowest AIC and highest RSquared values and so the best fit.
+	 
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width = \textwidth]{../Results/figure3.pdf}
+		\caption{The five models fitted on a TPC. The data from this example shows the doubling rate of \textit{Peptoclostridium paradoxum} taken from \cite{Li1993}. RSquared and AIC values are shown in table.\ref{plttbl}.}
+		\label{fig3}
+	\end{figure}
+
+	\begin{table}[H] \centering 
+		\caption{Rsquared and AIC for each fitted model shown in figure \ref{fig3}.}
+		\label{plttbl}
+		\begin{tabular}{c|cc|cc} 
+			\hline 
+			Model & RSquared (fig.\ref{fig3}) & AIC (fig.\ref{fig3}) & Mean Rsquared & Mean AIC \\
+			\hline
+			Cubic & $0.915$ & $-178.78$ & $0.887$ & $-57.17$\\
+			Full Schoolfield & $0.993$ & $-212.96$ & $0.845$ & $-62.17$\\ 
+			No High Schoolfield & $0.964$ & $-191.57$ & $0.777$ & $-51.67$\\ 
+			No Low Schoolfield & $0.964$ & $-191.57$ & $0.764$ & $-49.37$\\ 
+			EAAR & $0.507$ & $-150.43$ & -$28.76$ & $-44.01$\\ 
+			\hline
+		\end{tabular}
+	\end{table}
+	\todo{CHECK THESE NUMBERS ESPECIALLY EAAR}
+
+	AIC is a measure of fit which penalises for over-fitting, allowing models with different numbers of parameters to be compared \citep{Johnson2004}. Where the $\Delta$AIC $\leqslant2$ there is significant support for the model, with less at support at $4<\Delta\textrm{AIC}\leqslant7$ and no support at $\Delta\textrm{AIC}>10$ \citep{Burnham2004}. It is clear from table \ref{tbl1} that the Cubic model was consistently able to better fit the data in comparison to the other models, with more than twice as many groups having the cubic model as the best or comparable to best model. 
+
+
+	\begin{table}[H] \centering 
+		\caption{The number of $\Delta$AIC's for each model which fall into the respective categories when all models are compared.} 
+		\label{tbl1} 
+		\begin{tabular}{c|ccccc} 
+			\hline 
+			& $\Delta\leqslant2$ & $2<\Delta\leqslant4$ & $4<\Delta\leqslant7$ & $7<\Delta\leqslant10$ & $\Delta>10$ \\
+			\hline
+			Cubic & $990$ & $90$ & $105$ & $73$ & $324$ \\ 
+			Full Schoolfield & $454$ & $134$ & $418$ & $87$ & $478$ \\ 
+			No High Schoolfield & $471$ & $119$ & $106$ & $91$ & $787$ \\ 
+			No Low Schoolfield & $370$ & $125$ & $115$ & $93$ & $876$ \\ 
+			EAAR & $19$ & $281$ & $138$ & $119$ & $1025$ \\ 
+			\hline
+		\end{tabular}
+	\end{table}
+
+	The cubic model is phenomenological and so does not provide any insight into the mechanisms involved in TPCs and so the same comparisons were made between the four mechanistic models table \ref{tbl2}. Here the Schoolfield model without the high temperature deactivation component performed better, being the best or comparable to best model most frequently.
+	
+	\vspace{0.5cm}
+	
+	\begin{table}[H] \centering 
+		\caption{The number of $\Delta$AIC's for each model which fall into the respective categories when only mechanistic models are compared.} 
+		\label{tbl2} 
+		\begin{tabular}{c|ccccc}
+			\hline 
+			& $\Delta\leqslant2$ & $2<\Delta\leqslant4$ & $4<\Delta\leqslant7$ & $7<\Delta\leqslant10$ & $\Delta>10$ \\
+			\hline
+			Full Schoolfield & $597$ & $95$ & $253$ & $83$ & $115$ \\
+			No High Schoolfield & $701$ & $27$ & $42$ & $27$ & $652$ \\
+			No Low Schoolfield & $542$ & $56$ & $59$ & $40$ & $743$ \\
+			EAAR & $301$ & $111$ & $71$ & $58$ & $883$ \\ 
+			\hline
+		\end{tabular}
+	\end{table}
+
+	The Akaike weights $W_i(\textrm{AIC})$ tell a similar story (figure \ref{fig4}) with the cubic model having a greater proportion with higher weights and so higher probabilities of being the model which best describes the data. For a significant proportion of groups the Akaike weights were bimodal with the majority having one model with a weight approaching 1 with the other models almost at zero. \todo{get stats from tukey!} When only the mechanistic models are compared the Full Schoolfield has the higher average $W_i(\textrm{AIC})$, given that this was not the case when looking at $\Delta$AIC's it suggests that though the Full Schoolfield is not the best fit as often, when it is it provides a significantly better fit.
+	
+	\begin{figure}[H]
+		\centering
+		\includegraphics[width = \textwidth]{../Results/figure4.pdf}
+		\caption{Distribution of Akaike weights for each model. Left: when all models are compared. Right: When only mechanistic models are compared.}
+		\label{fig4}
+	\end{figure}
+
+	Banding can be seen in the distributions of $W_i(\textrm{AIC})$ in the various models \ref{fig4}. This occurs where models have essentially identical fits but differing numbers of parameters and so the $\Delta$AIC is identical.
+	
 	
 	\section{Discussion}
 	

@@ -56,7 +56,10 @@ GRDF = pd.read_csv(path, usecols = ["FinalID",
                                     "ConTemp",
                                     "ConTempUnit",
                                     "ResTemp",
-                                    "ResTempUnit"],
+                                    "ResTempUnit",
+                                    "Citation",
+                                    "ConGenus",
+                                    "ConSpecies"],
                    low_memory = False)
 
 ################################################################################
@@ -149,7 +152,10 @@ GRDF = GRDF.loc[ : ,("NewID",
                      "OriginalTraitUnit",
                      "UsedTemp",
                      "UsedTempType",
-                     "UsedTempK")]
+                     "UsedTempK",
+                     "Citation",
+                     "ConGenus",
+                     "ConSpecies")]
 
 # remove groups with fewer than five rows
 GRDF = GRDF.groupby("NewID").filter(lambda x: len(x) > 5)

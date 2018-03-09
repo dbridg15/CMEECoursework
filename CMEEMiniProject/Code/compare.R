@@ -109,7 +109,7 @@ compare <- function(models){
   cat("\n\nNow looking at weighted aic\n\n")
   print(TukeyHSD(fit))
 
-  return(aicDF)
+  return(pltDF)
 }
 
 ###############################################################################
