@@ -7,11 +7,10 @@
 
 rm(list = ls())
 
-# suppressPackageStartupMessages()
 # imports
 source("plotfuncs.R")
-require(gridExtra)
-require(grid)
+suppressPackageStartupMessages(require(gridExtra))
+suppressPackageStartupMessages(require(grid))
 
 start_time <- proc.time()
 

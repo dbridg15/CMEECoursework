@@ -15,6 +15,11 @@ from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
 # TODO
+    # change non-logged functions - Same results but less janky
+    # add some reasonable bounds on parameters
+
+# *** Full Schoolfield functions are fully commented - the others are pretty
+# similar ***
 
 ################################################################################
 # constants
@@ -24,6 +29,7 @@ k = constants.value('Boltzmann constant in eV/K')
 e = np.exp(1)
 
 np.random.seed(111)  # set random seed for repeatability
+# still get different results on different machines - might be lmfits fault...
 
 ################################################################################
 # get_TSS()
@@ -42,9 +48,9 @@ def schlfld_vals(id, df):
 
     vals = {'NewID' : id,
             'xVals' : np.asarray(df.UsedTempK[df.NewID == id]),
-            'yVals' : np.asarray(df.OTVlogged[df.NewID == id]),
+            'yVals' : np.asarray(df.OTVlogged[df.NewID == id]),  # logged values
             'B0'    : df.B0[df.NewID == id].iloc[0],
-            'E'     : abs(df.E[df.NewID == id].iloc[0]),
+            'E'     : abs(df.E[df.NewID == id].iloc[0]),         # absolute values
             'El'    : abs(df.El[df.NewID == id].iloc[0]),
             'Eh'    : df.Eh[df.NewID == id].iloc[0],
             'Tl'    : df.Tl[df.NewID == id].iloc[0],
@@ -102,11 +108,12 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
     """performs non linear least square model fitting for given ids TPC on full_schlfld_model
 
     keyword arguments:
-        id     -- specific curve id
-        df     -- dataframe containg TPC data and starting values for all ids
-        tries  -- number of tries with randomized starting values
-        method -- 1 - stops trying once model converges
-                  2 - continue trying to improve fit upto tries"""
+        id         -- specific curve id
+        df         -- dataframe containg TPC data and starting values for all ids
+        min_tries  -- minium number of tries before stopping for given id
+        max_tries  -- maximum number of tries before giving up
+        method     -- 1 - stops trying once model converges (after min_tries)
+                      2 - continue trying to improve fit upto max_tries"""
 
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
@@ -145,7 +152,7 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
                 break
 
         try:
-            # on first try use starting values
+            # on first try use calculated starting values
             if trycount == 1:
                 params = Parameters()
                 params.add('B0', value = vals["B0"], min = 0)
@@ -155,7 +162,8 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
 
-            # on following tries starting values are randomised
+            # on following tries starting values are randomised between 0 and 2*
+            # starting value - appart from temperatures...
             else:
                 params = Parameters()
                 params.add('B0', value = np.random.uniform(0, vals["B0"]*2), min = 0)
@@ -165,7 +173,8 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
                 params.add('Tl', value = vals["Tl"], min = 250, max = 400)
                 params.add('Th', value = vals["Th"], min = 250, max = 400)
 
-            # try minimize function to minimize residuals
+            # try minimize function to minimize residuals (logged data, logged
+            # models)
             out = minimize(full_schlfld_residuals, params, args = (xVals, yVals))
 
             # calculate Rsquared from logged residuals
@@ -202,11 +211,11 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
                        'bic'     : [out.bic]}
             continue
 
-        # if it didnt converge go to next try/break if tries have run out
+        # if it didnt converge go to next try
         except ValueError:
             continue
 
-    # convert res to dataframe and output
+    # convert res to dataframe (so it can be appended) and output
     res = pd.DataFrame(res)
     return res
 
@@ -254,9 +263,10 @@ def noh_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
     keyword arguments:
         id     -- specific curve id
         df     -- dataframe containg TPC data and starting values for all ids
-        tries  -- number of tries with randomized starting values
-        method -- 1 - stops trying once model converges
-                  2 - continue trying to improve fit upto tries"""
+        min_tries  -- minium number of tries before stopping for given id
+        max_tries  -- maximum number of tries before giving up
+        method     -- 1 - stops trying once model converges (after min_tries)
+                      2 - continue trying to improve fit upto max_tries"""
 
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
@@ -391,9 +401,10 @@ def nol_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
     keyword arguments:
         id     -- specific curve id
         df     -- dataframe containg TPC data and starting values for all ids
-        tries  -- number of tries with randomized starting values
-        method -- 1 - stops trying once model converges
-                  2 - continue trying to improve fit upto tries"""
+        min_tries  -- minium number of tries before stopping for given id
+        max_tries  -- maximum number of tries before giving up
+        method     -- 1 - stops trying once model converges (after min_tries)
+                      2 - continue trying to improve fit upto max_tries"""
 
     vals = schlfld_vals(id, df)  # get starting values and data from values function
 
@@ -642,9 +653,10 @@ def arrhenius_model(id, df, min_tries = 5, max_tries = 25, method = 1):
     keyword arguments:
         id     -- specific curve id
         df     -- dataframe containg TPC data and starting values for all ids
-        tries  -- number of tries with randomized starting values
-        method -- 1 - stops trying once model converges
-                  2 - continue trying to improve fit upto tries"""
+        min_tries  -- minium number of tries before stopping for given id
+        max_tries  -- maximum number of tries before giving up
+        method     -- 1 - stops trying once model converges (after min_tries)
+                      2 - continue trying to improve fit upto max_tries"""
 
     vals = arrhenius_vals(id, df)  # get starting values and data from values function
 

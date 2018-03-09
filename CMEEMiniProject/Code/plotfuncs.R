@@ -4,14 +4,14 @@
 # Desc:   R functions for plotting thermal performance curves with a number of
 #         fitted models curves overlaid and tables containing parameter values
 #         and curve statistics
+#         Also has function for comparing results of model fitting
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
-#suppressPackageStartupMessages()
 # imports
-require(ggplot2)
-require(dplyr)
-require(gridExtra)
-require(tidyr)
+suppressPackageStartupMessages(require(ggplot2))
+suppressPackageStartupMessages(require(dplyr))
+suppressPackageStartupMessages(require(gridExtra))
+suppressPackageStartupMessages(require(tidyr))
 
 ###############################################################################
 # constants

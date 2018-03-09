@@ -2,7 +2,7 @@
 
 **Author:** David Bridgwood _(dmb2417@ic.ac.uk)_
 
-**Description:** Something...
+**Description:** words...
 
 
 ##Dependancies
@@ -17,8 +17,8 @@
 
 ####R 3.4.2
 - ggplot2 2.2.1 - for plotting
-- dplyr 0.7.4 - 
-- tidyr 0.7.1 - 
+- dplyr 0.7.4 - datawrangling
+- tidyr 0.7.1 - datawrangling
 - gridExtra 2.3 - for producing tables
 - grid 3.4.2 - for arranging plots in grid on page
 
@@ -27,7 +27,7 @@ To run the entire project with default parameters (see below) execute the 'run_p
 
 	bash run_MiniProject.sh
 	
-This take approximately 10 minutes to run. Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
+This take approximately 12 minutes to run (depending on computer speed). Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
 
 To run the project with chosen parameters execute each script separately.
 

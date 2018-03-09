@@ -41,10 +41,10 @@ echo "# compiling pdf of writeup"
 echo "###############################################################################"
 echo ""
 
-pdflatex writeup.tex
+pdflatex -quiet writeup.tex
 bibtex writeup
-pdflatex writeup.tex
-pdflatex writeup.tex
+pdflatex -quiet writeup.tex
+pdflatex -quiet writeup.tex
 
 mv writeup.pdf ../Results/
 

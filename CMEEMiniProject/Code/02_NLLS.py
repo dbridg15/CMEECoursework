@@ -50,11 +50,13 @@ arrhnDF = pd.DataFrame(data = None)
 def progressBar(value, endvalue, bar_length = 65):
     """function which prints progress through model functions as a progressBar"""
 
+    # calculate percent progress
     percent = float(value) / endvalue
-    hashes  = '#' * int(round(percent * bar_length))
-    spaces  = ' ' * (bar_length - len(hashes))
-    msg     = "\rID " + str(id).ljust(4)
+    hashes  = '#' * int(round(percent * bar_length))  # how many #'s needed
+    spaces  = ' ' * (bar_length - len(hashes))        # rest fill with blank space
+    msg     = "\rID " + str(id).ljust(4)              # message befre loading bar
 
+    # put it together and print to console over current line
     sys.stdout.write("\r {0} [{1}] {2}%".format(msg, hashes + spaces,
                                                 int(round(percent * 100))))
     sys.stdout.flush()

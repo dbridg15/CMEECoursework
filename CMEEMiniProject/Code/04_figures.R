@@ -5,7 +5,7 @@
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
-#suppressPackageStartupMessages()
+
 # imports
 source("plotfuncs.R")
 
@@ -93,6 +93,7 @@ rownames(tbl1) <- c("Cubic", "Full Schoolfield", "No High Schoolfield",
                     "No Low Schoolfield", "EAAR")
 
 print(tbl1)
+
 
 ###############################################################################
 # Table 2,
@@ -190,7 +191,15 @@ a <- rbind(cubicDF[cubicDF$NewID == id, c("nlRsqrd", "nlaic")],
            arrhnDF[arrhnDF$NewID == id, c("nlRsqrd", "nlaic")])
 
 a$Model <- c("Cubic", "Full Schoolfield", "No High Schoolfield", "No Low Schoolfield", "EAAR")
-a
+
+
+# means!
+
+mean(cubicDF$nlRsqrd, na.rm = T)
+mean(flschDF$nlRsqrd, na.rm = T)
+mean(nhschDF$nlRsqrd, na.rm = T)
+mean(nlschDF$nlRsqrd, na.rm = T)
+mean(arrhnDF$nlRsqrd[arrhnDF$nlRsqrd > -100] , na.rm = T)
 
 ###############################################################################
 # Figure 4.
@@ -217,10 +226,3 @@ plt2 <- plt2 + scale_x_discrete(labels=c("Full\nSchoolfield",
 pdf("../Results/figure4.pdf", width = 10, height = 5)
 grid.arrange(plt1, plt2, nrow = 1)
 dev.off()
-
-
-
-
-
-
-

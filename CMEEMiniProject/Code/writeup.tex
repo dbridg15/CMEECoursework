@@ -37,7 +37,7 @@
 		
 		\vspace*{3cm}
 		\Huge
-		\textbf{All this for just 6\%}\\
+		\textbf{Comparison of Models used to explain the Response of Metabolic Rate to Temperature}\\
 		
 		\vspace{5cm}
 		\Large
@@ -46,7 +46,7 @@
 		\vspace*{1cm}
 		\textbf{Affiliation:} Department of Life Sciences. Imperial College London\\
 		\vspace*{1cm}
-		\textbf{Word Count:} 10000000
+		\textbf{Word Count:} 2533
 		
 		\vspace{2cm}
 		
@@ -58,54 +58,58 @@
 	\doublespacing
 	\section*{Abstract}
 	
-	\todo[inline]{not required}
+	Metabolism is at the heart of biology; this rate at which organisms convert resources to energy dictates process across organisation levels up to ecosystem functions. Thermal Performance Curves (TPCs) are used to describe how these rates of metabolism in organisms responds to temperature. With rising global temperatures an understanding of these processes at a mechanistic level will enable more informed predictions about species responses to be made. This study fitted and compared 5 models to hundred's of TPCs, a phenomenological cubic model, three variations of Schoolfield model and the enzyme-assisted Arrhenius-model. The cubic model provided the the best fit to the data, while out of the mechanistic models the EAAR performed poorly in comparison the the Schoolfield.
+	
 		
 	\section{Introduction}
-	Metabolic rate is a fundamental measure in biology influencing levels from biochemistry through to ecosystem functioning \citep{Brown2004a}. This rate is temperature dependant due to nature of chemical reactions, where increases in energy lead to a higher rate of molecule collisions of and so higher rate of reaction. However higher temperatures eventually lead to reduction in rate due to decreased protein stability \citep{Schulte2015}. Changes in metabolic rate have impacts across all levels of biology affecting ecological processes such species interaction, population growth and ecosystem functioning \citep{Savage2004}. Metabolism has even been linked to evolution with higher rates associated with greater genetic divergence \citep{Allen2006}. Given the continuing rise in global temperatures it is becoming increasingly important for us to understand the mechanisms behind how metabolic rates change with temperature to better predict species' responses to further warming \citep{Schulte2015}.
+	Metabolic rate is a fundamental measure in biology influencing levels from biochemistry through to ecosystem functioning \citep{Brown2004a,Gillooly2001}. This rate is temperature dependant due to nature of chemical reactions, where increases in energy lead to a higher rate of molecule collisions of and so higher rate of reaction. However in biology higher temperatures eventually lead to a reduction in metabolic rate due to decreased protein stability \citep{Schulte2015}. There is therefore an optimum temperature $T_\textrm{opt}$ at which organisms most efficiently convert resources to energy - these optimums vary among taxa \citep{Dell2011a}. Changes in metabolic rate have impacts across all levels of biology leading to affects on ecological processes such species interaction, population growth and ecosystem functioning \citep{Savage2004}. Metabolism has even been linked to evolution with higher rates associated with greater genetic divergence and higher rates of speciation \citep{Allen2006}. Given the continuing rise in global temperatures it is becoming increasingly important for us to understand how changes in temperature effects metabolism allowing us to better predict species' responses \citep{Schulte2015}.
 	
-	Thermal performance curves (TPCs) are used to describe how metabolic rate are influenced by temperature \citep{Kontopoulos2018}. TPCs tend to follow a similar shape, being unimodal with skew to the right, rates rise to and level off at an optimum temperature for the given trait ($T_{\textrm{opt}}$) before a sharp fall with further temperature increases \citep{Dell2011a}. There has been much debate recently around the mechanisms underlying this curve with a variety of models proposed \citep{DeLong2017, Kontopoulos2018, Schoolfield1981}. Models can be phenomenological, describing the data but not the underlying mechanisms, or mechanistic and attempt to describe the data by predicting the mechanisms which underpin it. This enable us to understand what influences observations by describing in a general way the biological processes which govern them.
+	Thermal performance curves (TPCs) are used to describe how metabolic rate are influenced by temperature \citep{Kontopoulos2018}. TPCs have a general right skewed unimodal shape, rates rise to, and level off at an optimum temperature for the given trait ($T_{\textrm{opt}}$) before a sharp fall with further temperature increases \citep{Dell2011a}. There has been much debate recently around the mechanisms which underlie the shape of this curve with a variety of models proposed \citep{DeLong2017, Kontopoulos2018, Schoolfield1981}. Models can be phenomenological, describing the data but not the underlying mechanisms, or mechanistic and attempt to describe the data by predicting the mechanisms which underpin it. This enable us to understand what influences observations by describing in a general way the biological processes which govern them.
 	
-	This study will use model fitting and selection to identify which of five models including both phenomenological and mechanistic, best fit and describe data of hundreds of TPCs from a wide range of taxa. This will increase our understanding of which mechanisms are involved in the response of metabolism to temperature. 
+	This study will use model fitting and selection \citep{Johnson2004} to identify which of five models (one phenomenological and four mechanistic), best fit and describe data of hundreds of TPCs from a wide range of taxa. This will increase our understanding of which mechanisms are involved in the response of metabolism to temperature. 
 		
 		\subsection{The Models}
 		In this analysis five models were compared:  
 		
-		A general cubic polynomial which is able to describe unimodal data such as TPCs but does not have any biological underpinning as with mechanistic models.  
+		A general cubic polynomial model (eq. \ref{eq1}) which is able to describe unimodal data such as TPCs but has parameters with no biological meaning. This equation gives the trait value $B$ at the temperature $T$ vmeasured in  \si{\degreeCelsius}. 
 		
 		\begin{equation}
+		\label{eq1}
 		B = B_0 + B_1T + B_2T^2 + B_3T^3
 		\end{equation}	
 		
-		In this equation the $T$ values are measured in  \si{\degreeCelsius}. 
-		
-		The Schoolfield model \citep{Schoolfield1981}, which attempts to explain the rise and fall of TPCs using understanding of how protein stability is affected by changes in temperature, impacting the efficiency of a rate-limiting enzyme. The equation gives the trait value $B$ at the given temperature T measured in Kelvin. 
+
+		The Full Schoolfield model (eq. \ref{eq2}) \citep{Schoolfield1981}, which attempts to explain the rise and fall of TPCs using understanding of how protein stability is affected by changes in temperature, impacting the efficiency of a rate-limiting enzyme. The equation gives the trait value $B$ at the given temperature $T$ measured in Kelvin. 
 		
 		\begin{equation}
+		\label{eq2}
 		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_l}{k}(\frac{1}{T_l}-\frac{1}{T})} + e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
 		\end{equation}
 		
-		In this equation $B_0$ represents the trait value at $T_{\textrm{ref}}$ in this case \SI{283.15}{\kelvin} was used. $E$ is the activation energy of the reaction. $E_\textrm{l}$ and $E_\textrm{h}$ are the low and high deactivation energies which dictate the change in rate of reaction at low and high temperatures. $T_\textrm{l}$ is the temperature at which enzyme activity is at 50\% due to low temperatures and $T_\textrm{h}$ where enzyme activity is at 50\% due to high temperatures. and $k$ is Boltzmann's constant ($8.61 \times 10^{-5} \textrm{eV K}^{-1}$). In many cases high or low temperature deactivation is not detectable in data (not enough measurements taken at low and high temperatures) and so two simplified version of the model were used which exclude these parameters respectively. 
+		In this equation $B_0$ represents the trait value at $T_{\textrm{ref}}$ in this study a reference temperature of \SI{283.15}{\kelvin} was used. $E$ is the activation energy of the reaction. While $E_\textrm{l}$ and $E_\textrm{h}$ are the low and high deactivation energies which dictate the change in rate of reaction at low and high temperatures. $T_\textrm{l}$ is the temperature at which enzyme activity is reduced to 50\% due to low temperatures and $T_\textrm{h}$ where enzyme activity drops to 50\% due to high temperatures. $k$ is Boltzmann's constant ($8.61 \times 10^{-5} \textrm{eV K}^{-1}$). In many cases high or low temperature deactivation is not detectable within the data (with too few measurements taken at low and high temperatures being a common problem) and so two simplified version of the model were used which exclude these parameters respectively (eq. \ref{eq3} and \ref{eq4}) \citep{Kontopoulos2018}. 
 		
 		\noindent\begin{minipage}{0.5\linewidth}
 		\begin{equation}
+		\label{eq3}
 		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_h}{k}(\frac{1}{T_h}-\frac{1}{T})}}
 		\end{equation}
 		\end{minipage}%
 		\begin{minipage}{0.5\linewidth}
 		\begin{equation}
+		\label{eq4}
 		B = \frac{B_0e^{\frac{-E}{k}(\frac{1}{T} - \frac{1}{283.15})}}{1 + e^{\frac{E_l}{k}(\frac{1}{T_l}-\frac{1}{T})}}
 		\end{equation}
 		\end{minipage}\par\vspace{\belowdisplayskip}
 
 	
-		The Enzyme Assisted Arrhenius Model (EAAR) proposed by \cite{DeLong2017} attempts to explain the rise and fall of TPCs in a slightly different way. Unlike the Schoolfield model which assumes a maximum rate which is reduced at low and high temperatures because of lowered enzyme performance, it assumes a baseline reaction rate with a high activation energy which is lowered with the assistance of an enzyme thus increasing the rate of the reaction. The equation gives the trait value $V$ at a given temperature $T$ in Kelvin. 
+		The enzyme-assisted Arrhenius Model (EAAR) proposed by \cite{DeLong2017} attempts to explain the rise, peak and fall of TPCs in a slightly different way. Unlike the Schoolfield model which assumes a maximum metabolic rate which is reduced at low and high temperatures due to lowered enzyme performance, the EAAR assumes a baseline reaction rate with a high activation energy. This is lowered with the assistance of an enzyme and so the metabolic rate changes with temperature in line with changes in enzyme activity. The equation gives the trait value $V$ at a given temperature $T$ again measured in Kelvin. 
 	
 		\begin{equation}
 		V = A_0e\frac{-(E_b-(E_{\Delta H}(1 - \frac{T}{T_m}) + E_{\Delta Cp}(T - T_m - T\ln\frac{T}{T_m})))}{kT}
 		\end{equation}
 		
 		
-		In this equation $A_0$ is a constant unique to each reaction. $E_\textrm{b}$ is the baseline activation energy. $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ are both changes in the activation energy of the reaction associated with enthalpy change and heat capacity of catalysts respectively. $T_m$ is the melting point and $k$ is again Boltzmann's constant. 
+		In this equation $A_0$ is a constant unique to each reaction. $E_\textrm{b}$ is the baseline activation energy of the reaction. $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ are both changes in the activation energy of the reaction associated with enthalpy change and heat capacity of the enzyme respectively. $T_m$ is the melting point, equivalent to $T_\textrm{h}$ in the Schoolfield model and $k$ is again Boltzmann's constant. 
 		
 	\section{Methods}
 		
@@ -113,59 +117,57 @@
 		
 		Data for the analysis was taken from the Biotraits database \citep{AnthonyDellSamraatPawar2013} a large resource containing measures of ecological rates and traits across a variety of temperature points, for species ranging from bacteria to terrestrial plants attempting to cover the extensive variation in metabolic responses to temperature found in life on Earth. This database contained over 25826 rows of data from 2165 experiments compiled from hundreds of published sources.
 		
-		In order to ensure that all models could be fitted (or an attempt to fit made), data was filtered to only include groups which contained a minimum of six points with trait values greater than zero. As the full Schoolfield model has six parameters a minimum of six points are needed to perform the non-linear least-squared fitting. Groups where all temperature values or all trait values were identical were removed as these would be impossible to fit. 
+		In order to ensure that all models could be fitted (or an attempt at fitting made), data was filtered to only include groups which contained a minimum of six points with trait values greater than zero. This is because the full Schoolfield model has six parameters and so a minimum of six points are needed to perform the non-linear least-squared fitting. Groups where all temperature values or all trait values were identical were also removed as these would be impossible to fit. 
 		
 		\subsection{Calulating Starting Values and Fitting Models}
 		
-		To increase the likelihood of the Schoolfield models converging starting values were calculated from the data. $E$ was taken as the slope of the right hand side of the log(traitValue) by $\frac{1}{KT}$ curve and $E_\textrm{h}$ the left hand side (figure \ref{fig2}.), except in cases where the peak of the curve was at the left or right in which case $E$ and $E_\textrm{h}$ starting values were the same; the slope through all points, $E_\textrm{l}$ was taken as $0.5\times E$. $B_0$ was calculated from the line used for $E$ where the the temperature is \SI{10}{\degreeCelsius} ($\frac{1}{KT}$ = 40.98). $T_\textrm{h}$ was estimated as the temperature with the highest trait value while $T_\textrm{l}$ was the lowest temperature for which there was a trait value.
+		To increase the likelihood of the Schoolfield models converging, appropriate starting values were calculated from the data for the remaining groups. $E$ was taken as the slope of the linear regression of points to the right hand side of the peak of log(traitValue) by $\frac{1}{kT}$ curve and $E_\textrm{h}$ the left hand side see figure \ref{fig2}. In cases where the peak of the curve was at the left or right $E$ and $E_\textrm{h}$ starting values were set as the same; the slope through all points. $E_\textrm{l}$ was taken as $0.5\times E$. $B_0$ which represents the trait value at the reference temperature was calculated from the line used for $E$ where the the temperature is  \SI{283.15}{\kelvin} ($\frac{1}{kT}$ = 40.98). $T_\textrm{h}$ was estimated as the temperature with the highest trait value while $T_\textrm{l}$ was the lowest temperature for which a trait value existed.
 		
 		\begin{figure}[H]
 			\centering
 			\includegraphics[width = \textwidth]{../Results/figure2.pdf}
-			\caption{log transformed trait values against $\frac{1}{KT}$. Starting values for $E$ were taken as the slope of the right hand side (red line), and $E_\textrm{h}$ the left side (green line). $B_0$ was predicted where the line used to calculate $E$ was at $\frac{1}{KT_{\textrm{ref}}}$. The data for this example is taken from \cite{OSullivan2013} showing the Leaf Respiration Rate of \textit{Eucalyptus pauciflora}.}
+			\caption{log transformed trait values against $\frac{1}{kT}$. Starting values for $E$ were taken as the slope of the right hand side (red line), and $E_\textrm{h}$ the left side (green line). $B_0$ was predicted where the line used to calculate $E$ was at $\frac{1}{kT_{\textrm{ref}}}$ (Blue line). The data for this example is taken from \cite{OSullivan2013} showing the Leaf Respiration Rate of \textit{Eucalyptus pauciflora}.}
 			\label{fig2}
 		\end{figure}
 		
-		Starting values for the EAAR could not be predicted from the data and so random values were chosen: between 0:10 for $A_0$ and $E_\textrm{b}$, between -10:10 for $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ and between 280 and 350 for $T_\textrm{m}$.  
+		Starting values for the EAAR could not be predicted from the data and so random values were chosen: between 0:10 for $A_0$ and $E_\textrm{b}$, between -10:10 for $E_{\Delta\textrm{Cp}}$ and $E_{\Delta\textrm{H}}$ and between \SI{280}{\kelvin} and \SI{350}{\kelvin} for $T_\textrm{m}$.  
 		
-		All models were fitted with the Non-Linear Least-Squares method using the python package LMFIT \citep{Newville2014}, attempting to minimize the residuals of the given model. The cubic model was fit using the original (not log transformed data) trait values and temperature in \si{\degreeCelsius}. As the model is phenomenological and has no biological meaning starting values could not be predicted from the data and were set at 0. 
+		All models were fitted for each group with the Non-Linear Least-Squares method using the python package LMFIT \citep{Newville2014}, attempting to minimize the residuals of the given model with the Levenberg-Marquardt algorithm. The cubic model was run through the fitting using the original (not log transformed data) trait values and temperature in \si{\degreeCelsius}. As the model is phenomenological and has no biological meaning starting values could not be predicted from the data and as such were set at 0. 
 		
-		The three versions of the Schoolfield model were fitted on the $\ln$ transformed trait data and temperature in Kelvin initially using staring values as describe above. Further fits were then attempted on each group a minimum of two more times with starting values randomised between zero and twice the calculated starting values and the output with lowest AIC was chosen. For groups which had not converged after these 3 attempts up to a further 22 (total of 25) attempts were made with these randomised starting values to get as many curves as possible to fit. Fitting of the EAAR followed the same method, taking the best fit of the first three tries and continuing up to 25 attempts if fitting still failed. 
+		The three versions of the Schoolfield model were fitted on the log transformed trait data and temperature in Kelvin. Initially staring values as describe above were used, further fits were then attempted on each group a minimum of two more times with starting values randomised between zero and twice the calculated starting values, the output with lowest AIC was then chosen. For groups which had not converged after these 3 attempts up to a further 22 (total of 25) attempts were made with these randomised starting values in an attempt to get as many curves as possible to converge. Fitting of the EAAR followed the same method, taking the best fit of the first three tries and continuing up to 25 attempts if fitting still failed for particular groups.
 
 		
 		\subsection{Comparison of Models}
 		
-		As different models were fitted on the logged and non-logged data, Rsquared and AIC needed to be converted to be comparable. Models which had been fitted on the log transformed data had their residuals un-transformed (exponent of the fitted values minus the non-log transformed data). Residual Sum of Squares ($RSS$), Total Sum of Squares ($TSS$) were recalculated using these un-logged residuals and from these an Rsquared value and AIC were calculated using the below equation. 
+		As different models were fitted on the logged and non-logged data, Rsquared and AIC values needed to be converted to be comparable. Models which had been fitted on the log transformed data had their residuals un-transformed fitted parameters were put through the model and residuals calculated from the un-logged data. Residual Sum of Squares ($RSS$) and Total Sum of Squares ($TSS$) were recalculated using these un-logged residuals and from these an Rsquared value and AIC were calculated using the below equation where $N$ is the number of observations and $P$ is the number of parameters in the model. AIC provides a measure of fit which penalises for over-fitting and so allows for comparison of models with varying numbers of parameters.
 		
 		\begin{equation}
 		AIC = N\ln{\frac{RSS}{N}} + 2P
 		\end{equation}		
 		
-		Models were compared within each group; a $\Delta$AIC was calculated as the difference between the lowest AIC and the AIC for that model. Where $\Delta$AIC was less than or equal to two the models were considered to be the best or comparable the best (cite!). An Akaike weight $W_i(\textrm{AIC})$ was also calculated for each model for each group using the equation below, this gives a probability that the model best describes the data.
+		Models were compared within each group; a $\Delta$AIC was calculated as the difference between the lowest AIC and the AIC for that model. Where $\Delta$AIC was less than or equal to two the models were considered to be the best or comparable the best while when $\Delta$AIC rose above ten then no support for the model could be inferred \citep{Burnham2004}. An Akaike weight $W_i(\textrm{AIC})$ was also calculated for each model using the equation below, this gives a probability that the model best describes the data \citep{Johnson2004}.
 		
 		\begin{equation}
 		W_i(\textrm{AIC}) = \frac{\exp\{-\frac{1}{2}\Delta_i(\textrm{AIC)}\}}{\sum_{k=1}^{K} \exp\{-\frac{1}{2}\Delta_k(\textrm{AIC)}\}}
 		\end{equation}
 		
-		These Akaike weights were calculated including all models as well as excluding the cubic model, in order to identify which mechanistic model best describes the TPC data and therefore better understand the mechanisms underpinning them. 
+		Comparison of the model (calculation of $\Delta$AIC and $W_i(\textrm{AIC})$) was performed using all models as well as excluding the cubic model. This enable the best mechanistic model to be identified and so the most likely mechanisms explaining the relationship between temperature and metabolism.  
 		
 		\subsection{Computing Languages Used}		
 		
 		Three computing languages were used throughout the analysis: 
 		
 		\begin{itemize}
-			\item Python 3.6 was used in the data wrangling stage using the library pandas for efficient data manipulation, estimating starting values used the libraries SciPy and NumPy for scientific and numerical functions and model fitting with NLLS with the library lmfit.
-			\item R 3.4.2 was used for plotting with the package ggplot2 for easily readable plots and general analysis of the results was made easy with the wide variety of inbuilt functions.
-			\item The command line language Bash (4.4.12) was used to tie the project together into one repeatable workflow. 
+			\item Python 3.6 was used in the data wrangling stage using the library pandas for efficient data manipulation. Estimating starting values used the libraries SciPy and NumPy for scientific and numerical functions and model fitting with NLLS was performed with the library lmfit.
+			\item R 3.4.2 \citep{RCoreTeam2017} was used for  general analysis of the results with the wide variety of inbuilt functions, and to produce easily readable plots with the package ggplot2.
+			\item The command line language Bash (4.4.12) was used to tie the project together into one repeatable workflow and compile this writeup from \LaTeX\ into pdf.
 		\end{itemize}
 		
 	\section{Results}
 	
-	Once the data had been sorted to remove groups with too few points 1582 groups remained with an average of 13.83 observations each.
+	Once the data had been sorted to remove curves with too few points 1582 groups remained with an average of 13.83 observations each. During the fitting process curves converged on all groups for both the Cubic and EAAR models, while all but 11 of the Full Schoolfield model converged, and all but 8 of the No High and 3 of the No Low Schoolfield models converged within the 25 attempts permitted.
 	
-	During the fitting process curves converged on all groups for the Cubic and EAAR models, while all but 11 of the Full Schoolfield model converged, and all but 8 and 3 of the No High and No Low Schoolfield respectively converged within the 25 attempts permitted.
-	
-	Figure \ref{fig3} shows an example curve where model fitting was successful for all models, with the Full Schoolfield model having the lowest AIC and highest RSquared values and so the best fit.
+	Figure \ref{fig3} shows an example curve where model fitting was successful for all models, with the Full Schoolfield model having the lowest AIC and highest RSquared values and so the best fit. The mean Rsquared values \ref{plttbl} show that the cubic model tended to provide the better fit. The incredibly low mean Rsquared value for the EAAR model is explained by a few curves where the Rsquared values are anomalously low. Not including these values the mean Rsquare of the EAAR is 0.707.
 	 
 	\begin{figure}[H]
 		\centering
@@ -175,7 +177,7 @@
 	\end{figure}
 
 	\begin{table}[H] \centering 
-		\caption{Rsquared and AIC for each fitted model shown in figure \ref{fig3}.}
+		\caption{Rsquared and AIC for each fitted model shown in figure \ref{fig3} and mean values across all groups.}
 		\label{plttbl}
 		\begin{tabular}{c|cc|cc} 
 			\hline 
@@ -189,7 +191,6 @@
 			\hline
 		\end{tabular}
 	\end{table}
-	\todo{CHECK THESE NUMBERS ESPECIALLY EAAR}
 
 	AIC is a measure of fit which penalises for over-fitting, allowing models with different numbers of parameters to be compared \citep{Johnson2004}. Where the $\Delta$AIC $\leqslant2$ there is significant support for the model, with less at support at $4<\Delta\textrm{AIC}\leqslant7$ and no support at $\Delta\textrm{AIC}>10$ \citep{Burnham2004}. It is clear from table \ref{tbl1} that the Cubic model was consistently able to better fit the data in comparison to the other models, with more than twice as many groups having the cubic model as the best or comparable to best model. 
 
@@ -210,7 +211,7 @@
 		\end{tabular}
 	\end{table}
 
-	The cubic model is phenomenological and so does not provide any insight into the mechanisms involved in TPCs and so the same comparisons were made between the four mechanistic models table \ref{tbl2}. Here the Schoolfield model without the high temperature deactivation component performed better, being the best or comparable to best model most frequently.
+	The cubic model is phenomenological and so does not provide any insight into the mechanisms involved in TPCs and so the same comparisons were made between the four mechanistic models (table \ref{tbl2}). Here the Schoolfield model without the high temperature deactivation component performed better, being the best or comparable to best model most frequently.
 	
 	\vspace{0.5cm}
 	
@@ -229,7 +230,7 @@
 		\end{tabular}
 	\end{table}
 
-	The Akaike weights $W_i(\textrm{AIC})$ tell a similar story (figure \ref{fig4}) with the cubic model having a greater proportion with higher weights and so higher probabilities of being the model which best describes the data. For a significant proportion of groups the Akaike weights were bimodal with the majority having one model with a weight approaching 1 with the other models almost at zero. \todo{get stats from tukey!} When only the mechanistic models are compared the Full Schoolfield has the higher average $W_i(\textrm{AIC})$, given that this was not the case when looking at $\Delta$AIC's it suggests that though the Full Schoolfield is not the best fit as often, when it is it provides a significantly better fit.
+	The Akaike weights $W_i(\textrm{AIC})$ tell a similar story (figure \ref{fig4}) with the cubic model having a greater proportion with higher weights and so higher probabilities of being the model which best describes the data. For a significant proportion of groups the Akaike weights were bimodal with the majority having one model with a weight approaching 1 with the other models almost at zero. When only the mechanistic models are compared the Full Schoolfield has the higher average $W_i(\textrm{AIC})$, given that this was not the case when looking at $\Delta$AIC's it suggests that though the Full Schoolfield is not the best fit as often, when it is it provides a significantly better fit.
 	
 	\begin{figure}[H]
 		\centering
@@ -238,10 +239,18 @@
 		\label{fig4}
 	\end{figure}
 
-	Banding can be seen in the distributions of $W_i(\textrm{AIC})$ in the various models \ref{fig4}. This occurs where models have essentially identical fits but differing numbers of parameters and so the $\Delta$AIC is identical.
-	
+	Banding can be seen in the distributions of $W_i(\textrm{AIC})$ in the various models (figure \ref{fig4}). This occurs where models have essentially identical fits but differing numbers of parameters, $\Delta$AIC is identical for each group where this occurs and as it is dictated only by the parameter penalisation. This translates directly to $W_i(\textrm{AIC})$ and is the cause of the observed bands. In these circumstances it is the model with fewer parameters which is preferable.	
 	
 	\section{Discussion}
+	
+	When looking at the results from all the models it is clear that the Cubic model was better able to fit the data, with a far greater number of groups where the $\Delta$AIC's suggested it to be the best or comparable to best model, and a larger mean $W_i(\textrm{AIC})$. This may seem unexpected as the mechanistic models it was compared against were designed to explain the thermal performance data the models were fitted to \citep{Schoolfield1981,DeLong2017}. However as the parameters of the cubic model are unbounded they are better able to adjust and fit the data. To understand the mechanisms which underlie TPCs it was therefore necessary to recalculate the $\Delta$AIC's and $W_i(\textrm{AIC})$'s with the cubic model excluded from the analysis.
+	
+	When this was done the Schoolfield model without high temperature deactivation was able to fit the data best with 701 of the 1582 TPCs having it as the best or equivalent to best fit according to $\Delta$AIC. However looking at the mean Akaike weights implies that the full Schoolfield model provided the best fit. This suggests that on many occasions the the full schoolfield provided a identical or near identical fit to the simplified version however when $\Delta$AIC was calculated it was discounted as with two parameters more it would have a $\Delta$AIC of at least four. The higher average $W_i(\textrm{AIC})$ for the full Schoolfield may indicate that when it did provide a better fit than the simplified versions it was a substantially better fit. This makes it difficult to categorically state which model is best, with the quality of available data and nature of the thermal response having a significant impact.
+	
+	It is interesting that the enzyme-assisted Arrhenius model \citep{DeLong2017} performed so poorly with its $\Delta$AIC being too high to infer any support for the model in the vast majority of groups. This is likely confounded by the fact that the starting values for the non-linear least-squared model fitting for the EAAR were randomly chosen and not calculated from the data - this initially put the model at a disadvantage. Only the best of three fitting attempts were taken to save on computer time, it may be the case that with greater resources better fits may have been found.
+	
+	This study looked at TPCs across a very wide range of taxa adapted for various climates and a large number of different trait measurements as proxies for metabolism.Further analysis sub-setting by these various categories may provide better insight into how the mechanisms of metabolism work across biology.
+	
 	
 	\bibliographystyle{agsm}
 	\bibliography{writeup}
