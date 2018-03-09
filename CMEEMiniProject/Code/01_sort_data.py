@@ -183,7 +183,7 @@ def strt_vals(group):
     y     = group.reset_index().OTVlogged
     xVals = group.reset_index().UsedTempK
 
-       # if the max trait value is in the last two points
+    # if the max trait value is in the last two points
     if (split + 1 == len(y) or
         split == len(y) or
         # or first two points

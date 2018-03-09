@@ -7,6 +7,7 @@
 
 rm(list = ls())
 
+# suppressPackageStartupMessages()
 # imports
 source("plotfuncs.R")
 require(gridExtra)

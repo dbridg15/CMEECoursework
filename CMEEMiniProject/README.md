@@ -26,49 +26,50 @@
 - grid
 
 ## How to run
-
 To run the entire project with default parameters (see below) execute the 'run_project.sh' file from the Code directory.
 
-	bash run_project.sh
+	bash run_MiniProject.sh
 	
-This take approximately X minutes to run. Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
+This take approximately 10 minutes to run. Once complete the Results directory will populate (see below) and a pdf of the project report will be produced within the CMEEMiniProject directory.
 
-To run the project with chosen parameters execute each script separately as below.
+To run the project with chosen parameters execute each script separately.
 
-	python3 sort_data.py 
-	
-	python3 NLLS.py
-	
-	Rscript plots.R
-	
-	Rscript compare.R
+- 01_sort_data.py takes the path to a csv file.
+- 02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivly)
+- 03_plots.R either takes a number of random plots to produce or 'All' to print curves for all groups.	
 
 ##File Structure
 
 CMEEMiniProject/
-│ 
-├──code
-│   ├── compare.R
-│   ├── modelfuncs.py
-│   ├── NLLS.py
-│   ├── plotfuncs.R
-│   ├── plots.R
-│   └── sort\_data.py
+├── Code
+│   ├── 01_sort_data.py
+│   ├── 02_NLLS.py
+│   ├── 03_plots.R
+│   ├── 04_figures.R
+│   ├── modelfuncs.py
+│   ├── plotfuncs.R
+│   ├── run_MiniProject.sh
+│   ├── writeup.bib
+│   └── writeup.tex
 │
 ├── Data
-│   ├── GrowthRespPhotoData.csv
-│   ├── GrowthRespPhotoData\_new.csv
-│   ├── ThermResp.csv
-│   ├── ThermRespData.csv
-│   └── TraitInfo.csv
+│   ├── GrowthRespPhotoData.csv
+│   ├── GrowthRespPhotoData_new.csv ------- Data used by default
+│   ├── ThermResp.csv
+│   ├── ThermRespData.csv
+│   └── TraitInfo.csv
 │
-├── Results
-│   ├── arrhenius\_model.csv
-│   ├── cubic\_model.csv
-│   ├── full\_scholfield\_model.csv
-│   ├── noh\_scholfield\_model.csv
-│   ├── nol\_scholfield\_model.csv
-│   ├── plots.pdf
-│   └── sorted\_data.csv
+├── Results ---------------------------------------------- Populated when project is run
+│   ├── arrhenius_model.csv
+│   ├── cubic_model.csv
+│   ├── figure2.pdf
+│   ├── figure3.pdf
+│   ├── figure4.pdf
+│   ├── full_scholfield_model.csv
+│   ├── noh_scholfield_model.csv
+│   ├── nol_scholfield_model.csv
+│   ├── plots.pdf
+│   ├── sorted_data.csv
+│   └── writeup.pdf
 │
 └── Sandbox

@@ -6,6 +6,7 @@
 #         and curve statistics
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
+#suppressPackageStartupMessages()
 # imports
 require(ggplot2)
 require(dplyr)
@@ -325,11 +326,12 @@ arh_tbl <- function(id, arhm){
 # comparing AIC  functions
 ###############################################################################
 
-
+# calculate delta AIC
 delta <- function(row, model){
   abs(min(row, na.rm = TRUE) - row[model])
 }
 
+# calculate AIC weight
 weight <- function(row, model_delta, comparing){
   if (is.na(row[model_delta])){
     0
@@ -338,31 +340,43 @@ weight <- function(row, model_delta, comparing){
   }
 }
 
+# compare function... takes vector of models to compare
+# returns either
+    # aicDF - aic_delta aic_passed and aic_weight for each model
+    # pltDF - like aicDF but melted by model for easy plotting with
+    #         ggplot/doing anovas
+    # plt   - boxplot of weights...
 compare <- function(models, rtrn = "aicDF"){
 
+  # vectors to indirectly refer to model dfs and columns...
   DFaic    <- paste0(models, "DF$nlaic")
   DFdelta  <- paste0(models, "_delta")
   DFweight <- paste0(models, "_weight")
   DFpass   <- paste0(models, "_pass")
 
 
+  # make df - NewID column taken from cubicDF$NewID column
   aicDF <- data.frame("NewID" = eval(parse(text = (paste0(models[1], "DF$NewID")))))
 
+  # now add aic columns for each included model
   for (i in 1:length(models)){
     aicDF <- cbind(aicDF, eval(parse(text = DFaic[i])))
   }
 
   colnames(aicDF) <- c("NewID", models)
 
+  # apply delta function
   for (i in 1:length(models)){
     aicDF[DFdelta[i]] <- apply(aicDF, 1, delta, model = models[i])
   }
 
+  # apply weight function
   for (i in 1:length(models)){
     aicDF[DFweight[i]] <- apply(aicDF, 1, weight, model_delta = DFdelta[i],
                                 comparing = DFdelta)
   }
 
+  # see if they pass. delta < 2
   for (i in 1:length(models)){
     aicDF[DFpass[i]] <- eval(parse(text = (paste0("aicDF$", DFdelta[i])))) <= 2
   }
@@ -376,6 +390,7 @@ compare <- function(models, rtrn = "aicDF"){
                "%) curves best or comparable to best\n"))
   }
 
+  # make pltDF (basically melting but i couldnt figure out how to do it with dplyr
   pltDF <- data.frame(NewID  = aicDF$NewID, model = models[1],
                       aic    = eval(parse(text = DFaic[1])),
                       delta  = eval(parse(text = paste0("aicDF$",DFdelta[1]))),
@@ -389,6 +404,7 @@ compare <- function(models, rtrn = "aicDF"){
                               weight = eval(parse(text = paste0("aicDF$",DFweight[i])))))
   }
 
+  # boxplot of weights
   plt <- ggplot(data = pltDF, aes(y = weight, x = model))
   plt <- plt + geom_boxplot(outlier.shape=NA, lwd = .3)
   plt <- plt + geom_jitter(position=position_jitter(width=.3, height=0), alpha = 0.3, cex = .1)
@@ -396,11 +412,13 @@ compare <- function(models, rtrn = "aicDF"){
   plt <- plt + theme_classic()
   # print(plt)
 
+  # anova and tukeyHSD
   fit <- aov(weight ~ model, data = pltDF)
 
   cat("\n\nNow looking at weighted aic\n\n")
   print(TukeyHSD(fit))
 
+  # return what i want
   if (rtrn == "aicDF"){
     return(aicDF)
   } else if (rtrn == "pltDF"){

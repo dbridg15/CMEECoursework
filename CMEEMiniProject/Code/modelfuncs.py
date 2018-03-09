@@ -15,11 +15,6 @@ from scipy import constants
 from lmfit import minimize, Parameters, report_fit
 
 # TODO
-    # check RSquared calculations
-    # sort non-logged Rsquared and aic
-    # change AIC to AICc (and calculate for cubic!)
-    # update comments and docstrings!
-    # change check in tries to be calculated AICc
 
 ################################################################################
 # constants
@@ -35,6 +30,7 @@ np.random.seed(111)  # set random seed for repeatability
 ################################################################################
 
 def get_TSS(data):
+    """gets the total sum of squares for given data"""
     return sum((data - np.mean(data))**2)
 
 ################################################################################
@@ -92,6 +88,9 @@ def full_schlfld_nl_residuals(params, x, data):
     model = np.log((B0*e**((-E/k)*((1/x)-(1/283.15))))/(
                    1+(e**((El/k)*((1/Tl)-(1/x))))+(e**((Eh/k)*((1/Th)-(1/x))))))
 
+    # this is equivilent to running through the non-logged model and
+    # calculating residuals as model - nonlogged data (in this case the input
+    # data is logged hence need for exp)
     return np.exp(model) - np.exp(data)
 
 
@@ -169,10 +168,13 @@ def full_schlfld_model(id, df, min_tries = 5, max_tries = 25, method = 1):
             # try minimize function to minimize residuals
             out = minimize(full_schlfld_residuals, params, args = (xVals, yVals))
 
+            # calculate Rsquared from logged residuals
             RSS      = sum(full_schlfld_residuals(out.params, xVals, yVals)**2)
             TSS      = get_TSS(yVals)
             Rsquared = 1 - (RSS/TSS)
 
+            # calculate Rsquared and AIC from nonlogged residuals - this
+            # definatley works i dont care what Ewan says...
             nl_RSS   = sum(full_schlfld_nl_residuals(out.params, xVals, yVals)**2)
             nl_TSS   = get_TSS(np.exp(yVals))
             nl_Rsqrd = 1 - (nl_RSS/nl_TSS)

@@ -5,7 +5,7 @@
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
-# suppressPackageStartupMessages()
+#suppressPackageStartupMessages()
 # imports
 source("plotfuncs.R")
 
