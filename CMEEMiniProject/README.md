@@ -8,22 +8,19 @@
 ##Dependancies
 
 ####python 3.6
-- pandas
-- numpy
-- scipy
-	- .constants 
-	- .stats
-- sys
-- lmfit
-	- .minimize
-	- .Pamameters
-	- .report_fit
+- pandas 0.20.3 - data manipulation
+- numpy 1.13.3 - numerical operations
+- scipy 0.19.1 - scientific operations
+- sys - interaction with operating system
+- lmfit 0.9.7 - model fitting with NLLS
+- datetime - timing scripts
 
-####R
-- ggplot2
-- dplyr
-- gridExtra
-- grid
+####R 3.4.2
+- ggplot2 2.2.1 - for plotting
+- dplyr 0.7.4 - 
+- tidyr 0.7.1 - 
+- gridExtra 2.3 - for producing tables
+- grid 3.4.2 - for arranging plots in grid on page
 
 ## How to run
 To run the entire project with default parameters (see below) execute the 'run_project.sh' file from the Code directory.
