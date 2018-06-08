@@ -1,13 +1,13 @@
-#CMEE MiniProject
+# CMEE MiniProject
 
 **Author:** David Bridgwood _(dmb2417@ic.ac.uk)_
 
 **Description:** words...
 
 
-##Dependancies
+## Dependancies
 
-####python 3.6
+#### python 3.6
 - pandas 0.20.3 - data manipulation
 - numpy 1.13.3 - numerical operations
 - scipy 0.19.1 - scientific operations
@@ -15,7 +15,7 @@
 - lmfit 0.9.7 - model fitting with NLLS
 - datetime - timing scripts
 
-####R 3.4.2
+#### R 3.4.2
 - ggplot2 2.2.1 - for plotting
 - dplyr 0.7.4 - datawrangling
 - tidyr 0.7.1 - datawrangling
@@ -32,11 +32,11 @@ This take approximately 12 minutes to run (depending on computer speed). Once co
 To run the project with chosen parameters execute each script separately.
 
 - 01_sort_data.py takes the path to a csv file.
-- 02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivly)
+- 02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivley)
 - 03_plots.R either takes a number of random plots to produce or 'All' to print curves for all groups.	
 
 ##File Structure
-
+```
 CMEEMiniProject/
 ├── Code
 │   ├── 01_sort_data.py
@@ -70,3 +70,4 @@ CMEEMiniProject/
 │   └── writeup.pdf
 │
 └── Sandbox
+```
