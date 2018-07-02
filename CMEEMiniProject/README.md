@@ -35,7 +35,7 @@ To run the project with chosen parameters execute each script separately.
 - 02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivley)
 - 03_plots.R either takes a number of random plots to produce or 'All' to print curves for all groups.	
 
-##File Structure
+## File Structure
 ```
 CMEEMiniProject/
 ├── Code
