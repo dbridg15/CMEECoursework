@@ -1,10 +1,11 @@
 #!/bin/bash
+
 # Author:      David Bridgwood dmb2417@ic.ac.uk
 # Script:      run_MiniProject.sh
 # Description: runs CMEE MiniProject
 
 ###############################################################################
-#
+# run miniproject
 ###############################################################################
 
 echo ""

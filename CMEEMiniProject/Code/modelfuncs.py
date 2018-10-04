@@ -17,6 +17,8 @@ from lmfit import minimize, Parameters, report_fit
 # TODO
     # change non-logged functions - Same results but less janky
     # add some reasonable bounds on parameters
+    # if i really thought about it its probably possible to nest the Schoolfield
+    # models so they only need one function
 
 # *** Full Schoolfield functions are fully commented - the others are pretty
 # similar ***

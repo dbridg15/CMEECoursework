@@ -29,6 +29,7 @@ arrhnDF <- read.csv("../Results/arrhenius_model.csv")
 # do the plots
 ###############################################################################
 
+# get input arguments
 args = commandArgs(trailingOnly = TRUE)
 
 if (length(args) == 1){

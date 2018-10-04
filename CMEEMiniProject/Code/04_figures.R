@@ -1,7 +1,7 @@
 #!usr/bin/env Rscript
 
-# script:
-# Desc:
+# script: 04_figures.R
+# Desc:   creates figures and tables for writeup
 # Author: David Bridgwood (dmb2417@ic.ac.uk)
 
 rm(list = ls())
@@ -136,6 +136,8 @@ print(tbl2)
 # Figure 1.
 ###############################################################################
 
+# never ended up getting to this but kept numbering for consistency in report
+# code
 
 ###############################################################################
 # Figure 2.
@@ -194,7 +196,6 @@ a$Model <- c("Cubic", "Full Schoolfield", "No High Schoolfield", "No Low Schoolf
 
 
 # means!
-
 mean(cubicDF$nlRsqrd, na.rm = T)
 mean(flschDF$nlRsqrd, na.rm = T)
 mean(nhschDF$nlRsqrd, na.rm = T)

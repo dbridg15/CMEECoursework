@@ -90,17 +90,17 @@ __Description__ :  Coursework componant submitted in partial complettion of MRes
 #### CMEEMiniProject/
 ---
 
-- All Code, Daa and Results for Miniproject in model selection
+- All Code, Data and Results for Miniproject in model selection
 
 ---
-#### weekly_seminars
+#### weekly_seminars/
 ---
 
 - notes and writeups for weekly 'Ecology and Evolution' seminars 
 
 
 ---
-#### Assessment
+#### Assessment/
 ---
 
 - Assessment and feedback on all componants

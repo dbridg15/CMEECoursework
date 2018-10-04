@@ -346,6 +346,7 @@ weight <- function(row, model_delta, comparing){
     # pltDF - like aicDF but melted by model for easy plotting with
     #         ggplot/doing anovas
     # plt   - boxplot of weights...
+
 compare <- function(models, rtrn = "aicDF"){
 
   # vectors to indirectly refer to model dfs and columns...

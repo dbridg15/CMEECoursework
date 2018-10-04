@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 """
-Author:      David Bridgwood
+Author:      David Bridgwood (dmb2417@ic)
 Description: reads in raw data for TPCs, filters out groups with too few points,
              selects best available temperature measure, converts to kelvin,
              calculates 1/kT. Calculates starting values for NLLS on schoolfield
@@ -34,7 +34,7 @@ else:
     print("\nUsing default path:\n{0}\n".format(path))
 
 ################################################################################
-# constants
+# define constants
 ################################################################################
 
 k = constants.value('Boltzmann constant in eV/K')
@@ -46,6 +46,7 @@ e = np.exp(1)
 
 print("Reading in Data...\n")
 
+# read in the data, only keep the useful columns
 GRDF = pd.read_csv(path, usecols = ["FinalID",
                                     "OriginalTraitName",
                                     "OriginalTraitDef",

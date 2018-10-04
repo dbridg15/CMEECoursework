@@ -2,7 +2,10 @@
 
 **Author:** David Bridgwood _(dmb2417@ic.ac.uk)_
 
-**Description:** words...
+**Description:** MiniProject submitted in partial fulfilment of CMEE
+coursework. A single workflow to manipulate metabolic data, compare and select
+which model best explains response to temperature, visualise data and compile a
+scientific report.
 
 
 ## Dependancies
@@ -23,6 +26,9 @@
 - grid 3.4.2 - for arranging plots in grid on page
 
 ## How to run
+
+##### Default
+
 To run the entire project with default parameters (see below) execute the 'run_project.sh' file from the Code directory.
 
 	bash run_MiniProject.sh
@@ -31,9 +37,30 @@ This take approximately 12 minutes to run (depending on computer speed). Once co
 
 To run the project with chosen parameters execute each script separately.
 
-- 01_sort_data.py takes the path to a csv file.
-- 02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivley)
-- 03_plots.R either takes a number of random plots to produce or 'All' to print curves for all groups.	
+##### Different data
+
+01_sort_data.py takes the path to a csv file with appropriate data.
+
+i.e.
+
+	python3 01_sort_data.py ../Data/GrowthRespPhotoData_new.csv
+
+##### Number of tries (for NLLS Algorithm)
+
+02_NLLS.py takes min_tries and max_tries (defaults are 3 and 5 respectivley) Higher number of tries will result in a higher proportion of convering models but is more computationally expensive.
+
+i.e.
+
+    python3 02_NLLS.py 5 30
+
+##### Number of plots
+
+03_plots.R either takes a number of random plots to produce or 'All' to print curves for all groups.
+
+i.e.
+
+    Rscript 03_plots.R 50
+
 
 ## File Structure
 ```
@@ -56,7 +83,7 @@ CMEEMiniProject/
 │   ├── ThermRespData.csv
 │   └── TraitInfo.csv
 │
-├── Results ---------------------------------------------- Populated when project is run
+├── Results ------------------------------- Populated when project is run
 │   ├── arrhenius_model.csv
 │   ├── cubic_model.csv
 │   ├── figure2.pdf

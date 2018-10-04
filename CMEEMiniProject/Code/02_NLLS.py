@@ -1,7 +1,11 @@
 #!/usr/bin/env python3
 
 """
-Author: David Bridgwood"""
+Author:      David Bridgwood (dmb2417@ic)
+Description: uses non-linear least squares method to fit a cubic model, variations
+             of the Schoolfield model and the Enzyme assisted Arrhenius Model to
+             TPC data and output the parameters of the converged models"""
+
 
 __author__ = 'David Bridgwood (dmb2417@ic.ac.uk)'
 __version__ = '0.0.1'
@@ -88,7 +92,7 @@ print("\n{0} of {1} curves converged.".format(converged, iterations))
 print("Time taken: ", datetime.now() - startTime)
 
 
-# # full schoolfield model--------------------------------------------------------
+# full schoolfield model--------------------------------------------------------
 
 startTime = datetime.now()
 iteration = 0
@@ -151,7 +155,6 @@ print("\n\nEnzyme assisted Arrhenius Model...")
 for id in GRDF["NewID"].unique():
     iteration += 1
     progressBar(iteration, iterations, 65)
-    # min 10 tries as they all converge so but more tries improve fit
     arrhnDF = arrhnDF.append(arrhenius_model(id, GRDF, min_tries = min_t, max_tries = max_t, method = 1))
 
 failed    = arrhnDF.aic.isnull().sum()
