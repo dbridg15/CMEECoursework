@@ -34,7 +34,7 @@ echo "##########################################################################
 echo "# 04_figures.R"
 echo "###############################################################################"
 echo ""
-Rscript 04_figures.R
+Rscript 04_figures.R >/dev/null
 
 echo ""
 echo "###############################################################################"
@@ -42,10 +42,10 @@ echo "# compiling pdf of writeup"
 echo "###############################################################################"
 echo ""
 
-pdflatex -quiet writeup.tex
-bibtex writeup
-pdflatex -quiet writeup.tex
-pdflatex -quiet writeup.tex
+pdflatex writeup.tex >/dev/null
+bibtex writeup       >/dev/null
+pdflatex writeup.tex >/dev/null
+pdflatex writeup.tex >/dev/null
 
 mv writeup.pdf ../Results/
 
